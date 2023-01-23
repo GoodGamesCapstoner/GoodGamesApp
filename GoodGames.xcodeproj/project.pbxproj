@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD2B5F1A297F49B7009EBC22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD2B5F19297F49B7009EBC22 /* GoogleService-Info.plist */; };
+		DD2B5F1D297F4A7B009EBC22 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DD2B5F1C297F4A7B009EBC22 /* FirebaseAnalytics */; };
 		E90E56B7297AF2F400D53A9C /* GoodGamesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */; };
 		E90E56B9297AF2F400D53A9C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90E56B8297AF2F400D53A9C /* ContentView.swift */; };
 		E90E56BB297AF2F600D53A9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90E56BA297AF2F600D53A9C /* Assets.xcassets */; };
@@ -14,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DD2B5F19297F49B7009EBC22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E90E56B3297AF2F400D53A9C /* GoodGames.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoodGames.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodGamesApp.swift; sourceTree = "<group>"; };
 		E90E56B8297AF2F400D53A9C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -26,6 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD2B5F1D297F4A7B009EBC22 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,6 +55,7 @@
 		E90E56B5297AF2F400D53A9C /* GoodGames */ = {
 			isa = PBXGroup;
 			children = (
+				DD2B5F19297F49B7009EBC22 /* GoogleService-Info.plist */,
 				E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */,
 				E90E56B8297AF2F400D53A9C /* ContentView.swift */,
 				E90E56BA297AF2F600D53A9C /* Assets.xcassets */,
@@ -83,6 +88,9 @@
 			dependencies = (
 			);
 			name = GoodGames;
+			packageProductDependencies = (
+				DD2B5F1C297F4A7B009EBC22 /* FirebaseAnalytics */,
+			);
 			productName = GoodGames;
 			productReference = E90E56B3297AF2F400D53A9C /* GoodGames.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +119,9 @@
 				Base,
 			);
 			mainGroup = E90E56AA297AF2F400D53A9C;
+			packageReferences = (
+				DD2B5F1B297F4A7B009EBC22 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = E90E56B4297AF2F400D53A9C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -127,6 +138,7 @@
 			files = (
 				E90E56BE297AF2F600D53A9C /* Preview Assets.xcassets in Resources */,
 				E90E56BB297AF2F600D53A9C /* Assets.xcassets in Resources */,
+				DD2B5F1A297F49B7009EBC22 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +351,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DD2B5F1B297F4A7B009EBC22 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DD2B5F1C297F4A7B009EBC22 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD2B5F1B297F4A7B009EBC22 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E90E56AB297AF2F400D53A9C /* Project object */;
 }

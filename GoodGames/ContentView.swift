@@ -8,20 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var firestoreManager: FirestoreManager
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world! This is GoodGames!")
-            Text("Jackson is a gamer!")
+            Text("Games")
+            List {
+                ForEach(firestoreManager.games) { game in
+                    Text(game.name)
+                }
+            }
+            Button {
+                firestoreManager.fetchGames()
+            } label: {
+                Text("Fetch Games")
+            }
         }
-        .padding()
+        
+
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(FirestoreManager())
     }
 }

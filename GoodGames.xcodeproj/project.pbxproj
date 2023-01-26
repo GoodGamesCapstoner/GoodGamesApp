@@ -13,6 +13,12 @@
 		E90E56B9297AF2F400D53A9C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90E56B8297AF2F400D53A9C /* ContentView.swift */; };
 		E90E56BB297AF2F600D53A9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90E56BA297AF2F600D53A9C /* Assets.xcassets */; };
 		E90E56BE297AF2F600D53A9C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90E56BD297AF2F600D53A9C /* Preview Assets.xcassets */; };
+		E975276D298089E200D00EB1 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975276C298089E200D00EB1 /* Game.swift */; };
+		E975276F29808C6500D00EB1 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975276E29808C6500D00EB1 /* FirestoreManager.swift */; };
+		E975277229808EC000D00EB1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E975277129808EC000D00EB1 /* FirebaseFirestore */; };
+		E97527742980914B00D00EB1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E97527732980914B00D00EB1 /* FirebaseAuth */; };
+		E975277629809BE500D00EB1 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975277529809BE500D00EB1 /* ViewModel.swift */; };
+		E97527782981E6DD00D00EB1 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E97527772981E6DD00D00EB1 /* FirebaseFirestoreSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +28,9 @@
 		E90E56B8297AF2F400D53A9C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E90E56BA297AF2F600D53A9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E90E56BD297AF2F600D53A9C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E975276C298089E200D00EB1 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		E975276E29808C6500D00EB1 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		E975277529809BE500D00EB1 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +39,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD2B5F1D297F4A7B009EBC22 /* FirebaseAnalytics in Frameworks */,
+				E97527742980914B00D00EB1 /* FirebaseAuth in Frameworks */,
+				E975277229808EC000D00EB1 /* FirebaseFirestore in Frameworks */,
+				E97527782981E6DD00D00EB1 /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +53,7 @@
 			children = (
 				E90E56B5297AF2F400D53A9C /* GoodGames */,
 				E90E56B4297AF2F400D53A9C /* Products */,
+				E975277029808EC000D00EB1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,10 +68,12 @@
 		E90E56B5297AF2F400D53A9C /* GoodGames */ = {
 			isa = PBXGroup;
 			children = (
-				DD2B5F19297F49B7009EBC22 /* GoogleService-Info.plist */,
+				E97527692980898900D00EB1 /* Model */,
+				E975276A2980899800D00EB1 /* ViewModel */,
+				E975276B2980899F00D00EB1 /* View */,
 				E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */,
-				E90E56B8297AF2F400D53A9C /* ContentView.swift */,
 				E90E56BA297AF2F600D53A9C /* Assets.xcassets */,
+				DD2B5F19297F49B7009EBC22 /* GoogleService-Info.plist */,
 				E90E56BC297AF2F600D53A9C /* Preview Content */,
 			);
 			path = GoodGames;
@@ -70,6 +85,38 @@
 				E90E56BD297AF2F600D53A9C /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E97527692980898900D00EB1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E975276C298089E200D00EB1 /* Game.swift */,
+				E975276E29808C6500D00EB1 /* FirestoreManager.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		E975276A2980899800D00EB1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E975277529809BE500D00EB1 /* ViewModel.swift */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		E975276B2980899F00D00EB1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E90E56B8297AF2F400D53A9C /* ContentView.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		E975277029808EC000D00EB1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -90,6 +137,9 @@
 			name = GoodGames;
 			packageProductDependencies = (
 				DD2B5F1C297F4A7B009EBC22 /* FirebaseAnalytics */,
+				E975277129808EC000D00EB1 /* FirebaseFirestore */,
+				E97527732980914B00D00EB1 /* FirebaseAuth */,
+				E97527772981E6DD00D00EB1 /* FirebaseFirestoreSwift */,
 			);
 			productName = GoodGames;
 			productReference = E90E56B3297AF2F400D53A9C /* GoodGames.app */;
@@ -149,8 +199,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E975277629809BE500D00EB1 /* ViewModel.swift in Sources */,
 				E90E56B9297AF2F400D53A9C /* ContentView.swift in Sources */,
+				E975276D298089E200D00EB1 /* Game.swift in Sources */,
 				E90E56B7297AF2F400D53A9C /* GoodGamesApp.swift in Sources */,
+				E975276F29808C6500D00EB1 /* FirestoreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +421,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DD2B5F1B297F4A7B009EBC22 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
+		};
+		E975277129808EC000D00EB1 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD2B5F1B297F4A7B009EBC22 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		E97527732980914B00D00EB1 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD2B5F1B297F4A7B009EBC22 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		E97527772981E6DD00D00EB1 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD2B5F1B297F4A7B009EBC22 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

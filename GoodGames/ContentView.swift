@@ -23,6 +23,14 @@ struct ContentView: View {
             } label: {
                 Text("Fetch Games")
             }
+            Spacer()
+            if let user = firestoreManager.user {
+                Text("User Fetched: \(user.firstName) \(user.lastName)")
+                Text("Gamertag: \(user.username)")
+            } else {
+                Text("No user found.")
+            }
+            
         }
         
 

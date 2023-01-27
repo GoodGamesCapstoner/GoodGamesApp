@@ -16,13 +16,17 @@ class FirestoreManager: ObservableObject {
     
     //MARK: - Properties
     @Published var games: [Game] = []
+    @Published var user: User?
     var firestore: Firestore
     
     //MARK: - Initializer
     init() {
         self.firestore = Firestore.firestore()
         
-        fetchGames()
+        fetchGames() //fetches all games
+        
+        let userID = "EHsWEoPGamqAOTNzug0W"
+        fetchUser(by: userID) { self.user = $0 } //fetches user with success/callback convention
     }
     
     func fetchGames() {
@@ -30,7 +34,7 @@ class FirestoreManager: ObservableObject {
         print("We got the collection")
         collection.getDocuments { snapshot, error in
             guard error == nil else {
-                print(error?.localizedDescription ?? "Whoops! Something REALLY went wrong.")
+                print(error as Any)
                 return
             }
             
@@ -39,9 +43,9 @@ class FirestoreManager: ObservableObject {
                   return
             }
                   
-            self.games = documents.compactMap { queryDocumentSnapshot in
-                print(queryDocumentSnapshot.data())
-                return try? queryDocumentSnapshot.data(as: Game.self)
+            self.games = documents.compactMap { docSnapshot in
+                print(docSnapshot.data())
+                return try? docSnapshot.data(as: Game.self)
             }
             
 //            if let snapshot {
@@ -56,4 +60,24 @@ class FirestoreManager: ObservableObject {
 //            }
         }
     }
+    
+    func fetchUser(by documentID: String, success callback: @escaping(User) -> Void ){
+        let collection = firestore.collection("users_test")
+        let docRef = collection.document(documentID)
+        
+        docRef.getDocument { document, error in
+            if let error {
+                print(error)
+            } else {
+                if let document {
+                    if let user = try? document.data(as: User.self) {
+                        callback(user)
+                    }
+                }
+            }
+            
+            
+        }
+    }
+    
 }

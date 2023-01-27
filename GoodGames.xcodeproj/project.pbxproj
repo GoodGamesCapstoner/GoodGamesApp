@@ -19,6 +19,7 @@
 		E97527742980914B00D00EB1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E97527732980914B00D00EB1 /* FirebaseAuth */; };
 		E975277629809BE500D00EB1 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975277529809BE500D00EB1 /* ViewModel.swift */; };
 		E97527782981E6DD00D00EB1 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E97527772981E6DD00D00EB1 /* FirebaseFirestoreSwift */; };
+		E975277A2983547C00D00EB1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97527792983547C00D00EB1 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		E975276C298089E200D00EB1 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		E975276E29808C6500D00EB1 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		E975277529809BE500D00EB1 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		E97527792983547C00D00EB1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 			children = (
 				E975276C298089E200D00EB1 /* Game.swift */,
 				E975276E29808C6500D00EB1 /* FirestoreManager.swift */,
+				E97527792983547C00D00EB1 /* User.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 			files = (
 				E975277629809BE500D00EB1 /* ViewModel.swift in Sources */,
 				E90E56B9297AF2F400D53A9C /* ContentView.swift in Sources */,
+				E975277A2983547C00D00EB1 /* User.swift in Sources */,
 				E975276D298089E200D00EB1 /* Game.swift in Sources */,
 				E90E56B7297AF2F400D53A9C /* GoodGamesApp.swift in Sources */,
 				E975276F29808C6500D00EB1 /* FirestoreManager.swift in Sources */,

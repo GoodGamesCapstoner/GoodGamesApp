@@ -22,61 +22,13 @@ struct DiscoverView: View {
             Spacer()
             ScrollView {
                 VStack(alignment: .leading) {
-                    Text("Recommended")
-                        .font(.title2)
-                        .multilineTextAlignment(.leading)
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach(0..<10) {
-                                Text("Item \($0)")
-                                    .foregroundColor(.white)
-                                    .frame(width: 100, height: 150)
-                                    .background(.blue)
-                            }
-                        }
-                    }
+                    HorizontalCarousel(label: "Recommended", color: .blue)
                     
-                    Text("Featured")
-                        .font(.title2)
-                        .multilineTextAlignment(.leading)
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach(0..<10) {
-                                Text("Item \($0)")
-                                    .foregroundColor(.white)
-                                    .frame(width: 100, height: 150)
-                                    .background(.green)
-                            }
-                        }
-                    }
+                    HorizontalCarousel(label: "Featured", color: .green)
                     
-                    Text("New Releases")
-                        .font(.title2)
-                        .multilineTextAlignment(.leading)
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach(0..<10) {
-                                Text("Item \($0)")
-                                    .foregroundColor(.white)
-                                    .frame(width: 100, height: 150)
-                                    .background(.red)
-                            }
-                        }
-                    }
+                    HorizontalCarousel(label: "New Releases", color: .red)
                     
-                    Text("Most Recent")
-                        .font(.title2)
-                        .multilineTextAlignment(.leading)
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach(0..<10) {
-                                Text("Item \($0)")
-                                    .foregroundColor(.white)
-                                    .frame(width: 100, height: 150)
-                                    .background(.yellow)
-                            }
-                        }
-                    }
+                    HorizontalCarousel(label: "Top Sellers", color: .yellow)
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)

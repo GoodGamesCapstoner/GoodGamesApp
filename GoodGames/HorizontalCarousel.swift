@@ -8,13 +8,31 @@
 import SwiftUI
 
 struct HorizontalCarousel: View {
+    var label: String
+    var color: Color
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text(label)
+            .font(.title2)
+            .multilineTextAlignment(.leading)
+        ScrollView(.horizontal) {
+            HStack {
+                ForEach(0..<10) {
+                    Text("Item \($0)")
+                        .foregroundColor(.white)
+                        .frame(width: 100, height: 150)
+                        .background(color)
+                }
+            }
+        }
     }
 }
 
 struct HorizontalCarousel_Previews: PreviewProvider {
     static var previews: some View {
-        HorizontalCarousel()
+        VStack(alignment: .leading) {
+            HorizontalCarousel(label: "New Releases", color: .blue)
+        }
+        .padding()
     }
 }

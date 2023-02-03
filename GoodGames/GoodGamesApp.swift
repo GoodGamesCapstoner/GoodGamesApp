@@ -21,7 +21,7 @@ struct GoodGamesApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
-            ContentView().environmentObject(FirestoreManager())
+            NavigationTabView().environmentObject(FirestoreManager())
         }
     }
 }

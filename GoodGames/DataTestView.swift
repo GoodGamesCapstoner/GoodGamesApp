@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  DataTestView.swift
 //  GoodGames
 //
 //  Created by Jackson Secrist on 1/20/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct DataTestView: View {
     @EnvironmentObject var firestoreManager: FirestoreManager
     
     var body: some View {
@@ -39,6 +39,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(FirestoreManager())
+        DataTestView().environmentObject(FirestoreManager())
     }
 }

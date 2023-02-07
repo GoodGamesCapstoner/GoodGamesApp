@@ -8,9 +8,8 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseAuth
+// THIS THROWS AN ERROR, BUT I THINK I'LL NEED IT AT SOME POINT
 import FirebaseStorage
-
-// EVENTUALLY I WILL NEED TO USE THIS CODE. TALK TO JACKSON ABOUT HOW TO ADAPT TO IT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,

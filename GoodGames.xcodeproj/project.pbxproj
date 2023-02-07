@@ -24,6 +24,7 @@
 		DDAFCCA42991D78A009B6E4D /* FirebaseFunctionsCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = DDAFCCA32991D78A009B6E4D /* FirebaseFunctionsCombine-Community */; };
 		DDAFCCA62991D78A009B6E4D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = DDAFCCA52991D78A009B6E4D /* FirebaseStorage */; };
 		DDAFCCA82991D78A009B6E4D /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = DDAFCCA72991D78A009B6E4D /* FirebaseStorageCombine-Community */; };
+		DDF4B7EC2992CED9001CD80B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF4B7EB2992CED9001CD80B /* LoginView.swift */; };
 		E90E56B7297AF2F400D53A9C /* GoodGamesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */; };
 		E90E56B9297AF2F400D53A9C /* DataTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90E56B8297AF2F400D53A9C /* DataTestView.swift */; };
 		E90E56BB297AF2F600D53A9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90E56BA297AF2F600D53A9C /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		DD2B5F19297F49B7009EBC22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DDF4B7EB2992CED9001CD80B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		E90E56B3297AF2F400D53A9C /* GoodGames.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoodGames.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodGamesApp.swift; sourceTree = "<group>"; };
 		E90E56B8297AF2F400D53A9C /* DataTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTestView.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				E9752782298A159600D00EB1 /* ShelfView.swift */,
 				E9752784298A15CB00D00EB1 /* UserProfileView.swift */,
 				E9752789298D82C000D00EB1 /* GameProfile.swift */,
+				DDF4B7EB2992CED9001CD80B /* LoginView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				E975276D298089E200D00EB1 /* Game.swift in Sources */,
 				E975277D298A0D3B00D00EB1 /* NavigationTabView.swift in Sources */,
 				E975277F298A116C00D00EB1 /* HomeView.swift in Sources */,
+				DDF4B7EC2992CED9001CD80B /* LoginView.swift in Sources */,
 				E975278A298D82C000D00EB1 /* GameProfile.swift in Sources */,
 				E9752785298A15CB00D00EB1 /* UserProfileView.swift in Sources */,
 				E90E56B7297AF2F400D53A9C /* GoodGamesApp.swift in Sources */,

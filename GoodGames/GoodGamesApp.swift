@@ -10,6 +10,7 @@ import FirebaseCore
 import FirebaseAuth
 // THIS THROWS AN ERROR, BUT I THINK I'LL NEED IT AT SOME POINT
 import FirebaseStorage
+import FirebaseFirestore
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,

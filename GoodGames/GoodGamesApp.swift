@@ -8,7 +8,6 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseAuth
-// THIS THROWS AN ERROR, BUT I THINK I'LL NEED IT AT SOME POINT
 import FirebaseStorage
 import FirebaseFirestore
 
@@ -49,7 +48,7 @@ struct GoodGamesApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
-            NavigationTabView().environmentObject(FirestoreManager())
+            LoginView().environmentObject(FirestoreManager())
         }
     }
 }

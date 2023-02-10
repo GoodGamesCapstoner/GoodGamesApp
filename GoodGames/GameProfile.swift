@@ -17,15 +17,39 @@ struct GameProfile: View {
                     //nothin yet
                 }
                 .edgesIgnoringSafeArea(.top)
-                .frame(width: geometry.size.width, height: 150)
-                .border(.red)
-                Text("Deep Rock Galactic")
-                    .foregroundColor(.black)
-                    .font(.largeTitle)
-                    .background(.white)
-                    .padding(3)
-                    .border(.black, width: 3)
+                .frame(width: geometry.size.width, height: geometry.size.width/2.75)
                 
+                Text("Deep Rock Galactic")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .padding(3)
+                
+                VStack(alignment: .leading) {
+                    HStack {
+                        ForEach(0..<4) {_ in
+                            Text("★").foregroundColor(.yellow)
+                        }
+                        Text("☆").foregroundColor(.black)
+                        Text("4 / 5")
+                    }
+                    .font(.title2)
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 10)
+                    
+                    Divider()
+                    
+                    let columns = [GridItem(.flexible()), GridItem(.flexible())]
+                    LazyVGrid(columns: columns, alignment: .leading, spacing: 10) {
+                        Text("Genre: FPS, Looter/Shooter")
+                        Text("Developer: Ghost Ship Games")
+                        Text("Modes: Single-player, Co-op")
+                        Text("Series: N/A")
+                        Text("Platforms: ALL")
+                        Text("Release Date: May 13, 2020")
+                    }
+                    
+                    Text("Deep Rock Galactic is a 1-4 player co-op FPS featuring badass space Dwarves, 100% destructible environments, procedurally-generated caves, and endless hordes of alien monsters.")
+                }.padding(.horizontal)
                 Spacer()
             }
         }
@@ -34,7 +58,9 @@ struct GameProfile: View {
 }
 
 fileprivate struct Constants {
-    static let hero_url: String = "https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/e5520e0a26c349b166bb72c155a54d21.jpg"
+    static let hero_url: String = "https://cdn.cloudflare.steamstatic.com/steam/apps/548430/header.jpg"
+    
+    //"https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/e5520e0a26c349b166bb72c155a54d21.jpg"
 }
 
 struct GameProfile_Previews: PreviewProvider {

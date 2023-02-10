@@ -16,8 +16,8 @@
 		DD1C00512996C39600479092 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C004F2996C39600479092 /* SignUpViewModel.swift */; };
 		DD1C00562996C3A500479092 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00532996C3A400479092 /* StorageManager.swift */; };
 		DD1C00572996C3A500479092 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00542996C3A400479092 /* AuthManager.swift */; };
-		DD1C00582996C3A500479092 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00552996C3A400479092 /* FirestoreManager.swift */; };
 		DD1C005B2996C3D300479092 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C005A2996C3D300479092 /* ImagePicker.swift */; };
+		DD1C005D2996D06700479092 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C005C2996D06700479092 /* FirestoreManager.swift */; };
 		DD2B5F1A297F49B7009EBC22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD2B5F19297F49B7009EBC22 /* GoogleService-Info.plist */; };
 		DDAFCC8A2991D78A009B6E4D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DDAFCC892991D78A009B6E4D /* FirebaseAnalytics */; };
 		DDAFCC8C2991D78A009B6E4D /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = DDAFCC8B2991D78A009B6E4D /* FirebaseAppCheck */; };
@@ -37,7 +37,6 @@
 		DDAFCCA82991D78A009B6E4D /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = DDAFCCA72991D78A009B6E4D /* FirebaseStorageCombine-Community */; };
 		DDF4B7EC2992CED9001CD80B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF4B7EB2992CED9001CD80B /* LoginView.swift */; };
 		E90E56B7297AF2F400D53A9C /* GoodGamesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */; };
-		E90E56B9297AF2F400D53A9C /* DataTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90E56B8297AF2F400D53A9C /* DataTestView.swift */; };
 		E90E56BB297AF2F600D53A9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90E56BA297AF2F600D53A9C /* Assets.xcassets */; };
 		E90E56BE297AF2F600D53A9C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90E56BD297AF2F600D53A9C /* Preview Assets.xcassets */; };
 		E975276D298089E200D00EB1 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975276C298089E200D00EB1 /* Game.swift */; };
@@ -60,13 +59,12 @@
 		DD1C004F2996C39600479092 /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		DD1C00532996C3A400479092 /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		DD1C00542996C3A400479092 /* AuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
-		DD1C00552996C3A400479092 /* FirestoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		DD1C005A2996C3D300479092 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		DD1C005C2996D06700479092 /* FirestoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		DD2B5F19297F49B7009EBC22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DDF4B7EB2992CED9001CD80B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		E90E56B3297AF2F400D53A9C /* GoodGames.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoodGames.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodGamesApp.swift; sourceTree = "<group>"; };
-		E90E56B8297AF2F400D53A9C /* DataTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTestView.swift; sourceTree = "<group>"; };
 		E90E56BA297AF2F600D53A9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E90E56BD297AF2F600D53A9C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E975276C298089E200D00EB1 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -111,7 +109,7 @@
 			children = (
 				DD1C00532996C3A400479092 /* StorageManager.swift */,
 				DD1C00542996C3A400479092 /* AuthManager.swift */,
-				DD1C00552996C3A400479092 /* FirestoreManager.swift */,
+				DD1C005C2996D06700479092 /* FirestoreManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -190,7 +188,6 @@
 				DD1C00462996C38900479092 /* ReAuthenticateView.swift */,
 				DD1C00482996C38900479092 /* SignUpView.swift */,
 				E9752786298C75E000D00EB1 /* Components */,
-				E90E56B8297AF2F400D53A9C /* DataTestView.swift */,
 				E9752780298A145500D00EB1 /* DiscoverView.swift */,
 				E975277E298A116C00D00EB1 /* HomeView.swift */,
 				E975277C298A0D3B00D00EB1 /* NavigationTabView.swift */,
@@ -311,12 +308,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD1C00572996C3A500479092 /* AuthManager.swift in Sources */,
+				DD1C005D2996D06700479092 /* FirestoreManager.swift in Sources */,
 				DD1C005B2996C3D300479092 /* ImagePicker.swift in Sources */,
 				E9752781298A145500D00EB1 /* DiscoverView.swift in Sources */,
-				E90E56B9297AF2F400D53A9C /* DataTestView.swift in Sources */,
 				E9752788298C768C00D00EB1 /* HorizontalCarousel.swift in Sources */,
 				DD1C004A2996C38900479092 /* ReAuthenticateView.swift in Sources */,
-				DD1C00582996C3A500479092 /* FirestoreManager.swift in Sources */,
 				E975276D298089E200D00EB1 /* Game.swift in Sources */,
 				E975277D298A0D3B00D00EB1 /* NavigationTabView.swift in Sources */,
 				DD1C004D2996C38900479092 /* ContentView.swift in Sources */,

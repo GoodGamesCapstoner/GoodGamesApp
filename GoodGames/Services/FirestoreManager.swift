@@ -41,7 +41,7 @@ extension FireStoreError: LocalizedError {
     }
 }
 /// A The functions used by the package to retrieve the user information, update and delete account
-class FirestoreManager {
+class FirestoreManager: ObservableObject {
     func retrieveFBUser(uid: String, completion: @escaping (Result<User, Error>) -> Void) {
         let reference = Firestore
             .firestore()
@@ -51,7 +51,8 @@ class FirestoreManager {
             switch result {
             case .success(let document):
                 do {
-                    guard let user = try document.data(as: User.self) else {
+                    // Added question mark because of an error, not sure if this is correct or not
+                    guard let user = try document.data(as: User?.self) else {
                         completion(.failure(FireStoreError.noUser))
                         return
                     }

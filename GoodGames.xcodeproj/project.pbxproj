@@ -10,7 +10,7 @@
 		DD1C004A2996C38900479092 /* ReAuthenticateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00462996C38900479092 /* ReAuthenticateView.swift */; };
 		DD1C004B2996C38900479092 /* DeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00472996C38900479092 /* DeleteView.swift */; };
 		DD1C004C2996C38900479092 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00482996C38900479092 /* SignUpView.swift */; };
-		DD1C004D2996C38900479092 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00492996C38900479092 /* ContentView.swift */; };
+		DD1C004D2996C38900479092 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00492996C38900479092 /* LoginView.swift */; };
 		DD1C00512996C39600479092 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C004F2996C39600479092 /* SignUpViewModel.swift */; };
 		DD1C00562996C3A500479092 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00532996C3A400479092 /* StorageManager.swift */; };
 		DD1C00572996C3A500479092 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00542996C3A400479092 /* AuthManager.swift */; };
@@ -35,7 +35,7 @@
 		DDAFCCA42991D78A009B6E4D /* FirebaseFunctionsCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = DDAFCCA32991D78A009B6E4D /* FirebaseFunctionsCombine-Community */; };
 		DDAFCCA62991D78A009B6E4D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = DDAFCCA52991D78A009B6E4D /* FirebaseStorage */; };
 		DDAFCCA82991D78A009B6E4D /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = DDAFCCA72991D78A009B6E4D /* FirebaseStorageCombine-Community */; };
-		DDF4B7EC2992CED9001CD80B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF4B7EB2992CED9001CD80B /* LoginView.swift */; };
+		DDF4B7EC2992CED9001CD80B /* LoginView_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF4B7EB2992CED9001CD80B /* LoginView_old.swift */; };
 		E90E56B7297AF2F400D53A9C /* GoodGamesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */; };
 		E90E56BB297AF2F600D53A9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90E56BA297AF2F600D53A9C /* Assets.xcassets */; };
 		E90E56BE297AF2F600D53A9C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90E56BD297AF2F600D53A9C /* Preview Assets.xcassets */; };
@@ -53,7 +53,7 @@
 		DD1C00462996C38900479092 /* ReAuthenticateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReAuthenticateView.swift; sourceTree = "<group>"; };
 		DD1C00472996C38900479092 /* DeleteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteView.swift; sourceTree = "<group>"; };
 		DD1C00482996C38900479092 /* SignUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		DD1C00492996C38900479092 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DD1C00492996C38900479092 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DD1C004F2996C39600479092 /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		DD1C00532996C3A400479092 /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		DD1C00542996C3A400479092 /* AuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 		DD2B5F19297F49B7009EBC22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DD720AD22996D797003F9CCD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DD720AD42996D7CD003F9CCD /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		DDF4B7EB2992CED9001CD80B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		DDF4B7EB2992CED9001CD80B /* LoginView_old.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView_old.swift; sourceTree = "<group>"; };
 		E90E56B3297AF2F400D53A9C /* GoodGames.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoodGames.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodGamesApp.swift; sourceTree = "<group>"; };
 		E90E56BA297AF2F600D53A9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -183,7 +183,7 @@
 		E975276B2980899F00D00EB1 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				DD1C00492996C38900479092 /* ContentView.swift */,
+				DD1C00492996C38900479092 /* LoginView.swift */,
 				DD1C00472996C38900479092 /* DeleteView.swift */,
 				DD1C00462996C38900479092 /* ReAuthenticateView.swift */,
 				DD1C00482996C38900479092 /* SignUpView.swift */,
@@ -194,7 +194,7 @@
 				E9752782298A159600D00EB1 /* ShelfView.swift */,
 				E9752784298A15CB00D00EB1 /* UserProfileView.swift */,
 				E9752789298D82C000D00EB1 /* GameProfile.swift */,
-				DDF4B7EB2992CED9001CD80B /* LoginView.swift */,
+				DDF4B7EB2992CED9001CD80B /* LoginView_old.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -315,9 +315,9 @@
 				DD1C004A2996C38900479092 /* ReAuthenticateView.swift in Sources */,
 				E975276D298089E200D00EB1 /* Game.swift in Sources */,
 				E975277D298A0D3B00D00EB1 /* NavigationTabView.swift in Sources */,
-				DD1C004D2996C38900479092 /* ContentView.swift in Sources */,
+				DD1C004D2996C38900479092 /* LoginView.swift in Sources */,
 				E975277F298A116C00D00EB1 /* HomeView.swift in Sources */,
-				DDF4B7EC2992CED9001CD80B /* LoginView.swift in Sources */,
+				DDF4B7EC2992CED9001CD80B /* LoginView_old.swift in Sources */,
 				DD1C00562996C3A500479092 /* StorageManager.swift in Sources */,
 				DD1C00512996C39600479092 /* SignUpViewModel.swift in Sources */,
 				DD720AD52996D7CD003F9CCD /* ViewModel.swift in Sources */,

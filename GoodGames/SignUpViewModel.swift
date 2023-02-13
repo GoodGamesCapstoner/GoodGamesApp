@@ -1,10 +1,3 @@
-//
-//  SignUpViewModel.swift
-//  Firebase Sample
-//
-//  Created by Stewart Lynch on 2021-10-21.
-//
-
 import Foundation
 
 struct signUpViewModel {

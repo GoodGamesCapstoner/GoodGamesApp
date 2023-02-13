@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  Firebase Sample
-//
-//  Created by Stewart Lynch on 2021-10-20.
-//
-
 import SwiftUI
 import FirebaseAuth
 

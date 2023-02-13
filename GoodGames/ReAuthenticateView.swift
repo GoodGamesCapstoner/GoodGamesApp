@@ -1,11 +1,3 @@
-//
-//  ReAuthenticateView.swift
-//  Firebase Login
-//
-//  Created by Stewart Lynch on 2021-07-05.
-//  Copyright © 2021 CreaTECH Solutions. All rights reserved.
-//
-
 import SwiftUI
 
 struct ReAuthenticateView: View {

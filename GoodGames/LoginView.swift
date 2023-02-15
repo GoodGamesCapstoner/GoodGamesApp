@@ -14,7 +14,6 @@ struct LoginView: View {
                                 .frame(width: 1000, height: 400)
                                 .rotationEffect(.degrees(135))
                                 .offset(y: -350)
-                
                     if vm.isUserAuthenticated != .signedIn {
                         VStack(spacing: 20) {
                             Text("Welcome")
@@ -145,6 +144,7 @@ struct LoginView: View {
                         } label: {
                             Text("Log Out")
                         }
+                        .bold()
                         .buttonStyle(.bordered)
                     } else {
                         EmptyView()
@@ -169,7 +169,7 @@ extension View {
                 placeholder().opacity(shouldShow ? 1 : 0)
                 self
             }
-    }
+        }
 }
 
 struct LoginView_Previews: PreviewProvider {

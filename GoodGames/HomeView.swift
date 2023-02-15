@@ -9,7 +9,38 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        Text("Welcome Home")
+        VStack {
+            ScrollView {
+                Text("GoodGames Home")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .padding(.bottom)
+                
+                Text("Welcome, rocketboy1244!")
+                    .font(.title3)
+                    .padding(.bottom)
+                
+                VStack(alignment: .leading) {
+                    Text("Game of the Day")
+                        .font(.title)
+                    
+                    ExtendedGameCard()
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom)
+                
+                VStack(alignment: .leading) {
+                    Text("Your Squad")
+                        .font(.title)
+                    
+                    ExtendedGameCard()
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Spacer()
+            }
+            .padding()
+        }
     }
 }
 

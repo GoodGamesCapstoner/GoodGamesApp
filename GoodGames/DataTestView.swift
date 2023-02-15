@@ -37,7 +37,7 @@ struct DataTestView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct DataTestView_Previews: PreviewProvider {
     static var previews: some View {
         DataTestView().environmentObject(FirestoreManager())
     }

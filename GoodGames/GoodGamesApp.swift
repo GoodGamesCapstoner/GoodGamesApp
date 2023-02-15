@@ -21,7 +21,9 @@ struct GoodGamesApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
-            NavigationTabView().environmentObject(FirestoreManager())
+            NavigationTabView()
+                .environmentObject(FirestoreManager())
+                .environment(\.colorScheme, .dark)
         }
     }
 }

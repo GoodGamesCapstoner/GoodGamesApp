@@ -1,10 +1,3 @@
-//
-//  ViewModel.swift
-//  GoodGames
-//
-//  Created by Matt Goulding on 2/10/23.
-//
-
 import SwiftUI
 import FirebaseStorage
 import FirebaseAuth

@@ -1,11 +1,3 @@
-//
-//  ReAuthenticateView.swift
-//  Firebase Login
-//
-//  Created by Stewart Lynch on 2021-07-05.
-//  Copyright © 2021 CreaTECH Solutions. All rights reserved.
-//
-
 import SwiftUI
 
 struct ReAuthenticateView: View {
@@ -14,34 +6,64 @@ struct ReAuthenticateView: View {
     @State private var password = ""
     @State private var errorText = ""
     var body: some View {
-            VStack {
-                VStack {
+            ZStack {
+                Color.black
+                            
+                RoundedRectangle(cornerRadius: 3, style: .continuous)
+                    .foregroundStyle(.linearGradient(colors: [.purple, .blue], startPoint:
+                            .topLeading, endPoint: .bottomTrailing))
+                    .frame(width: 1000, height: 400)
+                    .rotationEffect(.degrees(135))
+                    .offset(y: -350)
+                
+                VStack(spacing: 20) {
                     SecureField("Enter your password", text: $password)
-                        .textFieldStyle(.roundedBorder)
-                    Button("Authenticate") {
+                        .foregroundColor(.white)
+                        .textFieldStyle(.plain)
+                        .placeholder(when: password.isEmpty) {
+                        Text("Enter your password")
+                                .foregroundColor(.white)
+                                .bold()
+                        }
+                    
+                    Rectangle()
+                        .frame(width: 350, height: 1)
+                        .foregroundColor(.white)
+                    
+                    Button {
                         AuthManager().reauthenticateWithPassword(password: password) { result in
                             handleResult(result: result)
                         }
+                    } label: {
+                        Text("Authenticate")
+                            .bold()
+                            .frame(width: 200, height: 40)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                    .fill(.linearGradient(colors: [.purple, .blue], startPoint: .top, endPoint: .bottomTrailing))
+                            )
+                            .foregroundColor(.white)
                     }
-                    .padding(.vertical, 15)
-                    .buttonStyle(.borderedProminent)
                     .opacity(password.isEmpty ? 0.6 : 1)
                     .disabled(password.isEmpty)
-                }
-                .padding()
-                Text(errorText)
-                    .foregroundColor(.red)
-                    .fixedSize(horizontal: false, vertical: true)
-                Button("Cancel") {
-                    withAnimation {
-                        showAuth = false
+                    
+                    Text(errorText)
+                        .foregroundColor(.red)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Button {
+                        withAnimation {
+                            showAuth = false
+                        }
+                    } label: {
+                        Text("Cancel")
+                            .bold()
+                            .foregroundColor(.white)
                     }
+                    .buttonStyle(.bordered)
                 }
-                .padding(8)
-                .buttonStyle(.bordered)
-                Spacer()
+                .frame(width: 350)
             }
-            .padding()
+            .ignoresSafeArea()
     }
     func handleResult(result: Result<Bool, Error>) {
         switch result {

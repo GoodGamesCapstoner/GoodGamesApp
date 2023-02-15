@@ -1,10 +1,3 @@
-//
-//  AuthManager.swift
-//  Firebase Sample
-//
-//  Created by Stewart Lynch on 2021-10-20.
-//
-
 import Foundation
 import FirebaseAuth
 

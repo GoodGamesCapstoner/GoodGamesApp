@@ -47,6 +47,7 @@
 		E9752785298A15CB00D00EB1 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9752784298A15CB00D00EB1 /* UserProfileView.swift */; };
 		E9752788298C768C00D00EB1 /* HorizontalCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9752787298C768C00D00EB1 /* HorizontalCarousel.swift */; };
 		E975278A298D82C000D00EB1 /* GameProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9752789298D82C000D00EB1 /* GameProfile.swift */; };
+		E9D3151C299C504A0047DD1F /* StarRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3151B299C504A0047DD1F /* StarRating.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +76,7 @@
 		E9752784298A15CB00D00EB1 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		E9752787298C768C00D00EB1 /* HorizontalCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCarousel.swift; sourceTree = "<group>"; };
 		E9752789298D82C000D00EB1 /* GameProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameProfile.swift; sourceTree = "<group>"; };
+		E9D3151B299C504A0047DD1F /* StarRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRating.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				E9752787298C768C00D00EB1 /* HorizontalCarousel.swift */,
+				E9D3151B299C504A0047DD1F /* StarRating.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -307,6 +310,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9D3151C299C504A0047DD1F /* StarRating.swift in Sources */,
+				E975277629809BE500D00EB1 /* ViewModel.swift in Sources */,
 				DD1C00572996C3A500479092 /* AuthManager.swift in Sources */,
 				DD1C005D2996D06700479092 /* FirestoreManager.swift in Sources */,
 				DD1C005B2996C3D300479092 /* ImagePicker.swift in Sources */,

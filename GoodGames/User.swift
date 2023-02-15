@@ -2,15 +2,15 @@
 //  User.swift
 //  GoodGames
 //
-//  Created by Jackson Secrist on 1/26/23.
+//  Created by Matt Goulding on 2/10/23.
 //
 
 import Foundation
-import FirebaseFirestoreSwift
 
-struct User: Codable, Identifiable {
-    @DocumentID var id: String?
-    var firstName: String
-    var lastName: String
-    var username: String
+/// The User object created when the user authenticates.
+public struct User: Codable {
+    let uid: String
+    let name: String
+    let email: String
 }
+

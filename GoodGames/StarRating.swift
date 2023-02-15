@@ -42,7 +42,7 @@ enum RatingDisplayType {
 struct StarRating_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            StarRating(rating: 3, outOf: 5)
+            StarRating(rating: 4, outOf: 5)
             Divider()
             StarRating(rating: 2, outOf: 5, .starsOnly)
         }

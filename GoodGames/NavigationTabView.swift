@@ -34,11 +34,11 @@ struct NavigationTabView: View {
                     Text("Profile")
                 }
             
-            DataTestView()
-                .tabItem {
-                    Image(systemName: "gamecontroller")
-                    Text("Test Page")
-                }
+//            DataTestView()
+//                .tabItem {
+//                    Image(systemName: "gamecontroller")
+//                    Text("Test Page")
+//                }
         }
     }
 }

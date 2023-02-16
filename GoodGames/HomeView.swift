@@ -38,6 +38,8 @@ struct HomeView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Spacer()
+                
+                Text("Yeeehaw")
             }
             .padding()
         }

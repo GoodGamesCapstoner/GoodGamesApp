@@ -10,18 +10,36 @@ import SwiftUI
 struct UserProfileView: View {
     var body: some View {
         VStack {
-            Text("Deep Rock Galactic")
-                .foregroundColor(.black)
+            Text("Adriana Cottle")
                 .font(.largeTitle)
-                .background(.white)
-                .padding(3)
-                .border(.black, width: 3)
+                .fontWeight(.bold)
+                .padding(.horizontal)
+                .padding(.top, 5)
             HStack {
-                Text("{profile pic}")
-                VStack {
-                    Text("@AtomicBlonde")
-                    Text("Party")
-                    Text("Ranking")
+                AsyncImage(url: URL(string: Constants.profile_url)) { image in
+                    image.resizable() }
+                placeholder: {
+                        //nothin yet
+                    }
+                VStack(alignment: .leading) {
+                    VStack(alignment: .leading) {
+                        Text("@AtomicBlonde14")
+                            .font(.title2)
+                        Text("Active 3hr ago")
+                            .font(.subheadline)
+                    }
+                    VStack(alignment: .leading) {
+                        Text("Party")
+                            .font(.title2)
+                        Text("the bois")
+                            .font(.subheadline)
+                    }
+                    VStack(alignment: .leading) {
+                        Text("Ranking")
+                            .font(.title2)
+                        Text("n00b")
+                            .font(.subheadline)
+                    }
                 }
             }
             HStack {
@@ -34,10 +52,13 @@ struct UserProfileView: View {
                     Text("10")
                 }
                 VStack {
-                    Text("Hours played/Games owned")
+                    Text("Games owned")
                     Text("420")
                 }
             }
+            .background(.black)
+            .foregroundColor(.white)
+
             ScrollView {
                 VStack(alignment: .leading) {
                     HorizontalCarousel(label: "Recently Played", color: .blue)
@@ -50,6 +71,10 @@ struct UserProfileView: View {
             Spacer()
         }
     }
+}
+
+fileprivate struct Constants {
+    static let profile_url: String = "https://wallpapers.com/images/hd/cute-retro-gaming-profile-xy3apbyc677bvcbl.jpg"
 }
 
 struct UserProfileView_Previews: PreviewProvider {

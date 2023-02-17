@@ -21,6 +21,7 @@ struct UserProfileView: View {
                 placeholder: {
                         //nothin yet
                     }
+                .frame(width: 180.0, height: 180.0)
                 VStack(alignment: .leading) {
                     VStack(alignment: .leading) {
                         Text("@AtomicBlonde14")
@@ -44,18 +45,28 @@ struct UserProfileView: View {
             }
             HStack {
                 VStack {
+                    Text("144")
+                        .font(.title3)
                     Text("Followers")
-                    Text("14")
+                        .font(.title3)
                 }
+                .padding()
                 VStack {
+                    Text("69")
+                        .font(.title3)
                     Text("Following")
-                    Text("10")
+                        .font(.title3)
                 }
+                .padding()
                 VStack {
-                    Text("Games owned")
                     Text("420")
+                        .font(.title3)
+                    Text("Games owned")
+                        .font(.title3)
                 }
+                .padding([.top, .bottom], 20)
             }
+            .frame(maxWidth: .infinity)
             .background(.black)
             .foregroundColor(.white)
 

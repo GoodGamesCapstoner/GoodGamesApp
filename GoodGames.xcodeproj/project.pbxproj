@@ -48,6 +48,7 @@
 		E9752788298C768C00D00EB1 /* HorizontalCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9752787298C768C00D00EB1 /* HorizontalCarousel.swift */; };
 		E975278A298D82C000D00EB1 /* GameProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9752789298D82C000D00EB1 /* GameProfile.swift */; };
 		E9A9D802299D78FD00AC9459 /* ExtendedGameCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A9D801299D78FD00AC9459 /* ExtendedGameCard.swift */; };
+		E9A9D804299F382700AC9459 /* UserCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A9D803299F382700AC9459 /* UserCard.swift */; };
 		E9D3151C299C504A0047DD1F /* StarRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D3151B299C504A0047DD1F /* StarRating.swift */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +79,7 @@
 		E9752787298C768C00D00EB1 /* HorizontalCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCarousel.swift; sourceTree = "<group>"; };
 		E9752789298D82C000D00EB1 /* GameProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameProfile.swift; sourceTree = "<group>"; };
 		E9A9D801299D78FD00AC9459 /* ExtendedGameCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedGameCard.swift; sourceTree = "<group>"; };
+		E9A9D803299F382700AC9459 /* UserCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCard.swift; sourceTree = "<group>"; };
 		E9D3151B299C504A0047DD1F /* StarRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRating.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -217,6 +219,7 @@
 				E9752787298C768C00D00EB1 /* HorizontalCarousel.swift */,
 				E9D3151B299C504A0047DD1F /* StarRating.swift */,
 				E9A9D801299D78FD00AC9459 /* ExtendedGameCard.swift */,
+				E9A9D803299F382700AC9459 /* UserCard.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -314,7 +317,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9D3151C299C504A0047DD1F /* StarRating.swift in Sources */,
-				E975277629809BE500D00EB1 /* ViewModel.swift in Sources */,
 				DD1C00572996C3A500479092 /* AuthManager.swift in Sources */,
 				DD1C005D2996D06700479092 /* FirestoreManager.swift in Sources */,
 				DD1C005B2996C3D300479092 /* ImagePicker.swift in Sources */,
@@ -324,6 +326,7 @@
 				E975276D298089E200D00EB1 /* Game.swift in Sources */,
 				E975277D298A0D3B00D00EB1 /* NavigationTabView.swift in Sources */,
 				DD1C004D2996C38900479092 /* LoginView.swift in Sources */,
+				E9A9D804299F382700AC9459 /* UserCard.swift in Sources */,
 				E975277F298A116C00D00EB1 /* HomeView.swift in Sources */,
 				DDF4B7EC2992CED9001CD80B /* LoginView_old.swift in Sources */,
 				DD1C00562996C3A500479092 /* StorageManager.swift in Sources */,

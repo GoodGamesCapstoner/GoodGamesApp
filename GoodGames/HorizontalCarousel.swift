@@ -7,21 +7,18 @@
 
 import SwiftUI
 
-struct HorizontalCarousel: View {
+struct HorizontalCarousel<Content: View>: View {
     var label: String
-    var color: Color
+    @ViewBuilder var content: Content
     
     var body: some View {
-        Text(label)
-            .font(.title2)
-            .multilineTextAlignment(.leading)
-        ScrollView(.horizontal) {
-            HStack {
-                ForEach(0..<10) {
-                    Text("Item \($0)")
-                        .foregroundColor(.white)
-                        .frame(width: 100, height: 150)
-                        .background(color)
+        VStack(alignment: .leading) {
+            Text(label)
+                .font(.title2)
+                .multilineTextAlignment(.leading)
+            ScrollView(.horizontal) {
+                HStack {
+                    content
                 }
             }
         }
@@ -30,8 +27,13 @@ struct HorizontalCarousel: View {
 
 struct HorizontalCarousel_Previews: PreviewProvider {
     static var previews: some View {
-        VStack(alignment: .leading) {
-            HorizontalCarousel(label: "New Releases", color: .blue)
+        HorizontalCarousel(label: "New Releases") {
+            ForEach(0..<10) {
+                Text("Item \($0)")
+                    .foregroundColor(.white)
+                    .frame(width: 100, height: 150)
+                    .background(.blue)
+            }
         }
         .padding()
     }

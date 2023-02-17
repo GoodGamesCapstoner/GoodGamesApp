@@ -22,13 +22,39 @@ struct DiscoverView: View {
             Spacer()
             ScrollView {
                 VStack(alignment: .leading) {
-                    HorizontalCarousel(label: "Recommended", color: .blue)
+                    HorizontalCarousel(label: "Recommended") {
+                        ForEach(0..<10) {
+                            Text("Item \($0)")
+                                .foregroundColor(.white)
+                                .frame(width: 100, height: 150)
+                                .background(.blue)
+                        }
+                    }
                     
-                    HorizontalCarousel(label: "Featured", color: .green)
-                    
-                    HorizontalCarousel(label: "New Releases", color: .red)
-                    
-                    HorizontalCarousel(label: "Top Sellers", color: .yellow)
+                    HorizontalCarousel(label: "Featured") {
+                        ForEach(0..<10) {
+                            Text("Item \($0)")
+                                .foregroundColor(.white)
+                                .frame(width: 100, height: 150)
+                                .background(.green)
+                        }
+                    }
+                    HorizontalCarousel(label: "New Releases") {
+                        ForEach(0..<10) {
+                            Text("Item \($0)")
+                                .foregroundColor(.white)
+                                .frame(width: 100, height: 150)
+                                .background(.red)
+                        }
+                    }
+                    HorizontalCarousel(label: "Top Sellers") {
+                        ForEach(0..<10) {
+                            Text("Item \($0)")
+                                .foregroundColor(.white)
+                                .frame(width: 100, height: 150)
+                                .background(.yellow)
+                        }
+                    }
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)

@@ -72,9 +72,23 @@ struct UserProfileView: View {
 
             ScrollView {
                 VStack(alignment: .leading) {
-                    HorizontalCarousel(label: "Recently Played", color: .blue)
+                    HorizontalCarousel(label: "Recently Played") {
+                        ForEach(0..<10) {
+                            Text("Item \($0)")
+                                .foregroundColor(.white)
+                                .frame(width: 100, height: 150)
+                                .background(.blue)
+                        }
+                    }
                     
-                    HorizontalCarousel(label: "My Reviews", color: .green)
+                    HorizontalCarousel(label: "My Reviews" ) {
+                        ForEach(0..<10) {
+                            Text("Item \($0)")
+                                .foregroundColor(.white)
+                                .frame(width: 100, height: 150)
+                                .background(.green)
+                        }
+                    }
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)

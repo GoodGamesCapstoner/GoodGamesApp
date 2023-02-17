@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct UserProfileView: View {
+    @StateObject var vm = ViewModel()
     var body: some View {
         VStack {
             Text("Adriana Cottle")
@@ -94,6 +96,27 @@ struct UserProfileView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             Spacer()
+        }
+        // Not working yet
+        .navigationTitle("User account")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if vm.user != nil {
+                    Button {
+                        vm.logOut()
+                    } label: {
+                        Text("Log Out")
+                            .foregroundColor(.black)
+                    }
+                    .bold()
+                    .buttonStyle(.bordered)
+                } else {
+                    EmptyView()
+                }
+            }
+        }
+        .onAppear {
+            vm.configureFirebaseStateDidChange()
         }
     }
 }

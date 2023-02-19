@@ -17,37 +17,43 @@ struct UserProfileView: View {
                 .fontWeight(.bold)
                 .padding(.horizontal)
                 .padding(.top, 5)
-            HStack {
-//                AsyncImage(url: URL(string: Constants.profile_url)) { image in
-//                    image.resizable() }
-//                placeholder: {
-//                        //nothin yet
-//                    }
-//                .frame(width: 180.0, height: 180.0)
-                if let image = vm.image {
-                    Image(uiImage: image)
-                        .resizable()
-                        .cornerRadius(50)
-                        .frame(width: 180, height: 180)
-                        .aspectRatio(contentMode: .fill)
-                        .clipShape(Circle())
-                } else {
-                    Circle()
-                        .frame(width: 200, height: 200)
-                        .foregroundColor(.black)
-                }
+            HStack {                
                 if vm.isUserAuthenticated == .signedIn {
-                        Button {
-                            vm.showSheet = true
+                    Button {
+                        vm.showSheet = true
                         } label: {
-                            Text("Update Profile Image")
+                            if let image = vm.image {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .cornerRadius(50)
+                                    .frame(width: 180, height: 180)
+                                    .aspectRatio(contentMode: .fill)
+                                    .clipShape(Circle())
+                            } else {
+                                Circle()
+                                    .frame(width: 180, height: 180)
+                                    .foregroundColor(.black)
+                                }
                         }
-                        .buttonStyle(.borderedProminent)
-
+                    // The idea is that if you're visiting someone else's profile page you won't be able
+                    // to update their image but you can still see it. Not sure if it works or not.
+                } else {
+                    if let image = vm.image {
+                        Image(uiImage: image)
+                            .resizable()
+                            .cornerRadius(50)
+                            .frame(width: 180, height: 180)
+                            .aspectRatio(contentMode: .fill)
+                            .clipShape(Circle())
+                    } else {
+                        Circle()
+                            .frame(width: 180, height: 180)
+                            .foregroundColor(.black)
+                        }
                 }
                     Spacer()
-                    .ignoresSafeArea()
-                    .padding(.horizontal, 20)
+//                    .ignoresSafeArea()
+//                    .padding(.horizontal, 20)
                     .onChange(of: vm.image, perform: { image in
                         vm.image = image
                         vm.saveProfileImage()

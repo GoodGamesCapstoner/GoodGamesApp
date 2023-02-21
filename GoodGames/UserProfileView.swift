@@ -145,7 +145,7 @@ struct UserProfileView: View {
                     // Changed this to match the deletion, but I'm not sure if that's right
                     // Its possible that the commented out one is just to check the user of the current
                     // profile and the one I'm using is to check who's logged in
-                    if vm.isUserAuthenticated != .signedIn {
+                    if vm.isUserAuthenticated == .signedIn {
 //                    if vm.user == nil {
                         Button {
                             vm.logOut()
@@ -160,7 +160,7 @@ struct UserProfileView: View {
                 }
                 // Add delete account button on the left
                 ToolbarItem(placement: .navigationBarLeading) {
-                    if vm.isUserAuthenticated != .signedIn {
+                    if vm.isUserAuthenticated == .signedIn {
                         Button {
                             vm.showDeletion.toggle()
                         } label: {

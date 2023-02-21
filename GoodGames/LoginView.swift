@@ -75,12 +75,13 @@ struct LoginView: View {
                     //                        .textFieldStyle(.roundedBorder)
                     //                        .autocapitalization(.none)
                 } else {
-                    NavigationLink(destination: UserProfileView()) {
-                        // Eventually remove or change this
-                        Text("Go to user profile since you're authenticated")
-                    }
+                    UserProfileView()
                 }
             }
+            .ignoresSafeArea()
+        }
+        .onAppear {
+            vm.configureFirebaseStateDidChange()
         }
     }
 }

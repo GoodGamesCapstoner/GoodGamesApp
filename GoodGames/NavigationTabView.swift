@@ -8,32 +8,34 @@
 import SwiftUI
 
 struct NavigationTabView: View {
+    @State private var tabSelection: Int = 1
+    
     var body: some View {
 //        NavigationStack {
-            TabView {
-                HomeView()
+            TabView(selection: $tabSelection) {
+                HomeView(tabSelection: $tabSelection)
                     .tabItem {
                         Image(systemName: "house")
                         Text("Home")
-                    }
+                    }.tag(1)
                 
                 DiscoverView()
                     .tabItem {
                         Image(systemName: "magnifyingglass")
                         Text("Discover")
-                    }
+                    }.tag(2)
                 
                 ShelfView()
                     .tabItem {
                         Image(systemName: "books.vertical")
                         Text("My Shelf")
-                    }
+                    }.tag(3)
                 
                 UserProfileView()
                     .tabItem {
                         Image(systemName: "person")
                         Text("Profile")
-                    }
+                    }.tag(4)
                 
     //            DataTestView()
     //                .tabItem {

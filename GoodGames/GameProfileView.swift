@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GameProfileView: View {
+    @Binding var tabSelection: Int
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
@@ -57,17 +58,16 @@ struct GameProfileView: View {
                         //MARK: - Add to shelf button
                         HStack {
                             Spacer()
-                            NavigationLink {
-                                ShelfView()
-                            } label: {
-                                Text("Add to shelf")
-//                                Button("Add to my shelf") {
-//
-//                                }
-//                                .buttonStyle(.borderedProminent)
-//                                .tint(.purple)
+//                            NavigationLink {
+//                                ShelfView()
+//                            } label: {
+//                                Text("Add to shelf")
+//                            }
+                            Button("Add to my shelf") {
+                                self.tabSelection = 3
                             }
-
+                            .buttonStyle(.borderedProminent)
+                            .tint(.purple)
                             
                             Spacer()
                         }
@@ -120,6 +120,6 @@ fileprivate struct Constants {
 
 struct GameProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        GameProfileView()
+        GameProfileView(tabSelection: .constant(1))
     }
 }

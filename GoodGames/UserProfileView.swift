@@ -67,8 +67,14 @@ struct UserProfileView: View {
                     
                     VStack(alignment: .leading) {
                         VStack(alignment: .leading) {
-                            Text("@AtomicBlonde14")
-                                .font(.title2)
+                            if let user = vm.user {
+                                Text("\(user.name)")
+                                    .font(.title2)
+                            } else {
+                                Text("No user found")
+                                    .font(.title2)
+                            }
+                            
                             Text("Active 3hr ago")
                                 .font(.subheadline)
                         }
@@ -200,7 +206,7 @@ struct UserProfileView: View {
                 }
             }
             .onAppear {
-                vm.configureFirebaseStateDidChange()
+                //vm.configureFirebaseStateDidChange()
             }
         }
     }

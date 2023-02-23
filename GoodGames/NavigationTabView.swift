@@ -9,37 +9,39 @@ import SwiftUI
 
 struct NavigationTabView: View {
     var body: some View {
-        TabView {
-            HomeView()
-                .tabItem {
-                    Image(systemName: "house")
-                    Text("Home")
-                }
-            
-            DiscoverView()
-                .tabItem {
-                    Image(systemName: "magnifyingglass")
-                    Text("Discover")
-                }
-            
-            ShelfView()
-                .tabItem {
-                    Image(systemName: "books.vertical")
-                    Text("My Shelf")
-                }
-            
-            UserProfileView()
-                .tabItem {
-                    Image(systemName: "person")
-                    Text("Profile")
-                }
-            
-//            DataTestView()
-//                .tabItem {
-//                    Image(systemName: "gamecontroller")
-//                    Text("Test Page")
-//                }
-        }
+//        NavigationStack {
+            TabView {
+                HomeView()
+                    .tabItem {
+                        Image(systemName: "house")
+                        Text("Home")
+                    }
+                
+                DiscoverView()
+                    .tabItem {
+                        Image(systemName: "magnifyingglass")
+                        Text("Discover")
+                    }
+                
+                ShelfView()
+                    .tabItem {
+                        Image(systemName: "books.vertical")
+                        Text("My Shelf")
+                    }
+                
+                UserProfileView()
+                    .tabItem {
+                        Image(systemName: "person")
+                        Text("Profile")
+                    }
+                
+    //            DataTestView()
+    //                .tabItem {
+    //                    Image(systemName: "gamecontroller")
+    //                    Text("Test Page")
+    //                }
+            }
+//        }
     }
 }
 

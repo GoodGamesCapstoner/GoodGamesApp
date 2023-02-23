@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GameProfile: View {
+struct GameProfileView: View {
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
@@ -57,11 +57,18 @@ struct GameProfile: View {
                         //MARK: - Add to shelf button
                         HStack {
                             Spacer()
-                            Button("Add to my shelf") {
-                                
+                            NavigationLink {
+                                ShelfView()
+                            } label: {
+                                Text("Add to shelf")
+//                                Button("Add to my shelf") {
+//
+//                                }
+//                                .buttonStyle(.borderedProminent)
+//                                .tint(.purple)
                             }
-                            .buttonStyle(.borderedProminent)
-                            .tint(.purple)
+
+                            
                             Spacer()
                         }
                         Divider()
@@ -111,8 +118,8 @@ fileprivate struct Constants {
     //"https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/e5520e0a26c349b166bb72c155a54d21.jpg"
 }
 
-struct GameProfile_Previews: PreviewProvider {
+struct GameProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        GameProfile()
+        GameProfileView()
     }
 }

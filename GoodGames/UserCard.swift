@@ -9,6 +9,15 @@ import SwiftUI
 
 struct UserCard: View {
     var body: some View {
+        NavigationLink {
+            UserProfileView()
+        } label: {
+            card
+        }
+
+    }
+    
+    var card: some View {
         VStack {
             ZStack {
                 Circle()
@@ -25,6 +34,7 @@ struct UserCard: View {
                 .font(.footnote)
                 .multilineTextAlignment(.center)
         }
+        .foregroundColor(.black)
         .frame(maxWidth: 125, maxHeight: 150)
         .padding()
         .background(.gray)
@@ -34,6 +44,8 @@ struct UserCard: View {
 
 struct UserCard_Previews: PreviewProvider {
     static var previews: some View {
-        UserCard()
+        NavigationStack {
+            UserCard()
+        }
     }
 }

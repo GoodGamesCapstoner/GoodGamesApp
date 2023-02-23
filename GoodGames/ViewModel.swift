@@ -21,6 +21,8 @@ class ViewModel: ObservableObject {
     public init(isUserAuthenticated: Published<AuthState>
                 = Published<AuthState>.init(wrappedValue: .undefined)) {
         self._isUserAuthenticated  = isUserAuthenticated
+        
+        configureFirebaseStateDidChange()
     }
     /// Handles the change of authentication state
     func configureFirebaseStateDidChange() {

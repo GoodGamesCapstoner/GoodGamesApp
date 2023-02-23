@@ -9,7 +9,8 @@ import SwiftUI
 import FirebaseAuth
 
 struct UserProfileView: View {
-    @StateObject var vm = ViewModel()
+//    @StateObject var vm = ViewModel()
+    @EnvironmentObject var vm: ViewModel
     var body: some View {
         NavigationView {
             VStack {
@@ -66,8 +67,14 @@ struct UserProfileView: View {
                     
                     VStack(alignment: .leading) {
                         VStack(alignment: .leading) {
-                            Text("@AtomicBlonde14")
-                                .font(.title2)
+                            if let user = vm.user {
+                                Text("\(user.name)")
+                                    .font(.title2)
+                            } else {
+                                Text("No user found")
+                                    .font(.title2)
+                            }
+                            
                             Text("Active 3hr ago")
                                 .font(.subheadline)
                         }
@@ -82,6 +89,31 @@ struct UserProfileView: View {
                                 .font(.title2)
                             Text("n00b")
                                 .font(.subheadline)
+                        }
+                    }
+                }
+                HStack {
+                    if vm.isUserAuthenticated == .signedIn {
+//                    if vm.user == nil {
+                        Button {
+                            vm.logOut()
+                        } label: {
+                            Text("Log out")
+                        }
+                        .bold()
+                        .buttonStyle(.bordered)
+                    }
+                    if vm.isUserAuthenticated == .signedIn {
+                        Button {
+                            vm.showDeletion.toggle()
+                        } label: {
+                            Text("Delete Account")
+                                .foregroundColor(.red)
+                                .buttonStyle(.borderless)
+                        }
+                        .buttonStyle(.bordered)
+                        .sheet(isPresented: $vm.showDeletion) {
+                            DeleteView(user: vm.user!)
                         }
                     }
                 }
@@ -143,7 +175,7 @@ struct UserProfileView: View {
                     // Changed this to match the deletion, but I'm not sure if that's right
                     // Its possible that the commented out one is just to check the user of the current
                     // profile and the one I'm using is to check who's logged in
-                    if vm.isUserAuthenticated != .signedIn {
+                    if vm.isUserAuthenticated == .signedIn {
 //                    if vm.user == nil {
                         Button {
                             vm.logOut()
@@ -158,7 +190,7 @@ struct UserProfileView: View {
                 }
                 // Add delete account button on the left
                 ToolbarItem(placement: .navigationBarLeading) {
-                    if vm.isUserAuthenticated != .signedIn {
+                    if vm.isUserAuthenticated == .signedIn {
                         Button {
                             vm.showDeletion.toggle()
                         } label: {
@@ -174,7 +206,7 @@ struct UserProfileView: View {
                 }
             }
             .onAppear {
-                vm.configureFirebaseStateDidChange()
+                //vm.configureFirebaseStateDidChange()
             }
         }
     }

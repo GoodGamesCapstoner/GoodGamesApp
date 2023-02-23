@@ -2,7 +2,8 @@ import SwiftUI
 import FirebaseAuth
 
 struct LoginView: View {
-    @StateObject var vm = ViewModel()
+//    @StateObject var vm = ViewModel()
+    @EnvironmentObject var vm: ViewModel
     var body: some View {
         NavigationView {
             ZStack {
@@ -75,13 +76,13 @@ struct LoginView: View {
                     //                        .textFieldStyle(.roundedBorder)
                     //                        .autocapitalization(.none)
                 } else {
-                    UserProfileView()
+                    //UserProfileView()
                 }
             }
             .ignoresSafeArea()
         }
         .onAppear {
-            vm.configureFirebaseStateDidChange()
+            //vm.configureFirebaseStateDidChange()
         }
     }
 }

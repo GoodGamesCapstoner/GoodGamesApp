@@ -8,47 +8,45 @@
 import SwiftUI
 
 struct NavigationTabView: View {
-    @State private var tabSelection: Int = 1
+    @EnvironmentObject var viewModel: ViewModel
     
     var body: some View {
-//        NavigationStack {
-            TabView(selection: $tabSelection) {
-                HomeView(tabSelection: $tabSelection)
-                    .tabItem {
-                        Image(systemName: "house")
-                        Text("Home")
-                    }.tag(1)
-                
-                DiscoverView()
-                    .tabItem {
-                        Image(systemName: "magnifyingglass")
-                        Text("Discover")
-                    }.tag(2)
-                
-                ShelfView()
-                    .tabItem {
-                        Image(systemName: "books.vertical")
-                        Text("My Shelf")
-                    }.tag(3)
-                
-                UserProfileView()
-                    .tabItem {
-                        Image(systemName: "person")
-                        Text("Profile")
-                    }.tag(4)
-                
-    //            DataTestView()
-    //                .tabItem {
-    //                    Image(systemName: "gamecontroller")
-    //                    Text("Test Page")
-    //                }
-            }
-//        }
+        TabView(selection: $viewModel.tabSelection) {
+            HomeView()
+                .tabItem {
+                    Image(systemName: "house")
+                    Text("Home")
+                }.tag(1)
+            
+            DiscoverView()
+                .tabItem {
+                    Image(systemName: "magnifyingglass")
+                    Text("Discover")
+                }.tag(2)
+            
+            ShelfView()
+                .tabItem {
+                    Image(systemName: "books.vertical")
+                    Text("My Shelf")
+                }.tag(3)
+            
+            UserProfileView()
+                .tabItem {
+                    Image(systemName: "person")
+                    Text("Profile")
+                }.tag(4)
+            
+//            DataTestView()
+//                .tabItem {
+//                    Image(systemName: "gamecontroller")
+//                    Text("Test Page")
+//                }
+        }
     }
 }
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationTabView().environmentObject(FirestoreManager())
+        NavigationTabView().environmentObject(ViewModel())
     }
 }

@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct GameCard: View {
-    @Binding var tabSelection: Int
     var text: String
     var color: Color
     var body: some View {
         NavigationLink {
-            GameProfileView(tabSelection: $tabSelection)
+            GameProfileView()
         } label: {
             card
         }
@@ -30,7 +29,7 @@ struct GameCard: View {
 struct GameCard_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            GameCard(tabSelection: .constant(1), text: "Item 0", color: .green)
+            GameCard(text: "Item 0", color: .green)
         }
     }
 }

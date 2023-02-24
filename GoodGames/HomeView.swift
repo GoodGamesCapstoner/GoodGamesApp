@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Binding var tabSelection: Int
-    
     var body: some View {
         NavigationStack {
             VStack {
@@ -46,7 +44,7 @@ struct HomeView: View {
                     
                     HorizontalCarousel(label: "Top Games for You") {
                         ForEach(0..<10) { num in
-                            GameCard(tabSelection: $tabSelection, text: "Item \(num)", color: .blue)
+                            GameCard(text: "Item \(num)", color: .blue)
                         }
                     }
                     
@@ -60,6 +58,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(tabSelection: .constant(1))
+        HomeView()
     }
 }

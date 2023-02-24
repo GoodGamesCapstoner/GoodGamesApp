@@ -111,5 +111,26 @@ class FirestoreManager: ObservableObject {
             }
         }
     }
-    
+   
+    func retrieveGame(forID uid: String, completion: @escaping (Result<Game, Error>) -> Void) {
+        let reference = Firestore.firestore().collection("games").document(uid)
+        
+        getDocument(for: reference) { result in
+            switch result {
+            case .success(let document):
+                do {
+                    // Added question mark because of an error, not sure if this is correct or not
+                    guard let game = try document.data(as: Game?.self) else {
+                        completion(.failure(FireStoreError.noDocumentSnapshot))
+                        return
+                    }
+                    completion(.success(game))
+                } catch {
+                    completion(.failure(FireStoreError.unknownError))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 }

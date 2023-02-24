@@ -8,31 +8,33 @@
 import SwiftUI
 
 struct NavigationTabView: View {
+    @EnvironmentObject var viewModel: ViewModel
+    
     var body: some View {
-        TabView {
+        TabView(selection: $viewModel.tabSelection) {
             HomeView()
                 .tabItem {
                     Image(systemName: "house")
                     Text("Home")
-                }
+                }.tag(1)
             
             DiscoverView()
                 .tabItem {
                     Image(systemName: "magnifyingglass")
                     Text("Discover")
-                }
+                }.tag(2)
             
             ShelfView()
                 .tabItem {
                     Image(systemName: "books.vertical")
                     Text("My Shelf")
-                }
+                }.tag(3)
             
             UserProfileView()
                 .tabItem {
                     Image(systemName: "person")
                     Text("Profile")
-                }
+                }.tag(4)
             
 //            DataTestView()
 //                .tabItem {
@@ -45,6 +47,6 @@ struct NavigationTabView: View {
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationTabView().environmentObject(FirestoreManager())
+        NavigationTabView().environmentObject(ViewModel())
     }
 }

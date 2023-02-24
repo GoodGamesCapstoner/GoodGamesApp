@@ -6,6 +6,8 @@ class ViewModel: ObservableObject {
     public enum AuthState {
         case undefined, signedOut, signedIn
     }
+    
+    //MARK: - Published Vars -> Auth
     @Published var user: User?
     @Published var isUserAuthenticated: AuthState
     @Published var email: String = ""
@@ -16,6 +18,11 @@ class ViewModel: ObservableObject {
     @Published var newAccount = false
     @Published var showDeletion = false
 //    @Published var userID: String?  /
+    
+    //MARK: - Published Vars -> Navigation
+    @Published var tabSelection: Int = 1
+    
+    @Published var game: Game?
     
     var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
     public init(isUserAuthenticated: Published<AuthState>
@@ -87,6 +94,17 @@ class ViewModel: ObservableObject {
         if let userID = user?.uid {
             if let image = image {
                 storageManager.upload(image: image, for: "Profiles", named: userID)
+            }
+        }
+    }
+    
+    func getGame(forID uid: String) {
+        FirestoreManager().retrieveGame(forID: uid) { (result) in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let game):
+                self.game = game
             }
         }
     }

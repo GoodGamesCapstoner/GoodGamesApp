@@ -9,45 +9,49 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        VStack {
-            ScrollView {
-                Text("GoodGames Home")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding(.bottom)
-                
-                Text("Welcome, rocketboy1244!")
-                    .font(.title3)
-                    .padding(.bottom)
-                
-                VStack(alignment: .leading) {
-                    Text("Game of the Day")
-                        .font(.title2)
+        NavigationStack {
+            VStack {
+                ScrollView {
+                    Text("GoodGames Home")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .padding(.bottom)
                     
-                    ExtendedGameCard()
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.bottom)
-                
-                HorizontalCarousel(label: "Your Squad") {
-                    ForEach(0..<10) {_ in
-                        UserCard()
+                    Text("Welcome, rocketboy1244!")
+                        .font(.title3)
+                        .padding(.bottom)
+                    
+                    VStack(alignment: .leading) {
+                        Text("Game of the Day")
+                            .font(.title2)
+                        
+                        ExtendedGameCard()
                     }
-                }
-                .padding(.bottom)
-                
-                HorizontalCarousel(label: "Top Games for You") {
-                    ForEach(0..<10) {
-                        Text("Item \($0)")
-                            .foregroundColor(.white)
-                            .frame(width: 100, height: 150)
-                            .background(.red)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.bottom)
+                    
+                    HorizontalCarousel(label: "Your Squad") {
+                        ForEach(0..<10) {_ in
+                            NavigationLink {
+                                UserProfileView()
+                            } label: {
+                                UserCard()
+                            }
+
+                        }
                     }
+                    .padding(.bottom)
+                    
+                    HorizontalCarousel(label: "Top Games for You") {
+                        ForEach(0..<10) { num in
+                            GameCard(text: "Item \(num)", color: .blue)
+                        }
+                    }
+                    
+                    Spacer()
                 }
-                
-                Spacer()
+                .padding()
             }
-            .padding()
         }
     }
 }

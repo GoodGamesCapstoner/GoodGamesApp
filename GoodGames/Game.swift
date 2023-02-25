@@ -10,30 +10,29 @@ import FirebaseFirestoreSwift
 
 struct Game: Codable, Identifiable {
     @DocumentID var id: String? 
-    let dlc: Bool
-    let date: Date
-    let platform, priceAdj, aboutTheGame: String
+    let aboutTheGame: String
     let appid: Int
-    let categories, detailedDescription, developer, genre: String
+    let categories, detailedDescription, developer: String
+    let dlc: Bool
+    let genre: String
     let headerImage: String
-    let languages, nameX, publisher: String
+    let languages, name, platform, priceAdj: String
+    let publisher: String
+    let releaseDate: Date
     let reviewScore: Int
     let shortDescription, tags: String
     let totalReviews: Int
 
     enum CodingKeys: String, CodingKey {
-        case dlc = "DLC"
-        case date = "Date"
-        case platform = "Platform"
-        case priceAdj = "Price_Adj"
         case aboutTheGame = "about_the_game"
         case appid, categories
         case detailedDescription = "detailed_description"
-        case developer, genre
+        case developer, dlc, genre
         case headerImage = "header_image"
-        case languages
-        case nameX = "name_x"
+        case languages, name, platform
+        case priceAdj = "price_adj"
         case publisher
+        case releaseDate = "release_date"
         case reviewScore = "review_score"
         case shortDescription = "short_description"
         case tags

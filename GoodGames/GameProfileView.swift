@@ -109,7 +109,7 @@ struct GameProfileView: View {
             }.edgesIgnoringSafeArea(.top)
         }
         .onAppear {
-            viewModel.getGame(forID: "4y65wCGPQYBvszT394n0")
+            viewModel.getGame(forID: "mbbWBhgLflnfTLrJIWhv")
         }
         
     }

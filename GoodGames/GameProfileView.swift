@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct GameProfileView: View {
-    @EnvironmentObject var viewModel: ViewModel
-    
+    @EnvironmentObject var gameVM: GameViewModel
+    @Environment(\.isPreview) var isPreview
+
     var body: some View {
         GeometryReader { geometry in
-            ScrollView {
-                if let game = viewModel.game {
+            if let game = gameVM.game {
+                ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
                         //MARK: - Hero Image
                         AsyncImage(url: URL(string: game.headerImage)) { image in
@@ -23,51 +24,53 @@ struct GameProfileView: View {
                         }
                         .edgesIgnoringSafeArea(.top)
                         .frame(width: geometry.size.width, height: geometry.size.width/2.1)
-                        
+
                         //MARK: - Game Title
-                        Text("\(game.nameX)")
+                        Text("\(game.name)")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .padding(.horizontal)
                             .padding(.top, 5)
-                        
+
                         //MARK: - Main Page Content
                         VStack(alignment: .leading) {
                             //MARK: - Overall Rating
-                            StarRating(rating: game.reviewScore, outOf: 10)
+                            StarRating(rating: game.calculatedRating, outOf: game.maxRating)
                             .font(.title2)
-                            .padding(.vertical, 5)
-                            
+                            .padding(.vertical, 10)
+
                             Divider()
-                            
-                            //MARK: - Game Specs
-                            let columns = [GridItem(.flexible()), GridItem(.flexible())]
-                            LazyVGrid(columns: columns, alignment: .leading, spacing: 10) {
-                                Text("Genre: \(game.genre)")
-                                Text("Developer: \(game.developer)")
-                                Text("Modes: Single-player, Co-op")
-                                    .foregroundColor(.red)
-                                Text("Series: N/A")
-                                    .foregroundColor(.red)
-                                Text("Platforms: \(game.platform)")
-                                Text("Release Date: ") //NEEDS WORK (DATE FORMATTER)
-                                    .foregroundColor(.blue)
-                            }
-                            Divider()
-                            
+
                             //MARK: - Description
                             Text(game.shortDescription)
-                            Divider()
                             
+                            Divider()
+                            //MARK: - Game Specs
+                            let columns = [GridItem(.fixed(geometry.size.width/3), alignment: .topLeading), GridItem(.flexible(), alignment: .topLeading)]
+                            LazyVGrid(columns: columns, spacing: 10) {
+                                Text("Genres:").fontWeight(.bold)
+                                Text(game.formattedGenres)
+                                Text("Developer:").fontWeight(.bold)
+                                Text(game.developer)
+                                Text("Publisher:").fontWeight(.bold)
+                                Text(game.publisher)
+                                Text("Platforms:").fontWeight(.bold)
+                                Text(game.platform)
+                                Text("Release Date: ").fontWeight(.bold) //NEEDS WORK (DATE FORMATTER)
+                                Text(game.formattedReleaseDate)
+                            }
+                            Divider()
+
+                            
+
                             //MARK: - Add to shelf button
                             HStack {
                                 Spacer()
                                 Button("Add to my shelf") {
-                                    viewModel.tabSelection = 3
                                 }
                                 .buttonStyle(.borderedProminent)
                                 .tint(.purple)
-                                
+
                                 Spacer()
                             }
                             Divider()
@@ -75,7 +78,7 @@ struct GameProfileView: View {
                             Group {
                                 Text("Top Reviews: (\(game.totalReviews))")
                                     .padding(.bottom, 5)
-                                
+
                                 //MARK: - Individual Review (Make Component?)
                                 VStack(alignment: .leading) {
                                     HStack {
@@ -87,7 +90,7 @@ struct GameProfileView: View {
                                         .padding(.vertical, 1)
                                 }
                                 .padding(.vertical, 10)
-                                
+
                                 VStack(alignment: .leading) {
                                     HStack {
                                         Text("Crash McDesktop")
@@ -98,31 +101,36 @@ struct GameProfileView: View {
                                         .padding(.vertical, 1)
                                 }
                                 .padding(.vertical, 10)
-                                
+
                             }
-                            
+
 
                         }.padding(.horizontal)
                         Spacer()
                     }
                 }
-            }.edgesIgnoringSafeArea(.top)
+                .edgesIgnoringSafeArea(.top)
+            }
         }
         .onAppear {
-            viewModel.getGame(forID: "mbbWBhgLflnfTLrJIWhv")
+            if isPreview{
+                gameVM.getGame(forID: "mbbWBhgLflnfTLrJIWhv")
+            }
         }
-        
+
     }
 }
 
-fileprivate struct Constants {
-    static let hero_url: String = "https://cdn.cloudflare.steamstatic.com/steam/apps/548430/header.jpg"
-    
-    //"https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/e5520e0a26c349b166bb72c155a54d21.jpg"
-}
+//fileprivate struct Constants {
+//    static let hero_url: String = "https://cdn.cloudflare.steamstatic.com/steam/apps/548430/header.jpg"
+//
+//    //"https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/e5520e0a26c349b166bb72c155a54d21.jpg"
+//}
 
 struct GameProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        GameProfileView().environmentObject(ViewModel())
+        GameProfileView()
+            .environmentObject(GameViewModel())
+            .environment(\.isPreview, true)
     }
 }

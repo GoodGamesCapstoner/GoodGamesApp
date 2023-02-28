@@ -80,8 +80,7 @@ class FirestoreManager: ObservableObject {
     /// - Parameters:
     ///   - reference: the document reference
     ///   - completion: a completion handler providing the resulting data or an error
-    func getDocument(for reference: DocumentReference,
-                                        completion: @escaping (Result<DocumentSnapshot, Error>) -> Void) {
+    func getDocument(for reference: DocumentReference, completion: @escaping (Result<DocumentSnapshot, Error>) -> Void) {
         reference.getDocument { (documentSnapshot, err) in
             if let err = err {
                 completion(.failure(err))
@@ -92,6 +91,35 @@ class FirestoreManager: ObservableObject {
                 return
             }
             completion(.success(documentSnapshot))
+        }
+    }
+    
+    func getDocuments(matching query: Query, completion: @escaping (Result<[DocumentSnapshot], Error>) -> Void) {
+        query.getDocuments { (querySnapshot, err) in
+            if let err {
+                completion(.failure(err))
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                completion(.failure(FireStoreError.noSnapshotData))
+                return
+            }
+            completion(.success(documents))
+        }
+    }
+    
+    //NOTE: this function works in theory. I haven't tested it as reading all documents might be 1000+ reads charged to our account from Firebase :/
+    func getAllDocuments(for collection: CollectionReference, completion: @escaping (Result<[DocumentSnapshot], Error>) -> Void) {
+        collection.getDocuments { (querySnapshot, err) in
+            if let err {
+                completion(.failure(err))
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                completion(.failure(FireStoreError.noSnapshotData))
+                return
+            }
+            completion(.success(documents))
         }
     }
     /// Deletes the user account
@@ -132,5 +160,49 @@ class FirestoreManager: ObservableObject {
                 completion(.failure(error))
             }
         }
+    }
+    
+    func retrieveGames(matching query: Query, completion: @escaping (Result<[Game], Error>) -> Void) {
+        print("Attempting to get documents matching query...")
+        getDocuments(matching: query) { result in
+            switch result {
+            case .success(let documents):
+                print("Documents retrieved. Attempting to map to game objects...")
+                let games = documents.compactMap({ docSnapshot -> Game? in
+                    guard let game = try? docSnapshot.data(as: Game?.self) else {
+                        print("Failed to convert document snapshot to Game object. Missing values may be present in document: \(docSnapshot.documentID)")
+                        return nil
+                    }
+                    return game
+                })
+                
+                print("Game objects mapped. Calling completion...")
+                completion(.success(games))
+            case .failure(let error):
+                print("Failed to retrieve documents.")
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func retrieveNewReleases(completion: @escaping (Result<[Game], Error>) -> Void) {
+        let collection = Firestore.firestore().collection("games")
+        let query = collection.order(by: "release_date", descending: true).limit(to: 20)
+        print("Query set, attemtpting to retrieve newly released games...")
+        retrieveGames(matching: query, completion: completion)
+    }
+    
+    func retrieveTopRated(completion: @escaping (Result<[Game], Error>) -> Void) {
+        let collection = Firestore.firestore().collection("games")
+        let query = collection.order(by: Game.CodingKeys.reviewScore.rawValue, descending: true).limit(to: 20)
+        print("Query set, attemtpting to retrieve top rated games...")
+        retrieveGames(matching: query, completion: completion)
+    }
+    
+    func retrieveMostReviewed(completion: @escaping (Result<[Game], Error>) -> Void) {
+        let collection = Firestore.firestore().collection("games")
+        let query = collection.order(by: Game.CodingKeys.totalReviews.rawValue, descending: true).limit(to: 20)
+        print("Query set, attemtpting to retrieve most reviewed games...")
+        retrieveGames(matching: query, completion: completion)
     }
 }

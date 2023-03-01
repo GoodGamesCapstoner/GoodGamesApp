@@ -6,30 +6,36 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 struct GameCard: View {
-    var text: String
-    var color: Color
+    @EnvironmentObject var gameVM: GameViewModel
+    var game: Game
     var body: some View {
         NavigationLink {
             GameProfileView()
         } label: {
-            card
-        }
-    }
-    
-    var card: some View {
-        Text(text)
-            .foregroundColor(.white)
+            AsyncImage(url: URL(string: game.cardImage)) { image in
+                image.resizable()
+            } placeholder: {
+                Text(game.name)
+                    .foregroundColor(.white)
+                    .frame(width: 100, height: 150)
+                    .background(.gray)
+            }
             .frame(width: 100, height: 150)
-            .background(color)
+        }
+        .simultaneousGesture(TapGesture().onEnded({
+            gameVM.selectGame(game)
+        }))
     }
 }
 
-struct GameCard_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            GameCard(text: "Item 0", color: .green)
-        }
-    }
-}
+//struct GameCard_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let fm = FirestoreManager()
+//        NavigationStack {
+//            GameCard(game: GameViewModel.previewVM.game)
+//        }
+//    }
+//}

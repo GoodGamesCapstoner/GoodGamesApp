@@ -3,7 +3,7 @@ import FirebaseAuth
 
 struct LoginView: View {
 //    @StateObject var vm = ViewModel()
-    @EnvironmentObject var vm: ViewModel
+    @EnvironmentObject var userVM: UserViewModel
     var body: some View {
         NavigationView {
             ZStack {
@@ -15,17 +15,17 @@ struct LoginView: View {
                     .frame(width: 1000, height: 400)
                     .rotationEffect(.degrees(135))
                     .offset(y: -350)
-                if vm.isUserAuthenticated != .signedIn {
+                if userVM.isUserAuthenticated != .signedIn {
                     VStack(spacing: 20) {
                         Text("Welcome")
                             .foregroundColor(.white)
                             .font(.system(size:40, weight: .bold, design: .rounded))
                             .offset(x: -100, y: -100)
                         
-                        TextField("Email", text: $vm.email)
+                        TextField("Email", text: $userVM.email)
                             .foregroundColor(.white)
                             .textFieldStyle(.plain)
-                            .placeholder(when: vm.email.isEmpty) {
+                            .placeholder(when: userVM.email.isEmpty) {
                                 Text("Email")
                                     .foregroundColor(.white)
                                     .bold()
@@ -34,10 +34,10 @@ struct LoginView: View {
                             .frame(width: 350, height: 1)
                             .foregroundColor(.white)
                         
-                        SecureField("Password",text: $vm.password)
+                        SecureField("Password",text: $userVM.password)
                             .foregroundColor(.white)
                             .textFieldStyle(.plain)
-                            .placeholder(when: vm.password.isEmpty) {
+                            .placeholder(when: userVM.password.isEmpty) {
                                 Text("Password")
                                     .foregroundColor(.white)
                                     .bold()
@@ -47,7 +47,7 @@ struct LoginView: View {
                             .foregroundColor(.white)
                         
                         Button {
-                            vm.login()
+                            userVM.login()
                         } label: {
                             Text("Log In")
                                 .bold()
@@ -60,14 +60,14 @@ struct LoginView: View {
                         }
                         .padding(.top)
                         Button {
-                            vm.newAccount = true
+                            userVM.newAccount = true
                         } label: {
                             Text("Create Account")
                                 .bold()
                                 .foregroundColor(.white)
                         }
                         .buttonStyle(.bordered)
-                        .sheet(isPresented: $vm.newAccount) {
+                        .sheet(isPresented: $userVM.newAccount) {
                             SignUpView()
                         }
                     }
@@ -103,6 +103,6 @@ extension View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView().environmentObject(UserViewModel())
     }
 }

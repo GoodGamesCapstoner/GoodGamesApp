@@ -2,7 +2,7 @@ import SwiftUI
 import FirebaseStorage
 import FirebaseAuth
 
-class ViewModel: ObservableObject {
+class UserViewModel: ObservableObject {
     public enum AuthState {
         case undefined, signedOut, signedIn
     }
@@ -21,8 +21,6 @@ class ViewModel: ObservableObject {
     
     //MARK: - Published Vars -> Navigation
     @Published var tabSelection: Int = 1
-    
-    @Published var game: Game?
     
     var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
     public init(isUserAuthenticated: Published<AuthState>
@@ -98,14 +96,5 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func getGame(forID uid: String) {
-        FirestoreManager().retrieveGame(forID: uid) { (result) in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let game):
-                self.game = game
-            }
-        }
-    }
+    
 }

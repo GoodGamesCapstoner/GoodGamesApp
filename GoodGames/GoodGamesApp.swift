@@ -46,14 +46,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct GoodGamesApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var viewModel = ViewModel()
+    @StateObject var viewModel = UserViewModel()
     var body: some Scene {
         WindowGroup {
             if viewModel.isUserAuthenticated != .signedIn {
                 LoginView().environmentObject(viewModel)
             }
             else {
-                NavigationTabView().environmentObject(viewModel)
+                MainTabView()
+                    .environmentObject(viewModel)
+                    .environmentObject(GameViewModel())
             }
         }
     }

@@ -76,24 +76,7 @@ class FirestoreManager: ObservableObject {
         }
         
     }
-    /// retrieves the document snapshot for the user collection
-    /// - Parameters:
-    ///   - reference: the document reference
-    ///   - completion: a completion handler providing the resulting data or an error
-    func getDocument(for reference: DocumentReference,
-                                        completion: @escaping (Result<DocumentSnapshot, Error>) -> Void) {
-        reference.getDocument { (documentSnapshot, err) in
-            if let err = err {
-                completion(.failure(err))
-                return
-            }
-            guard let documentSnapshot = documentSnapshot else {
-                completion(.failure(FireStoreError.noDocumentSnapshot))
-                return
-            }
-            completion(.success(documentSnapshot))
-        }
-    }
+    
     /// Deletes the user account
     /// - Parameters:
     ///   - uid: the unique user ID
@@ -111,6 +94,54 @@ class FirestoreManager: ObservableObject {
             }
         }
     }
+    
+    /// retrieves a document snapshot
+    /// - Parameters:
+    ///   - reference: the document reference
+    ///   - completion: a completion handler providing the resulting data or an error
+    func getDocument(for reference: DocumentReference, completion: @escaping (Result<DocumentSnapshot, Error>) -> Void) {
+        reference.getDocument { (documentSnapshot, err) in
+            if let err = err {
+                completion(.failure(err))
+                return
+            }
+            guard let documentSnapshot = documentSnapshot else {
+                completion(.failure(FireStoreError.noDocumentSnapshot))
+                return
+            }
+            completion(.success(documentSnapshot))
+        }
+    }
+    
+    func getDocuments(matching query: Query, completion: @escaping (Result<[DocumentSnapshot], Error>) -> Void) {
+        query.getDocuments { (querySnapshot, err) in
+            if let err {
+                completion(.failure(err))
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                completion(.failure(FireStoreError.noSnapshotData))
+                return
+            }
+            completion(.success(documents))
+        }
+    }
+    
+    //NOTE: this function works in theory. I haven't tested it as reading all documents might be 1000+ reads charged to our account from Firebase :/
+    func getAllDocuments(for collection: CollectionReference, completion: @escaping (Result<[DocumentSnapshot], Error>) -> Void) {
+        collection.getDocuments { (querySnapshot, err) in
+            if let err {
+                completion(.failure(err))
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                completion(.failure(FireStoreError.noSnapshotData))
+                return
+            }
+            completion(.success(documents))
+        }
+    }
+    
    
     func retrieveGame(forID uid: String, completion: @escaping (Result<Game, Error>) -> Void) {
         let reference = Firestore.firestore().collection("games").document(uid)
@@ -131,6 +162,69 @@ class FirestoreManager: ObservableObject {
             case .failure(let error):
                 completion(.failure(error))
             }
+        }
+    }
+    
+    func retrieveGames(matching query: Query, completion: @escaping (Result<[Game], Error>) -> Void) {
+        print("Attempting to get documents matching query...")
+        getDocuments(matching: query) { result in
+            switch result {
+            case .success(let documents):
+                print("Documents retrieved. Attempting to map to game objects...")
+                let games = documents.compactMap({ docSnapshot -> Game? in
+                    guard let game = try? docSnapshot.data(as: Game?.self) else {
+                        print("Failed to convert document snapshot to Game object. Missing values may be present in document: \(docSnapshot.documentID)")
+                        return nil
+                    }
+                    return game
+                })
+                
+                print("Game objects mapped. Calling completion...")
+                completion(.success(games))
+            case .failure(let error):
+                print("Failed to retrieve documents.")
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func retrieveNewReleases(completion: @escaping (Result<[Game], Error>) -> Void) {
+        let collection = Firestore.firestore().collection("games")
+        let query = collection.order(by: "release_date", descending: true).limit(to: 20)
+        print("Query set, attemtpting to retrieve newly released games...")
+        retrieveGames(matching: query, completion: completion)
+    }
+    
+    func retrieveTopRated(completion: @escaping (Result<[Game], Error>) -> Void) {
+        let collection = Firestore.firestore().collection("games")
+        let query = collection.order(by: Game.CodingKeys.reviewScore.rawValue, descending: true).limit(to: 20)
+        print("Query set, attemtpting to retrieve top rated games...")
+        retrieveGames(matching: query, completion: completion)
+    }
+    
+    func retrieveMostReviewed(completion: @escaping (Result<[Game], Error>) -> Void) {
+        let collection = Firestore.firestore().collection("games")
+        let query = collection.order(by: Game.CodingKeys.totalReviews.rawValue, descending: true).limit(to: 20)
+        print("Query set, attemtpting to retrieve most reviewed games...")
+        retrieveGames(matching: query, completion: completion)
+    }
+    
+    func addToShelf(for user: User, game: Game) {
+        let collection = Firestore.firestore().collection("users").document(user.uid).collection("shelf")
+        
+        var ref: DocumentReference? = nil
+        
+        do {
+            ref = try collection.addDocument(from: game, completion: { error in
+                if let error = error {
+                    print("Error writing document: \(error)")
+                } else {
+                    print("Document added with ID: \(ref?.documentID ?? "")")
+                }
+            })
+        }
+        catch {
+            print("Error writing document: \(error)")
         }
     }
 }

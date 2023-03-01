@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DiscoverView: View {
     @State var searchString: String = ""
+    @EnvironmentObject var gameVM: GameViewModel
     
     var body: some View {
         VStack {
@@ -24,35 +25,28 @@ struct DiscoverView: View {
                 VStack(alignment: .leading) {
                     HorizontalCarousel(label: "Recommended") {
                         ForEach(0..<10) {
-                            Text("Item \($0)")
+                            Text("\($0)")
                                 .foregroundColor(.white)
                                 .frame(width: 100, height: 150)
-                                .background(.blue)
+                                .background(.gray)
                         }
                     }
                     
-                    HorizontalCarousel(label: "Featured") {
-                        ForEach(0..<10) {
-                            Text("Item \($0)")
-                                .foregroundColor(.white)
-                                .frame(width: 100, height: 150)
-                                .background(.green)
+                    HorizontalCarousel(label: "Top Rated") {
+                        ForEach(gameVM.topRated, id: \.id) { game in
+                            GameCard(game: game)
                         }
                     }
+                    
                     HorizontalCarousel(label: "New Releases") {
-                        ForEach(0..<10) {
-                            Text("Item \($0)")
-                                .foregroundColor(.white)
-                                .frame(width: 100, height: 150)
-                                .background(.red)
+                        ForEach(gameVM.newReleases, id: \.id) { game in
+                            GameCard(game: game)
                         }
                     }
-                    HorizontalCarousel(label: "Top Sellers") {
-                        ForEach(0..<10) {
-                            Text("Item \($0)")
-                                .foregroundColor(.white)
-                                .frame(width: 100, height: 150)
-                                .background(.yellow)
+                    
+                    HorizontalCarousel(label: "Most Reviewed") {
+                        ForEach(gameVM.mostReviewed, id: \.id) { game in
+                            GameCard(game: game)
                         }
                     }
                 }
@@ -61,6 +55,10 @@ struct DiscoverView: View {
             }
             Spacer()
         }
+//        .onAppear {
+//            gameVM.getNewReleases()
+//            gameVM.getTopRated()
+//        }
     }
 }
 
@@ -80,6 +78,6 @@ struct SearchBar: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverView()
+        DiscoverView().environmentObject(GameViewModel())
     }
 }

@@ -10,7 +10,7 @@ import FirebaseAuth
 
 struct UserProfileView: View {
 //    @StateObject var vm = ViewModel()
-    @EnvironmentObject var vm: ViewModel
+    @EnvironmentObject var userVM: UserViewModel
     var body: some View {
         NavigationView {
             VStack {
@@ -20,11 +20,11 @@ struct UserProfileView: View {
                     .padding(.horizontal)
                     .padding(.top, 5)
                 HStack {
-                    if vm.isUserAuthenticated == .signedIn {
+                    if userVM.isUserAuthenticated == .signedIn {
                         Button {
-                            vm.showSheet = true
+                            userVM.showSheet = true
                         } label: {
-                            if let image = vm.image {
+                            if let image = userVM.image {
                                 Image(uiImage: image)
                                     .resizable()
                                     .cornerRadius(50)
@@ -40,7 +40,7 @@ struct UserProfileView: View {
                         // The idea is that if you're visiting someone else's profile page you won't be able
                         // to update their image but you can still see it. Not sure if it works or not.
                     } else {
-                        if let image = vm.image {
+                        if let image = userVM.image {
                             Image(uiImage: image)
                                 .resizable()
                                 .cornerRadius(50)
@@ -57,17 +57,17 @@ struct UserProfileView: View {
                         .frame(width: 15, height: 1)
                     //                    .ignoresSafeArea()
                     //                    .padding(.horizontal, 20)
-                        .onChange(of: vm.image, perform: { image in
-                            vm.image = image
-                            vm.saveProfileImage()
+                        .onChange(of: userVM.image, perform: { image in
+                            userVM.image = image
+                            userVM.saveProfileImage()
                         })
-                        .sheet(isPresented: $vm.showSheet) {
-                            ImagePicker(sourceType: .photoLibrary, selectedImage: self.$vm.image)
+                        .sheet(isPresented: $userVM.showSheet) {
+                            ImagePicker(sourceType: .photoLibrary, selectedImage: self.$userVM.image)
                         }
                     
                     VStack(alignment: .leading) {
                         VStack(alignment: .leading) {
-                            if let user = vm.user {
+                            if let user = userVM.user {
                                 Text("\(user.name)")
                                     .font(.title2)
                             } else {
@@ -93,27 +93,27 @@ struct UserProfileView: View {
                     }
                 }
                 HStack {
-                    if vm.isUserAuthenticated == .signedIn {
+                    if userVM.isUserAuthenticated == .signedIn {
 //                    if vm.user == nil {
                         Button {
-                            vm.logOut()
+                            userVM.logOut()
                         } label: {
                             Text("Log out")
                         }
                         .bold()
                         .buttonStyle(.bordered)
                     }
-                    if vm.isUserAuthenticated == .signedIn {
+                    if userVM.isUserAuthenticated == .signedIn {
                         Button {
-                            vm.showDeletion.toggle()
+                            userVM.showDeletion.toggle()
                         } label: {
                             Text("Delete Account")
                                 .foregroundColor(.red)
                                 .buttonStyle(.borderless)
                         }
                         .buttonStyle(.bordered)
-                        .sheet(isPresented: $vm.showDeletion) {
-                            DeleteView(user: vm.user!)
+                        .sheet(isPresented: $userVM.showDeletion) {
+                            DeleteView(user: userVM.user!)
                         }
                     }
                 }
@@ -175,10 +175,10 @@ struct UserProfileView: View {
                     // Changed this to match the deletion, but I'm not sure if that's right
                     // Its possible that the commented out one is just to check the user of the current
                     // profile and the one I'm using is to check who's logged in
-                    if vm.isUserAuthenticated == .signedIn {
+                    if userVM.isUserAuthenticated == .signedIn {
 //                    if vm.user == nil {
                         Button {
-                            vm.logOut()
+                            userVM.logOut()
                         } label: {
                             Text("Log out")
                         }
@@ -190,17 +190,17 @@ struct UserProfileView: View {
                 }
                 // Add delete account button on the left
                 ToolbarItem(placement: .navigationBarLeading) {
-                    if vm.isUserAuthenticated == .signedIn {
+                    if userVM.isUserAuthenticated == .signedIn {
                         Button {
-                            vm.showDeletion.toggle()
+                            userVM.showDeletion.toggle()
                         } label: {
                             Text("Delete Account")
                                 .foregroundColor(.red)
                                 .buttonStyle(.borderless)
                         }
                         .buttonStyle(.bordered)
-                        .sheet(isPresented: $vm.showDeletion) {
-                            DeleteView(user: vm.user!)
+                        .sheet(isPresented: $userVM.showDeletion) {
+                            DeleteView(user: userVM.user!)
                         }
                     }
                 }
@@ -214,6 +214,6 @@ struct UserProfileView: View {
 
 struct UserProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        UserProfileView()
+        UserProfileView().environmentObject(UserViewModel())
     }
 }

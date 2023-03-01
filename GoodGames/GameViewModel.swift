@@ -35,6 +35,12 @@ class GameViewModel: ObservableObject {
         self.game = game
     }
     
+    func addCurrentGameToShelf(for user: User) {
+        if let game = self.game {
+            firestoreManager.addToShelf(for: user, game: game)
+        }
+    }
+    
     //MARK: - Data Fetch Methods
     func getGame(forID uid: String) {
         firestoreManager.retrieveGame(forID: uid) { (result) in

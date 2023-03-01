@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GameProfileView: View {
     @EnvironmentObject var gameVM: GameViewModel
+    @EnvironmentObject var userVM: UserViewModel
     @Environment(\.isPreview) var isPreview
 
     var body: some View {
@@ -67,6 +68,9 @@ struct GameProfileView: View {
                             HStack {
                                 Spacer()
                                 Button("Add to my shelf") {
+                                    if let user = userVM.user {
+                                        gameVM.addCurrentGameToShelf(for: user)
+                                    }
                                 }
                                 .buttonStyle(.borderedProminent)
                                 .tint(.purple)
@@ -131,6 +135,7 @@ struct GameProfileView_Previews: PreviewProvider {
     static var previews: some View {
         GameProfileView()
             .environmentObject(GameViewModel())
+            .environmentObject(UserViewModel())
             .environment(\.isPreview, true)
     }
 }

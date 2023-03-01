@@ -76,7 +76,26 @@ class FirestoreManager: ObservableObject {
         }
         
     }
-    /// retrieves the document snapshot for the user collection
+    
+    /// Deletes the user account
+    /// - Parameters:
+    ///   - uid: the unique user ID
+    ///   - completion: a completion result of a success or an error
+   func deleteUserData(uid: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let reference = Firestore
+            .firestore()
+            .collection("users")
+            .document(uid)
+        reference.delete { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(true))
+            }
+        }
+    }
+    
+    /// retrieves a document snapshot
     /// - Parameters:
     ///   - reference: the document reference
     ///   - completion: a completion handler providing the resulting data or an error
@@ -122,23 +141,7 @@ class FirestoreManager: ObservableObject {
             completion(.success(documents))
         }
     }
-    /// Deletes the user account
-    /// - Parameters:
-    ///   - uid: the unique user ID
-    ///   - completion: a completion result of a success or an error
-   func deleteUserData(uid: String, completion: @escaping (Result<Bool, Error>) -> Void) {
-        let reference = Firestore
-            .firestore()
-            .collection("users")
-            .document(uid)
-        reference.delete { error in
-            if let error = error {
-                completion(.failure(error))
-            } else {
-                completion(.success(true))
-            }
-        }
-    }
+    
    
     func retrieveGame(forID uid: String, completion: @escaping (Result<Game, Error>) -> Void) {
         let reference = Firestore.firestore().collection("games").document(uid)
@@ -204,5 +207,24 @@ class FirestoreManager: ObservableObject {
         let query = collection.order(by: Game.CodingKeys.totalReviews.rawValue, descending: true).limit(to: 20)
         print("Query set, attemtpting to retrieve most reviewed games...")
         retrieveGames(matching: query, completion: completion)
+    }
+    
+    func addToShelf(for user: User, game: Game) {
+        let collection = Firestore.firestore().collection("users").document(user.uid).collection("shelf")
+        
+        var ref: DocumentReference? = nil
+        
+        do {
+            ref = try collection.addDocument(from: game, completion: { error in
+                if let error = error {
+                    print("Error writing document: \(error)")
+                } else {
+                    print("Document added with ID: \(ref?.documentID ?? "")")
+                }
+            })
+        }
+        catch {
+            print("Error writing document: \(error)")
+        }
     }
 }

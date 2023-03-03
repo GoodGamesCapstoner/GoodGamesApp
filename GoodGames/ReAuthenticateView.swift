@@ -7,7 +7,7 @@ struct ReAuthenticateView: View {
     @State private var errorText = ""
     var body: some View {
             ZStack {
-                Color.black
+                Color(hex: "282828")
                             
                 RoundedRectangle(cornerRadius: 3, style: .continuous)
                     .foregroundStyle(.linearGradient(colors: [.purple, .blue], startPoint:

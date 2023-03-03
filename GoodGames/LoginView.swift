@@ -21,7 +21,7 @@ struct LoginView: View {
                             .font(.system(size:40, weight: .bold, design: .rounded))
                             .offset(x: -100, y: -100)
                         
-                        TextField("Email", text: $userVM.email)
+                        TextField("", text: $userVM.email)
                             .foregroundColor(.white)
                             .textFieldStyle(.plain)
                             .placeholder(when: userVM.email.isEmpty) {
@@ -33,7 +33,7 @@ struct LoginView: View {
                             .frame(width: 350, height: 1)
                             .foregroundColor(.white)
                         
-                        SecureField("Password",text: $userVM.password)
+                        SecureField("",text: $userVM.password)
                             .foregroundColor(.white)
                             .textFieldStyle(.plain)
                             .placeholder(when: userVM.password.isEmpty) {
@@ -66,22 +66,15 @@ struct LoginView: View {
                                 .foregroundColor(.white)
                         }
                         .buttonStyle(.bordered)
+                        .tint(.white)
                         .sheet(isPresented: $userVM.newAccount) {
                             SignUpView()
                         }
                     }
                     .frame(width: 350)
-                    //                        .padding()
-                    //                        .textFieldStyle(.roundedBorder)
-                    //                        .autocapitalization(.none)
-                } else {
-                    //UserProfileView()
                 }
             }
             .ignoresSafeArea()
-        }
-        .onAppear {
-            //vm.configureFirebaseStateDidChange()
         }
     }
 }
@@ -98,22 +91,6 @@ extension View {
                 self
             }
         }
-}
-
-extension Color {
-    init(hex: String) {
-        //var currentIndex = hex.startIndex
-        
-        var rgbValue: UInt64 = 0
-
-        Scanner(string: hex).scanHexInt64(&rgbValue)
-
-        let r = Double((rgbValue & 0xFF0000) >> 16) / 255.0
-        let g = Double((rgbValue & 0x00FF00) >> 8) / 255.0
-        let b = Double(rgbValue & 0x0000FF) / 255.0
-
-        self.init(red: r, green: g, blue: b)
-    }
 }
 
 struct LoginView_Previews: PreviewProvider {

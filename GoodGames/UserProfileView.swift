@@ -169,45 +169,6 @@ struct UserProfileView: View {
                 }
                 Spacer()
             }
-            .toolbar {
-                // Add log out button on the right
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    // Changed this to match the deletion, but I'm not sure if that's right
-                    // Its possible that the commented out one is just to check the user of the current
-                    // profile and the one I'm using is to check who's logged in
-                    if userVM.isUserAuthenticated == .signedIn {
-//                    if vm.user == nil {
-                        Button {
-                            userVM.logOut()
-                        } label: {
-                            Text("Log out")
-                        }
-                        .bold()
-                        .buttonStyle(.bordered)
-                    } else {
-                        EmptyView()
-                    }
-                }
-                // Add delete account button on the left
-                ToolbarItem(placement: .navigationBarLeading) {
-                    if userVM.isUserAuthenticated == .signedIn {
-                        Button {
-                            userVM.showDeletion.toggle()
-                        } label: {
-                            Text("Delete Account")
-                                .foregroundColor(.red)
-                                .buttonStyle(.borderless)
-                        }
-                        .buttonStyle(.bordered)
-                        .sheet(isPresented: $userVM.showDeletion) {
-                            DeleteView(user: userVM.user!)
-                        }
-                    }
-                }
-            }
-            .onAppear {
-                //vm.configureFirebaseStateDidChange()
-            }
         }
     }
 }

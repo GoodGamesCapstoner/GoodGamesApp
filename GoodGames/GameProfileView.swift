@@ -67,13 +67,24 @@ struct GameProfileView: View {
                             //MARK: - Add to shelf button
                             HStack {
                                 Spacer()
-                                Button("Add to my shelf") {
-                                    if let user = userVM.user {
-                                        gameVM.addCurrentGameToShelf(for: user)
+                                if !gameVM.isInShelf {
+                                    Button("Add to my shelf") {
+                                        if let user = userVM.user {
+                                            gameVM.addCurrentGameToShelf(for: user)
+                                        }
                                     }
+                                    .buttonStyle(.borderedProminent)
+                                    .tint(.purple)
+                                } else {
+                                    Button("Remove from my shelf") {
+                                        if let user = userVM.user {
+                                            gameVM.addCurrentGameToShelf(for: user)
+                                        }
+                                    }
+                                    .buttonStyle(.borderedProminent)
+                                    .tint(.purple)
                                 }
-                                .buttonStyle(.borderedProminent)
-                                .tint(.purple)
+                                
 
                                 Spacer()
                             }
@@ -119,6 +130,10 @@ struct GameProfileView: View {
         .onAppear {
             if isPreview{
                 gameVM.getGame(forID: "mbbWBhgLflnfTLrJIWhv")
+            }
+            
+            if let user = userVM.user {
+                gameVM.getShelf(for: user)
             }
         }
 

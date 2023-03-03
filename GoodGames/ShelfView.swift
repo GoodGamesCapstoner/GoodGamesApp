@@ -8,13 +8,36 @@
 import SwiftUI
 
 struct ShelfView: View {
+    @EnvironmentObject var gameVM: GameViewModel
+    @EnvironmentObject var userVM: UserViewModel
+    
     var body: some View {
-        Text("Shelf's not level...")
+        ScrollView {
+            VStack {
+                Text("My Shelf")
+                    .font(.largeTitle)
+                    .padding(.top)
+                
+                let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+                LazyVGrid(columns: columns) {
+                    ForEach(gameVM.userShelf) { game in
+                        GameCard(game: game)
+                    }
+                }
+            }
+            .onAppear {
+                if let user = userVM.user {
+                    gameVM.getShelf(for: user)
+                }
+            }
+        }
     }
 }
 
 struct ShelfView_Previews: PreviewProvider {
     static var previews: some View {
         ShelfView()
+            .environmentObject(GameViewModel())
+            .environmentObject(UserViewModel())
     }
 }

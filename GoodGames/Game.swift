@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct Game: Codable, Identifiable {
+struct Game: Codable, Identifiable, Equatable {
     @DocumentID var id: String? 
     let aboutTheGame: String
     let appid: Int
@@ -59,6 +59,11 @@ struct Game: Codable, Identifiable {
         case shortDescription = "short_description"
         case tags
         case totalReviews = "total_reviews"
+    }
+    
+    //Conform to Equatable
+    static func ==(lhs: Game, rhs: Game) -> Bool {
+        return lhs.name == rhs.name && lhs.appid == rhs.appid
     }
 }
 

@@ -43,6 +43,14 @@ struct MainTabView: View {
                 Image(systemName: "person")
                 Text("Profile")
             }.tag(4)
+            
+            NavigationStack {
+                TestView()
+            }
+            .tabItem {
+                Image(systemName: "globe")
+                Text("Test")
+            }.tag(5)
         }
     }
 }

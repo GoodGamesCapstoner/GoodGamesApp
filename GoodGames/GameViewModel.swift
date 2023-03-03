@@ -13,6 +13,7 @@ class GameViewModel: ObservableObject {
     @Published var topRated: [Game] = []
     @Published var mostReviewed: [Game] = []
     private let firestoreManager = FirestoreManager()
+    private let functionsManager = FunctionsManager()
     
 //    public static let previewVM = GameViewModel()
     
@@ -39,6 +40,10 @@ class GameViewModel: ObservableObject {
         if let game = self.game {
             firestoreManager.addToShelf(for: user, game: game)
         }
+    }
+    
+    func testRecommender() {
+        functionsManager.testRecommender()
     }
     
     //MARK: - Data Fetch Methods

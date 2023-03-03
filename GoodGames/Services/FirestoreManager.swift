@@ -227,4 +227,49 @@ class FirestoreManager: ObservableObject {
             print("Error writing document: \(error)")
         }
     }
+    
+    func callRecommender() {
+        let urlString = "https://us-central1-good-games-378421.cloudfunctions.net/gg-recommender-model"
+        
+        guard let url = URL(string: urlString) else {
+            print("invalid url")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let session = URLSession.shared
+        
+        let dataTask = session.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                print("Error: \(error!)")
+                return
+            }
+            
+            // Check the response status code
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print("Invalid response")
+                return
+            }
+            
+            // Check that the response contains data
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            
+            // Parse the JSON data
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                print("JSON data: \(json)")
+            } catch {
+                print("Error parsing JSON: \(error)")
+            }
+            
+        }
+        // Start the data task
+        print("Starting fetch...")
+        dataTask.resume()
+    }
 }

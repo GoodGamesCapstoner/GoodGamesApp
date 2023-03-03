@@ -33,8 +33,9 @@ extension FireStoreError: LocalizedError {
         }
     }
 }
-/// A The functions used by the package to retrieve the user information, update and delete account
+
 class FirestoreManager: ObservableObject {
+    //MARK: - User Management Methods
     func retrieveFBUser(uid: String, completion: @escaping (Result<User, Error>) -> Void) {
         let reference = Firestore
             .firestore()
@@ -81,7 +82,7 @@ class FirestoreManager: ObservableObject {
     /// - Parameters:
     ///   - uid: the unique user ID
     ///   - completion: a completion result of a success or an error
-   func deleteUserData(uid: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+    func deleteUserData(uid: String, completion: @escaping (Result<Bool, Error>) -> Void) {
         let reference = Firestore
             .firestore()
             .collection("users")
@@ -94,6 +95,8 @@ class FirestoreManager: ObservableObject {
             }
         }
     }
+    
+    //MARK: - GET Methods for Firestore Documents
     
     /// retrieves a document snapshot
     /// - Parameters:
@@ -142,7 +145,7 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-   
+    //MARK: - Get Methods for Game Data
     func retrieveGame(forID uid: String, completion: @escaping (Result<Game, Error>) -> Void) {
         let reference = Firestore.firestore().collection("games").document(uid)
         
@@ -209,17 +212,51 @@ class FirestoreManager: ObservableObject {
         retrieveGames(matching: query, completion: completion)
     }
     
-    func addToShelf(for user: User, game: Game) {
+    //MARK: - Read/Write methods for shelf data
+    func retrieveShelf(for user: User, completion: @escaping (Result<[Game], Error>) -> Void) {
+        let collection = Firestore.firestore().collection("users/\(user.uid)/shelf")
+        let query = collection.order(by: Game.CodingKeys.name.rawValue)
+        
+        retrieveGames(matching: query, completion: completion)
+    }
+    
+    func addToShelf(for user: User, game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
         let collection = Firestore.firestore().collection("users").document(user.uid).collection("shelf")
         
         var ref: DocumentReference? = nil
         
         do {
             ref = try collection.addDocument(from: game, completion: { error in
-                if let error = error {
+                if let error {
                     print("Error writing document: \(error)")
-                } else {
-                    print("Document added with ID: \(ref?.documentID ?? "")")
+                    completion(.failure(FireStoreError.unknownError))
+                    return
+                }
+                
+                guard let ref = ref else {
+                    print("Document reference is nil")
+                    completion(.failure(FireStoreError.unknownError))
+                    return
+                }
+                
+                print("Document added with ID: \(ref.documentID)")
+                
+                self.getDocument(for: ref) { result in
+                    switch result {
+                    case .success(let document):
+                        do {
+                            // Added question mark because of an error, not sure if this is correct or not
+                            guard let game = try document.data(as: Game?.self) else {
+                                completion(.failure(FireStoreError.noDocumentSnapshot))
+                                return
+                            }
+                            completion(.success(game))
+                        } catch {
+                            completion(.failure(FireStoreError.unknownError))
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
                 }
             })
         }

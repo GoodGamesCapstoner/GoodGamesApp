@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct HomeView: View {
     @EnvironmentObject var gdvm: GameViewModel
+    @EnvironmentObject var userVM: UserViewModel
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -18,7 +21,7 @@ struct HomeView: View {
                         .fontWeight(.bold)
                         .padding(.bottom)
                     
-                    Text("Welcome, rocketboy1244!")
+                    Text("Welcome, \(userVM.user?.name ?? "USER")!")
                         .font(.title3)
                         .padding(.bottom)
                     
@@ -26,7 +29,9 @@ struct HomeView: View {
                         Text("Game of the Day")
                             .font(.title2)
                         
-                        ExtendedGameCard()
+                        if let game = gdvm.gameOfTheDay {
+                            ExtendedGameCard(game:game)
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom)
@@ -38,7 +43,6 @@ struct HomeView: View {
                             } label: {
                                 UserCard()
                             }
-
                         }
                     }
                     .padding(.bottom)
@@ -54,11 +58,16 @@ struct HomeView: View {
                 .padding()
             }
         }
+        .onAppear {
+            gdvm.getGameOfTheDay()
+        }
     }
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView().environmentObject(GameViewModel())
+        HomeView()
+            .environmentObject(GameViewModel())
+            .environmentObject(UserViewModel())
     }
 }

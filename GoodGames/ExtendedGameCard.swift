@@ -8,22 +8,20 @@
 import SwiftUI
 
 struct ExtendedGameCard: View {
+    var game: Game
     var body: some View {
         HStack {
-            VStack {
-                Text("The Elder Scrolls V: Skyrim Special Edition")
+            VStack(alignment: .leading) {
+                Text(game.name)
                     .font(.headline)
                 Spacer()
-                Text("The Elder Scrolls V: Skyrim is an action role-playing video game developed by Bethesda Game Studios and published by Bethesda Softworks.")
+                Text(game.shortDescription)
                     .font(.footnote)
             }
             
             Spacer()
             
-            Text("Game")
-                .foregroundColor(.white)
-                .frame(width: 100, height: 150)
-                .background(.black)
+            GameCard(game:game)
         }
         .frame(maxWidth: 350, maxHeight: 150)
         .padding()
@@ -32,9 +30,9 @@ struct ExtendedGameCard: View {
     }
 }
 
-struct ExtendedGameCard_Previews: PreviewProvider {
-    static var previews: some View {
-        ExtendedGameCard()
-            .padding()
-    }
-}
+//struct ExtendedGameCard_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ExtendedGameCard()
+//            .padding()
+//    }
+//}

@@ -2,12 +2,11 @@ import SwiftUI
 import FirebaseAuth
 
 struct LoginView: View {
-//    @StateObject var vm = ViewModel()
     @EnvironmentObject var userVM: UserViewModel
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black
+                Color(hex: "282828")
                 
                 RoundedRectangle(cornerRadius: 3, style: .continuous)
                     .foregroundStyle(.linearGradient(colors: [.purple, .blue], startPoint:
@@ -22,7 +21,7 @@ struct LoginView: View {
                             .font(.system(size:40, weight: .bold, design: .rounded))
                             .offset(x: -100, y: -100)
                         
-                        TextField("Email", text: $userVM.email)
+                        TextField("", text: $userVM.email)
                             .foregroundColor(.white)
                             .textFieldStyle(.plain)
                             .placeholder(when: userVM.email.isEmpty) {
@@ -34,7 +33,7 @@ struct LoginView: View {
                             .frame(width: 350, height: 1)
                             .foregroundColor(.white)
                         
-                        SecureField("Password",text: $userVM.password)
+                        SecureField("",text: $userVM.password)
                             .foregroundColor(.white)
                             .textFieldStyle(.plain)
                             .placeholder(when: userVM.password.isEmpty) {
@@ -67,22 +66,15 @@ struct LoginView: View {
                                 .foregroundColor(.white)
                         }
                         .buttonStyle(.bordered)
+                        .tint(.white)
                         .sheet(isPresented: $userVM.newAccount) {
                             SignUpView()
                         }
                     }
                     .frame(width: 350)
-                    //                        .padding()
-                    //                        .textFieldStyle(.roundedBorder)
-                    //                        .autocapitalization(.none)
-                } else {
-                    //UserProfileView()
                 }
             }
             .ignoresSafeArea()
-        }
-        .onAppear {
-            //vm.configureFirebaseStateDidChange()
         }
     }
 }

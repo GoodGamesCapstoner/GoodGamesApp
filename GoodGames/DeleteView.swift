@@ -7,14 +7,8 @@ struct DeleteView: View {
     @State private var showAuth = false
     var body: some View {
         ZStack {
-            Color.black
+            Color(hex: "282828")
             
-//            RoundedRectangle(cornerRadius: 3, style: .continuous)
-//                            .foregroundStyle(.linearGradient(colors: [.purple, .blue], startPoint:
-//                                    .topLeading, endPoint: .bottomTrailing))
-//                            .frame(width: 1000, height: 400)
-//                            .rotationEffect(.degrees(135))
-//                            .offset(y: -350)
             VStack(spacing: 20) {
                     if !showAuth {
                     Text(canDelete ?

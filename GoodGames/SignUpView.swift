@@ -5,7 +5,7 @@ struct SignUpView: View {
     @State private var vm = signUpViewModel()
     var body: some View {
         ZStack {
-            Color.black
+            Color(hex: "282828")
             
             RoundedRectangle(cornerRadius: 3, style: .continuous)
                             .foregroundStyle(.linearGradient(colors: [.purple, .blue], startPoint:
@@ -20,7 +20,7 @@ struct SignUpView: View {
                     .font(.system(size:40, weight: .bold, design: .rounded))
                     .offset(x: -100, y: -100)
                 
-                TextField("Full Name", text: $vm.fullname)
+                TextField("", text: $vm.fullname)
                     .foregroundColor(.white)
                     .textFieldStyle(.plain)
                     .placeholder(when: vm.fullname.isEmpty) {
@@ -32,7 +32,7 @@ struct SignUpView: View {
                     .frame(width: 350, height: 1)
                     .foregroundColor(.white)
                 
-                TextField("Email Address", text: $vm.email)
+                TextField("", text: $vm.email)
                     .foregroundColor(.white)
                     .textFieldStyle(.plain)
                     .placeholder(when: vm.email.isEmpty) {
@@ -44,7 +44,7 @@ struct SignUpView: View {
                     .frame(width: 350, height: 1)
                     .foregroundColor(.white)
                 
-                SecureField("Password", text: $vm.password)
+                SecureField("", text: $vm.password)
                     .foregroundColor(.white)
                     .textFieldStyle(.plain)
                     .placeholder(when: vm.password.isEmpty) {
@@ -73,7 +73,17 @@ struct SignUpView: View {
                         .foregroundColor(.white)
                 }
                 .foregroundColor(.white)
-//                Spacer()
+                
+                //Button to go back to login
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Back to Login")
+                        .bold()
+                        .foregroundColor(.white)
+                }
+                .buttonStyle(.bordered)
+                .tint(.white)
             }
             .frame(width: 350)
 //            .padding()

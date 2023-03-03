@@ -73,7 +73,16 @@ struct SignUpView: View {
                         .foregroundColor(.white)
                 }
                 .foregroundColor(.white)
-//                Spacer()
+                
+                //Button to go back to login
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Back to Login")
+                        .bold()
+                        .foregroundColor(.white)
+                }
+                .buttonStyle(.bordered)
             }
             .frame(width: 350)
 //            .padding()

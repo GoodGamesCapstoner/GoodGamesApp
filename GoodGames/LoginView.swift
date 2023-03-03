@@ -2,12 +2,11 @@ import SwiftUI
 import FirebaseAuth
 
 struct LoginView: View {
-//    @StateObject var vm = ViewModel()
     @EnvironmentObject var userVM: UserViewModel
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black
+                Color(hex: "282828")
                 
                 RoundedRectangle(cornerRadius: 3, style: .continuous)
                     .foregroundStyle(.linearGradient(colors: [.purple, .blue], startPoint:
@@ -99,6 +98,22 @@ extension View {
                 self
             }
         }
+}
+
+extension Color {
+    init(hex: String) {
+        //var currentIndex = hex.startIndex
+        
+        var rgbValue: UInt64 = 0
+
+        Scanner(string: hex).scanHexInt64(&rgbValue)
+
+        let r = Double((rgbValue & 0xFF0000) >> 16) / 255.0
+        let g = Double((rgbValue & 0x00FF00) >> 8) / 255.0
+        let b = Double(rgbValue & 0x0000FF) / 255.0
+
+        self.init(red: r, green: g, blue: b)
+    }
 }
 
 struct LoginView_Previews: PreviewProvider {

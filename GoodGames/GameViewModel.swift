@@ -11,6 +11,7 @@ class GameViewModel: ObservableObject {
     //MARK: Single Game
     @Published var game: Game?
     @Published var isInShelf: Bool = false
+    @Published var gameOfTheDay: Game?
     
     //MARK: - Game Lists
     @Published var newReleases: [Game] = []
@@ -92,9 +93,20 @@ class GameViewModel: ObservableObject {
     }
     
     func getMostReviewed() {
-        firestoreManager.retrieveMostReviewed { (result) in
+        firestoreManager.retrieveMostReviewed(limit:20) { (result) in
             self.handleGameListResult(result: result) { games in
                 self.mostReviewed = games
+            }
+        }
+    }
+    
+    func getGameOfTheDay() {
+        firestoreManager.retrieveMostReviewed(limit: 31) { (result) in
+            self.handleGameListResult(result: result) { games in
+                let today = Date()
+                let calendar = Calendar.current
+                let dateIndex =  calendar.component(.day, from: today)
+                self.gameOfTheDay = games[dateIndex]
             }
         }
     }

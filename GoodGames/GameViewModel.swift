@@ -18,6 +18,7 @@ class GameViewModel: ObservableObject {
     @Published var mostReviewed: [Game] = []
     @Published var userShelf: [Game] = []
     @Published var relatedGames: [Game] = []
+    @Published var recommendedGames: [Game] = []
     private let firestoreManager = FirestoreManager()
     private let functionsManager = FunctionsManager()
     
@@ -106,6 +107,14 @@ class GameViewModel: ObservableObject {
         }
     }
     
+    func getRecommendedGames(for user: User) {
+        functionsManager.getRecommendedGames(for: user) { result in
+            self.handleGameListResult(result: result) { games in
+                self.recommendedGames = games
+            }
+        }
+    }
+    
     //MARK: - Shelf Methods
     
     func getShelf(for user: User) {
@@ -117,7 +126,7 @@ class GameViewModel: ObservableObject {
     }
     
     //MARK: - Error Handler
-    func handleGameListResult(result: Result<[Game], Error>, onSuccess: @escaping ([Game]) -> Void ) {
+    private func handleGameListResult(result: Result<[Game], Error>, onSuccess: @escaping ([Game]) -> Void ) {
         switch result {
         case .failure(let error):
             print(error.localizedDescription)

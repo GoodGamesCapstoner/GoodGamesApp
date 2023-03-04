@@ -30,6 +30,7 @@ extension FunctionsError: LocalizedError {
 class FunctionsManager {
     private let firestoreManager = FirestoreManager()
     
+    //MARK: - Private Methods
     private func fetchData(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -64,7 +65,7 @@ class FunctionsManager {
         dataTask.resume()
     }
     
-    func fetchRecommendedApps(from url: URL, completion: @escaping (Result<[Int], Error>) -> Void) {
+    private func fetchRecommendedApps(from url: URL, completion: @escaping (Result<[Int], Error>) -> Void) {
         fetchData(from: url) { result in
             switch result {
             case .failure(let error):
@@ -80,6 +81,8 @@ class FunctionsManager {
         }
     }
     
+    
+    //MARK: - Public Methods
     func getGamesRelated(to appid: Int, completion: @escaping (Result<[Game], Error>) -> Void) {
         let urlString = URLBuilder.recommenderForAppID(appid)
         
@@ -98,36 +101,37 @@ class FunctionsManager {
             }
         }
     }
-    
-    func testRecommender() {
-        let urlString = "https://us-central1-good-games-378421.cloudfunctions.net/gg-recommender-by-app-id?appid=10"
+
+    func getRecommendedGames(for user: User, completion: @escaping (Result<[Game], Error>) -> Void) {
+        let urlString = URLBuilder.recommenderForUser(user.uid)
         
         guard let url = URL(string: urlString) else {
             print("invalid url")
             return
         }
         
-        fetchData(from: url) { result in
+        fetchRecommendedApps(from: url) { result in
             switch result {
             case .failure(let error):
-                print("Fetching error: \(error.localizedDescription)")
-            case .success(let data):
-                // Parse the JSON data
-                do {
-                    let appids = try JSONDecoder().decode([Int].self, from: data)
-                    //                    appids = json
-                    print("JSON data: \(appids)")
-                } catch {
-                    print("Error parsing JSON: \(error)")
-                }
+                print("Error: \(error.localizedDescription)")
+            case .success(let appids):
+                print("Games recommended: \(appids.count)")
+                self.firestoreManager.retrieveGamesWith(matching: appids, completion: completion)
             }
         }
     }
 
+    //MARK: - Private URL Helper
     private struct URLBuilder {
         static let baseURL = "https://us-central1-good-games-378421.cloudfunctions.net"
         static func recommenderForAppID(_ appid: Int) -> String {
             let relPath = "/gg-recommender-by-app-id?appid=\(appid)"
+            
+            return baseURL + relPath
+        }
+        
+        static func recommenderForUser(_ userID: String) -> String {
+            let relPath = "/gg-recommender-user-item-rating?userid=76561198149460992"
             
             return baseURL + relPath
         }

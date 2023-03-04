@@ -10,6 +10,7 @@ import SwiftUI
 struct DiscoverView: View {
     @State var searchString: String = ""
     @EnvironmentObject var gameVM: GameViewModel
+    @EnvironmentObject var userVM: UserViewModel
     
     var body: some View {
         VStack {
@@ -24,11 +25,8 @@ struct DiscoverView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     HorizontalCarousel(label: "Recommended") {
-                        ForEach(0..<10) {
-                            Text("\($0)")
-                                .foregroundColor(.white)
-                                .frame(width: 100, height: 150)
-                                .background(.gray)
+                        ForEach(gameVM.recommendedGames, id: \.id) { game in
+                            GameCard(game: game)
                         }
                     }
                     
@@ -55,10 +53,13 @@ struct DiscoverView: View {
             }
             Spacer()
         }
-//        .onAppear {
-//            gameVM.getNewReleases()
-//            gameVM.getTopRated()
-//        }
+        .onAppear {
+            if gameVM.recommendedGames.isEmpty {
+                if let user = userVM.user {
+                    gameVM.getRecommendedGames(for: user)
+                }
+            }
+        }
     }
 }
 
@@ -78,6 +79,8 @@ struct SearchBar: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverView().environmentObject(GameViewModel())
+        DiscoverView()
+            .environmentObject(GameViewModel())
+            .environmentObject(UserViewModel())
     }
 }

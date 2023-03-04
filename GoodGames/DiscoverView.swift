@@ -59,6 +59,15 @@ struct DiscoverView: View {
                     gameVM.getRecommendedGames(for: user)
                 }
             }
+            if gameVM.newReleases.isEmpty {
+                gameVM.getNewReleases()
+            }
+            if gameVM.topRated.isEmpty {
+                gameVM.getTopRated()
+            }
+            if gameVM.mostReviewed.isEmpty {
+                gameVM.getMostReviewed()
+            }
         }
     }
 }

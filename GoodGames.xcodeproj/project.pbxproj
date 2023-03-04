@@ -184,6 +184,17 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		E94D72DA29B2EAFA0015F41A /* AuthViews */ = {
+			isa = PBXGroup;
+			children = (
+				DD1C00492996C38900479092 /* LoginView.swift */,
+				DD1C00472996C38900479092 /* DeleteView.swift */,
+				DD1C00462996C38900479092 /* ReAuthenticateView.swift */,
+				DD1C00482996C38900479092 /* SignUpView.swift */,
+			);
+			name = AuthViews;
+			sourceTree = "<group>";
+		};
 		E97527692980898900D00EB1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,10 +217,7 @@
 		E975276B2980899F00D00EB1 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				DD1C00492996C38900479092 /* LoginView.swift */,
-				DD1C00472996C38900479092 /* DeleteView.swift */,
-				DD1C00462996C38900479092 /* ReAuthenticateView.swift */,
-				DD1C00482996C38900479092 /* SignUpView.swift */,
+				E94D72DA29B2EAFA0015F41A /* AuthViews */,
 				E9752786298C75E000D00EB1 /* Components */,
 				E9752780298A145500D00EB1 /* DiscoverView.swift */,
 				E975277E298A116C00D00EB1 /* HomeView.swift */,

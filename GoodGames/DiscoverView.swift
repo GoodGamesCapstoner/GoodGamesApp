@@ -24,7 +24,7 @@ struct DiscoverView: View {
             Spacer()
             ScrollView {
                 VStack(alignment: .leading) {
-                    HorizontalCarousel(label: "Recommended") {
+                    HorizontalCarousel(label: "Recommended Games for You") {
                         ForEach(gameVM.recommendedGames, id: \.id) { game in
                             GameCard(game: game)
                         }

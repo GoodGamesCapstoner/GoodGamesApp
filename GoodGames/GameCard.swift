@@ -18,10 +18,7 @@ struct GameCard: View {
             AsyncImage(url: URL(string: game.cardImage)) { image in
                 image.resizable()
             } placeholder: {
-                Text(game.name)
-                    .foregroundColor(.white)
-                    .frame(width: 100, height: 150)
-                    .background(.gray)
+                PlaceholderCard(label: game.name)
             }
             .frame(width: 100, height: 150)
         }

@@ -131,8 +131,8 @@ class FunctionsManager {
         }
         
         static func recommenderForUser(_ userID: String) -> String {
-            let relPath = "/gg-recommender-user-item-rating?userid=76561198149460992"
-            
+            let relPath = "/gg-recommender-user-item-rating?userid=76561198344275776"
+            //original: 76561198149460992
             return baseURL + relPath
         }
     }

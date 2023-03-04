@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseAuth
 
 struct HomeView: View {
-    @EnvironmentObject var gdvm: GameViewModel
+    @EnvironmentObject var gameVM: GameViewModel
     @EnvironmentObject var userVM: UserViewModel
 
     var body: some View {
@@ -29,7 +29,7 @@ struct HomeView: View {
                         Text("Game of the Day")
                             .font(.title2)
                         
-                        if let game = gdvm.gameOfTheDay {
+                        if let game = gameVM.gameOfTheDay {
                             ExtendedGameCard(game:game)
                         }
                     }
@@ -53,9 +53,9 @@ struct HomeView: View {
                             .blur(radius: 1)
                     }
                     
-                    HorizontalCarousel(label: "Top Games for You") {
-                        ForEach(0..<10) { num in
-                            //GameCard(text: "Item \(num)", color: .blue)
+                    HorizontalCarousel(label: "Recommended Games for You") {
+                        ForEach(gameVM.recommendedGames) { game in
+                            GameCard(game: game)
                         }
                     }
                     
@@ -65,7 +65,21 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            gdvm.getGameOfTheDay()
+            gameVM.getGameOfTheDay()
+            
+            if gameVM.recommendedGames.isEmpty {
+                if let user = userVM.user {
+                    gameVM.getRecommendedGames(for: user)
+                }
+            }
+        }
+        
+        .onChange(of: userVM.user) { newUser in
+            if gameVM.recommendedGames.isEmpty {
+                if let newUser {
+                    gameVM.getRecommendedGames(for: newUser)
+                }
+            }
         }
     }
 }

@@ -76,13 +76,15 @@ struct GameProfileView: View {
                                     .buttonStyle(.borderedProminent)
                                     .tint(.purple)
                                 } else {
-                                    Button("Remove from my shelf") {
-                                        if let user = userVM.user {
-                                            gameVM.addCurrentGameToShelf(for: user)
-                                        }
-                                    }
-                                    .buttonStyle(.borderedProminent)
-                                    .tint(.purple)
+                                    Text("Game is on your shelf!")
+                                        .fontWeight(.bold)
+//                                    Button("Remove from my shelf") {
+//                                        if let user = userVM.user {
+//                                            gameVM.addCurrentGameToShelf(for: user)
+//                                        }
+//                                    }
+//                                    .buttonStyle(.borderedProminent)
+//                                    .tint(.purple)
                                 }
                                 
 

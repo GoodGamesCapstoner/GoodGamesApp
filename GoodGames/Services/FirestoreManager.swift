@@ -191,6 +191,13 @@ class FirestoreManager: ObservableObject {
         }
     }
     
+    func retrieveGamesWith(matching appids: [Int], completion: @escaping (Result<[Game], Error>) -> Void) {
+        let collection = Firestore.firestore().collection("games")
+        let query = collection.whereField(Game.CodingKeys.appid.rawValue, in: appids)
+        print("Query set, attemtpting to retrieve games matching appid list...")
+        retrieveGames(matching: query, completion: completion)
+    }
+    
     func retrieveNewReleases(completion: @escaping (Result<[Game], Error>) -> Void) {
         let collection = Firestore.firestore().collection("games")
         let query = collection.order(by: "release_date", descending: true).limit(to: 20)

@@ -90,36 +90,43 @@ struct GameProfileView: View {
                             }
                             Divider()
                             //MARK: - Reviews
+//                            Group {
+//                                Text("Top Reviews: (\(game.totalReviews))")
+//                                    .padding(.bottom, 5)
+//
+//                                //MARK: - Individual Review (Make Component?)
+//                                VStack(alignment: .leading) {
+//                                    HStack {
+//                                        Text("Blackstone")
+//                                        StarRating(rating: 5, outOf: 5, .starsOnly)
+//                                    }
+//                                    Text("\"I dug a tunnel and fell down a hole and died. My friends followed me and also died. 10/10\"")
+//                                        .padding(.horizontal, 15)
+//                                        .padding(.vertical, 1)
+//                                }
+//                                .padding(.vertical, 10)
+//
+//                                VStack(alignment: .leading) {
+//                                    HStack {
+//                                        Text("Crash McDesktop")
+//                                        StarRating(rating: 5, outOf: 5, .starsOnly)
+//                                    }
+//                                    Text("\"DIG THE HOLE, HOLE DIGGER.\"")
+//                                        .padding(.horizontal, 15)
+//                                        .padding(.vertical, 1)
+//                                }
+//                                .padding(.vertical, 10)
+//
+//                            }
+
+                            //MARK: - Similar Games
                             Group {
-                                Text("Top Reviews: (\(game.totalReviews))")
-                                    .padding(.bottom, 5)
-
-                                //MARK: - Individual Review (Make Component?)
-                                VStack(alignment: .leading) {
-                                    HStack {
-                                        Text("Blackstone")
-                                        StarRating(rating: 5, outOf: 5, .starsOnly)
+                                HorizontalCarousel(label: "Similar Games to \(game.name)") {
+                                    ForEach(gameVM.relatedGames) { game in
+                                        GameCard(game: game)
                                     }
-                                    Text("\"I dug a tunnel and fell down a hole and died. My friends followed me and also died. 10/10\"")
-                                        .padding(.horizontal, 15)
-                                        .padding(.vertical, 1)
                                 }
-                                .padding(.vertical, 10)
-
-                                VStack(alignment: .leading) {
-                                    HStack {
-                                        Text("Crash McDesktop")
-                                        StarRating(rating: 5, outOf: 5, .starsOnly)
-                                    }
-                                    Text("\"DIG THE HOLE, HOLE DIGGER.\"")
-                                        .padding(.horizontal, 15)
-                                        .padding(.vertical, 1)
-                                }
-                                .padding(.vertical, 10)
-
                             }
-
-
                         }.padding(.horizontal)
                         Spacer()
                     }
@@ -136,7 +143,6 @@ struct GameProfileView: View {
                 gameVM.getShelf(for: user)
             }
         }
-
     }
 }
 

@@ -11,14 +11,7 @@ struct TestView: View {
     @EnvironmentObject var gameVM: GameViewModel
     
     var body: some View {
-        HStack {
-            Button {
-                gameVM.testRecommender()
-            } label: {
-                Text("Test Recommender")
-            }
-        }
-
+        Text("Test View")
     }
 }
 

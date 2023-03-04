@@ -31,17 +31,22 @@ struct HomeView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom)
                     
-                    HorizontalCarousel(label: "Your Squad") {
-                        ForEach(0..<10) {_ in
-                            NavigationLink {
-                                UserProfileView()
-                            } label: {
+                    HStack {
+                        Text("Your Squad (Coming Soon)")
+                            .font(.title2)
+                        Spacer()
+                    }
+                    ZStack {
+                        HorizontalCarousel(label: "") {
+                            ForEach(0..<10) {_ in
                                 UserCard()
                             }
-
                         }
+                        RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(.gray)
+                            .opacity(0.9)
+                            .blur(radius: 1)
                     }
-                    .padding(.bottom)
                     
                     HorizontalCarousel(label: "Top Games for You") {
                         ForEach(0..<10) { num in

@@ -17,6 +17,7 @@ class GameViewModel: ObservableObject {
     @Published var topRated: [Game] = []
     @Published var mostReviewed: [Game] = []
     @Published var userShelf: [Game] = []
+    @Published var relatedGames: [Game] = []
     private let firestoreManager = FirestoreManager()
     private let functionsManager = FunctionsManager()
     
@@ -38,9 +39,12 @@ class GameViewModel: ObservableObject {
     //MARK: - User Intents
     //not sure if this method should re-fetch from the database for data to be refreshed? we'll see
     func selectGame(_ game: Game) {
+        clearGameProfileCache()
+        
         self.game = game
         self.isInShelf = userShelf.contains(game)
         print("Is game in shelf? \(self.isInShelf)")
+        getRelatedGames(for: game.appid)
     }
     
     func addCurrentGameToShelf(for user: User) {
@@ -56,13 +60,6 @@ class GameViewModel: ObservableObject {
                 }
             }
         }
-        
-//        getShelf(for: user) //get updated shelf
-//        self.isInShelf = userShelf.contains(where: { $0 == game })
-    }
-    
-    func testRecommender() {
-        functionsManager.testRecommender()
     }
     
     //MARK: - Data Fetch Methods
@@ -101,6 +98,14 @@ class GameViewModel: ObservableObject {
         }
     }
     
+    func getRelatedGames(for appid: Int) {
+        functionsManager.getGamesRelated(to: appid) { result in
+            self.handleGameListResult(result: result) { games in
+                self.relatedGames = games
+            }
+        }
+    }
+    
     //MARK: - Shelf Methods
     
     func getShelf(for user: User) {
@@ -119,5 +124,13 @@ class GameViewModel: ObservableObject {
         case .success(let games):
             onSuccess(games)
         }
+    }
+    
+    //MARK: - Cleanup Methods
+    
+    func clearGameProfileCache() {
+        self.game = nil
+        self.relatedGames = []
+        self.isInShelf = false
     }
 }

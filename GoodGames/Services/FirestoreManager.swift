@@ -191,6 +191,13 @@ class FirestoreManager: ObservableObject {
         }
     }
     
+    func retrieveGamesWith(matching appids: [Int], completion: @escaping (Result<[Game], Error>) -> Void) {
+        let collection = Firestore.firestore().collection("games")
+        let query = collection.whereField(Game.CodingKeys.appid.rawValue, in: appids)
+        print("Query set, attemtpting to retrieve games matching appid list...")
+        retrieveGames(matching: query, completion: completion)
+    }
+    
     func retrieveNewReleases(completion: @escaping (Result<[Game], Error>) -> Void) {
         let collection = Firestore.firestore().collection("games")
         let query = collection.order(by: "release_date", descending: true).limit(to: 20)
@@ -263,5 +270,50 @@ class FirestoreManager: ObservableObject {
         catch {
             print("Error writing document: \(error)")
         }
+    }
+    
+    func callRecommender() {
+        let urlString = "https://us-central1-good-games-378421.cloudfunctions.net/gg-recommender-model"
+        
+        guard let url = URL(string: urlString) else {
+            print("invalid url")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let session = URLSession.shared
+        
+        let dataTask = session.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                print("Error: \(error!)")
+                return
+            }
+            
+            // Check the response status code
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print("Invalid response")
+                return
+            }
+            
+            // Check that the response contains data
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            
+            // Parse the JSON data
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                print("JSON data: \(json)")
+            } catch {
+                print("Error parsing JSON: \(error)")
+            }
+            
+        }
+        // Start the data task
+        print("Starting fetch...")
+        dataTask.resume()
     }
 }

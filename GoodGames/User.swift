@@ -8,10 +8,14 @@
 import Foundation
 
 /// The User object created when the user authenticates.
-public struct User: Codable {
+public struct User: Codable, Equatable {
     let uid: String
     let name: String
     let email: String
-//    var followers: [String] = []
+    
+    //Conform to Equatable
+    public static func ==(lhs: User, rhs: User) -> Bool {
+        return lhs.uid == rhs.uid
+    }
 }
 

@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @EnvironmentObject var viewModel: UserViewModel
+    @EnvironmentObject var userVM: UserViewModel
     
     var body: some View {
-        TabView(selection: $viewModel.tabSelection) {
+        TabView(selection: $userVM.tabSelection) {
             NavigationStack {
                 HomeView()
             }
@@ -43,6 +43,14 @@ struct MainTabView: View {
                 Image(systemName: "person")
                 Text("Profile")
             }.tag(4)
+            
+//            NavigationStack {
+//                TestView()
+//            }
+//            .tabItem {
+//                Image(systemName: "globe")
+//                Text("Test")
+//            }.tag(5)
         }
     }
 }

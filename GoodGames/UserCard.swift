@@ -28,9 +28,9 @@ struct UserCard: View {
                     .foregroundColor(.green)
             }
             
-            Text("FishLord45")
+            Text("Username")
                 .padding(.vertical, 5)
-            Text("League of Legends")
+            Text("Current Game")
                 .font(.footnote)
                 .multilineTextAlignment(.center)
         }

@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseAuth
 
 struct HomeView: View {
-    @EnvironmentObject var gdvm: GameViewModel
+    @EnvironmentObject var gameVM: GameViewModel
     @EnvironmentObject var userVM: UserViewModel
 
     var body: some View {
@@ -29,27 +29,33 @@ struct HomeView: View {
                         Text("Game of the Day")
                             .font(.title2)
                         
-                        if let game = gdvm.gameOfTheDay {
+                        if let game = gameVM.gameOfTheDay {
                             ExtendedGameCard(game:game)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom)
                     
-                    HorizontalCarousel(label: "Your Squad") {
-                        ForEach(0..<10) {_ in
-                            NavigationLink {
-                                UserProfileView()
-                            } label: {
+                    HStack {
+                        Text("Your Squad (Coming Soon)")
+                            .font(.title2)
+                        Spacer()
+                    }
+                    ZStack {
+                        HorizontalCarousel(label: "") {
+                            ForEach(0..<10) {_ in
                                 UserCard()
                             }
                         }
+                        RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(.gray)
+                            .opacity(0.9)
+                            .blur(radius: 1)
                     }
-                    .padding(.bottom)
                     
-                    HorizontalCarousel(label: "Top Games for You") {
-                        ForEach(0..<10) { num in
-                            //GameCard(text: "Item \(num)", color: .blue)
+                    HorizontalCarousel(label: "Recommended Games for You") {
+                        ForEach(gameVM.recommendedGames) { game in
+                            GameCard(game: game)
                         }
                     }
                     
@@ -59,7 +65,21 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            gdvm.getGameOfTheDay()
+            gameVM.getGameOfTheDay()
+            
+            if gameVM.recommendedGames.isEmpty {
+                if let user = userVM.user {
+                    gameVM.getRecommendedGames(for: user)
+                }
+            }
+        }
+        
+        .onChange(of: userVM.user) { newUser in
+            if gameVM.recommendedGames.isEmpty {
+                if let newUser {
+                    gameVM.getRecommendedGames(for: newUser)
+                }
+            }
         }
     }
 }

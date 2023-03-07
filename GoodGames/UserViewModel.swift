@@ -12,7 +12,9 @@ class UserViewModel: ObservableObject {
     @Published var isUserAuthenticated: AuthState
     @Published var email: String = ""
     @Published var password: String = ""
-    @Published var fullname: String = ""
+    @Published var username: String = ""
+    @Published var firstName: String = ""
+    @Published var lastName: String = ""
     @Published var image:UIImage?
     @Published var showSheet = false
     @Published var newAccount = false
@@ -38,6 +40,9 @@ class UserViewModel: ObservableObject {
                 self.image = nil
                 self.email = ""
                 self.password = ""
+                self.username = ""
+                self.firstName = ""
+                self.lastName = ""
                 return
             }
             self.isUserAuthenticated = .signedIn

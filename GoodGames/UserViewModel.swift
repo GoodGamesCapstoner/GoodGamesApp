@@ -41,7 +41,7 @@ class UserViewModel: ObservableObject {
                 return
             }
             self.isUserAuthenticated = .signedIn
-            FirestoreManager().retrieveFBUser(uid: user!.uid) { (result) in
+            FirestoreManager.shared.retrieveFBUser(uid: user!.uid) { (result) in
                 switch result {
                 case .failure(let error):
                     print(error.localizedDescription)

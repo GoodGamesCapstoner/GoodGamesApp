@@ -141,18 +141,13 @@ struct GameProfileView: View {
                 gameVM.getGame(forID: "mbbWBhgLflnfTLrJIWhv")
             }
             
-            if let user = userVM.user {
-                gameVM.getShelf(for: user)
-            }
+//            if let user = userVM.user {
+//                gameVM.getShelf(for: user)
+//            }
         }
     }
 }
 
-//fileprivate struct Constants {
-//    static let hero_url: String = "https://cdn.cloudflare.steamstatic.com/steam/apps/548430/header.jpg"
-//
-//    //"https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/e5520e0a26c349b166bb72c155a54d21.jpg"
-//}
 
 struct GameProfileView_Previews: PreviewProvider {
     static var previews: some View {

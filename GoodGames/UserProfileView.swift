@@ -165,7 +165,9 @@ struct UserProfileView: View {
             }
             
             if let user = userVM.user {
-                gameVM.getShelf(for: user)
+                if gameVM.userShelf.isEmpty {
+                    gameVM.getShelfListener(for: user)
+                }
             }
         }
     }

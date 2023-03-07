@@ -41,7 +41,7 @@ class AuthManager {
                 return
             }
             let user = User(uid: authResult!.user.uid, name: fullname, email: authResult!.user.email!)
-            FirestoreManager().mergeFBUser(user: user, uid: authResult!.user.uid) { result in
+            FirestoreManager.shared.mergeFBUser(user: user, uid: authResult!.user.uid) { result in
                 completion(result)
             }
             completion(.success(true))

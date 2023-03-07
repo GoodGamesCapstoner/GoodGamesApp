@@ -20,10 +20,8 @@ class GameViewModel: ObservableObject {
     @Published var userShelf: [Game] = []
     @Published var relatedGames: [Game] = []
     @Published var recommendedGames: [Game] = []
-    private let firestoreManager = FirestoreManager()
-    private let functionsManager = FunctionsManager()
     
-//    public static let previewVM = GameViewModel()
+    private let functionsManager = FunctionsManager()
     
     //MARK: - Initializer
     init() {
@@ -51,13 +49,13 @@ class GameViewModel: ObservableObject {
     
     func addCurrentGameToShelf(for user: User) {
         if let game = self.game {
-            firestoreManager.addToShelf(for: user, game: game) { result in
+            FirestoreManager.shared.addToShelf(for: user, game: game) { result in
                 switch result {
                 case .failure(let error):
                     print("Game not added to shelf with error: \(error.localizedDescription)")
                 case .success(let game):
                     print("Game added to shelf")
-                    self.userShelf.append(game)
+//                    self.userShelf.append(game)
                     self.isInShelf = true
                 }
             }
@@ -66,7 +64,7 @@ class GameViewModel: ObservableObject {
     
     //MARK: - Data Fetch Methods
     func getGame(forID uid: String) {
-        firestoreManager.retrieveGame(forID: uid) { (result) in
+        FirestoreManager.shared.retrieveGame(forID: uid) { (result) in
             switch result {
             case .failure(let error):
                 print(error.localizedDescription)
@@ -77,7 +75,7 @@ class GameViewModel: ObservableObject {
     }
     
     func getNewReleases() {
-        firestoreManager.retrieveNewReleases { (result) in
+        FirestoreManager.shared.retrieveNewReleases { (result) in
             self.handleGameListResult(result: result) { games in
                 self.newReleases = games
             }
@@ -85,7 +83,7 @@ class GameViewModel: ObservableObject {
     }
     
     func getTopRated() {
-        firestoreManager.retrieveTopRated { (result) in
+        FirestoreManager.shared.retrieveTopRated { (result) in
             self.handleGameListResult(result: result) { games in
                 self.topRated = games
             }
@@ -93,7 +91,7 @@ class GameViewModel: ObservableObject {
     }
     
     func getMostReviewed() {
-        firestoreManager.retrieveMostReviewed(limit:20) { (result) in
+        FirestoreManager.shared.retrieveMostReviewed(limit:20) { (result) in
             self.handleGameListResult(result: result) { games in
                 self.mostReviewed = games
             }
@@ -101,7 +99,7 @@ class GameViewModel: ObservableObject {
     }
     
     func getGameOfTheDay() {
-        firestoreManager.retrieveMostReviewed(limit: 31) { (result) in
+        FirestoreManager.shared.retrieveMostReviewed(limit: 31) { (result) in
             self.handleGameListResult(result: result) { games in
                 let today = Date()
                 let calendar = Calendar.current
@@ -129,8 +127,16 @@ class GameViewModel: ObservableObject {
     
     //MARK: - Shelf Methods
     
-    func getShelf(for user: User) {
-        firestoreManager.retrieveShelf(for: user) { (result) in
+//    func getShelf(for user: User) {
+//        firestoreManager.retrieveShelf(for: user) { (result) in
+//            self.handleGameListResult(result: result) { games in
+//                self.userShelf = games
+//            }
+//        }
+//    }
+    
+    func getShelfListener(for user: User) {
+        FirestoreManager.shared.shelfListener(for: user) { (result) in
             self.handleGameListResult(result: result) { games in
                 self.userShelf = games
             }

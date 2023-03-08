@@ -5,13 +5,20 @@
 //  Created by Jackson Secrist on 2/25/23.
 //
 
-import SwiftUI
+import Foundation
 
 class GameViewModel: ObservableObject {
     //MARK: Single Game
     @Published var game: Game?
-    @Published var isInShelf: Bool = false
     @Published var gameOfTheDay: Game?
+    
+    var isInShelf: Bool {
+        if let game {
+            return userShelf.contains(game)
+        } else {
+            return false
+        }
+    }
     
     //MARK: - Game Lists
     @Published var newReleases: [Game] = []
@@ -37,13 +44,10 @@ class GameViewModel: ObservableObject {
     }
     
     //MARK: - User Intents
-    //not sure if this method should re-fetch from the database for data to be refreshed? we'll see
     func selectGame(_ game: Game) {
         clearGameProfileCache()
         
         self.game = game
-        self.isInShelf = userShelf.contains(game)
-        print("Is game in shelf? \(self.isInShelf)")
         getRelatedGames(for: game.appid)
     }
     
@@ -53,10 +57,21 @@ class GameViewModel: ObservableObject {
                 switch result {
                 case .failure(let error):
                     print("Game not added to shelf with error: \(error.localizedDescription)")
-                case .success(let game):
+                case .success(_):
                     print("Game added to shelf")
-//                    self.userShelf.append(game)
-                    self.isInShelf = true
+                }
+            }
+        }
+    }
+    
+    func removeCurrentGameFromShelf(for user: User) {
+        if let shelfGame = userShelf.first(where: { $0 == self.game }) {
+            FirestoreManager.shared.removeFromShelf(for: user, game: shelfGame) { result in
+                switch result {
+                case .failure(let error):
+                    print("Game not removed from shelf with error: \(error.localizedDescription)")
+                case .success(_):
+                    print("Game removed from shelf")
                 }
             }
         }
@@ -127,14 +142,6 @@ class GameViewModel: ObservableObject {
     
     //MARK: - Shelf Methods
     
-//    func getShelf(for user: User) {
-//        firestoreManager.retrieveShelf(for: user) { (result) in
-//            self.handleGameListResult(result: result) { games in
-//                self.userShelf = games
-//            }
-//        }
-//    }
-    
     func getShelfListener(for user: User) {
         FirestoreManager.shared.shelfListener(for: user) { (result) in
             self.handleGameListResult(result: result) { games in
@@ -158,6 +165,5 @@ class GameViewModel: ObservableObject {
     func clearGameProfileCache() {
         self.game = nil
         self.relatedGames = []
-        self.isInShelf = false
     }
 }

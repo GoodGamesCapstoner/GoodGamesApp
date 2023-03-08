@@ -12,6 +12,7 @@ enum FireStoreError: Error {
     case noSnapshotData
     case noUser
     case unknownError
+    case nilDocID
 }
 
 extension FireStoreError: LocalizedError {
@@ -30,6 +31,8 @@ extension FireStoreError: LocalizedError {
             return NSLocalizedString("No User", comment: "")
         case .unknownError:
             return NSLocalizedString("Unknown Firestore error", comment: "")
+        case .nilDocID:
+            return NSLocalizedString("Document id of give object in nil", comment: "")
         }
     }
 }
@@ -244,7 +247,8 @@ class FirestoreManager: ObservableObject {
 //        retrieveGames(matching: query, completion: completion)
 //    }
     
-    func addToShelf(for user: User, game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
+    
+    func addToShelf(for user: User, game: Game, completion: @escaping (Result<Bool, Error>) -> Void) {
         let collection = Firestore.firestore().collection("users").document(user.uid).collection("shelf")
         
         var ref: DocumentReference? = nil
@@ -257,31 +261,12 @@ class FirestoreManager: ObservableObject {
                     return
                 }
                 
-                guard let ref = ref else {
+                guard ref != nil else {
                     print("Document reference is nil")
                     completion(.failure(FireStoreError.unknownError))
                     return
                 }
-                
-//                print("Document added with ID: \(ref.documentID)")
-                
-                self.getDocument(for: ref) { result in
-                    switch result {
-                    case .success(let document):
-                        do {
-                            // Added question mark because of an error, not sure if this is correct or not
-                            guard let game = try document.data(as: Game?.self) else {
-                                completion(.failure(FireStoreError.noDocumentSnapshot))
-                                return
-                            }
-                            completion(.success(game))
-                        } catch {
-                            completion(.failure(FireStoreError.unknownError))
-                        }
-                    case .failure(let error):
-                        completion(.failure(error))
-                    }
-                }
+                completion(.success(true))
             })
         }
         catch {
@@ -289,11 +274,12 @@ class FirestoreManager: ObservableObject {
         }
     }
     
+    
     //private var listenerRegistration: ListenerRegistration?
     
     func shelfListener(for user: User, completion: @escaping (Result<[Game], Error>) -> Void) {
         let db = Firestore.firestore()
-        let collection = db.collection("users/\(user.uid)/shelf")
+        let collection = db.collection("users/\(user.uid)/shelf").order(by: Game.CodingKeys.name.rawValue)
         print("** CREATING LISTENER FOR SHELF **")
         if listeners.shelf == nil {
             listeners.shelf = collection.addSnapshotListener({ querySnapshot, error in
@@ -313,6 +299,25 @@ class FirestoreManager: ObservableObject {
                 completion(.success(games))
                 print("** LISTENER INVOKED - SHELF UPDATED **")
             })
+        }
+    }
+    
+    //the game passed in HAS to be the one from the shelf collection, not the identical one from the games collection
+    func removeFromShelf(for user: User, game: Game, completion: @escaping (Result<Bool, Error>) -> Void) {
+        guard let docID = game.id else {
+            completion(.failure(FireStoreError.nilDocID))
+            return
+        }
+        
+        let reference = self.firestore.collection("users/\(user.uid)/shelf/").document(docID)
+        
+        reference.delete { error in
+            if let error {
+                completion(.failure(FireStoreError.unknownError))
+                print(error.localizedDescription)
+            } else {
+                completion(.success(true))
+            }
         }
     }
 }

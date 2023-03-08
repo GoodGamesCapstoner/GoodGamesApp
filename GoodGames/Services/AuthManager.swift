@@ -29,7 +29,9 @@ class AuthManager {
     
     func createUser(withEmail email: String,
                            password: String,
-                           fullname: String,
+                           username: String,
+                           firstName: String,
+                           lastName: String,
                     completion: @escaping (Result<Bool, Error>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
             if let err = error {
@@ -40,7 +42,7 @@ class AuthManager {
                 completion(.failure(error!))
                 return
             }
-            let user = User(uid: authResult!.user.uid, name: fullname, email: authResult!.user.email!)
+            let user = User(uid: authResult!.user.uid, email: authResult!.user.email!, username: username, firstName: firstName, lastName: lastName)
             FirestoreManager().mergeFBUser(user: user, uid: authResult!.user.uid) { result in
                 completion(result)
             }

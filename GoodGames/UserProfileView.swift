@@ -16,13 +16,38 @@ struct UserProfileView: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    Text("\(userVM.user?.firstName ?? "Null")'s Profile")
-                        .font(.largeTitle)
+                    Text("\(userVM.user?.username ?? "Null")")
+                        .font(.title)
                         .fontWeight(.bold)
                         .padding(.horizontal)
                         .padding(.top, 5)
                     
                     //MARK: - Profile Image & Details
+                    HStack {
+                        
+//                        Spacer()
+                        
+//                        VStack(alignment: .leading, spacing: 10) {
+//                            VStack(alignment: .leading) {
+//                                Text("Name:")
+//                                    .font(.subheadline)
+//                                Text("\(userVM.user?.firstName ?? "No user found") \(userVM.user?.lastName ?? "")")
+//                                    .font(.title3)
+//                            }
+//                            VStack(alignment: .leading) {
+//                                Text("Email:")
+//                                    .font(.subheadline)
+//                                Text(userVM.user?.email ?? "No user found")
+//                                    .font(.title3)
+//                                    .lineLimit(1)
+//                            }
+//
+//                        }
+                    }
+                    .padding(.horizontal)
+                    //MARK: - Followers, Following, and Shelf Ribbon
+                    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+                    
                     HStack {
                         if userVM.isUserAuthenticated == .signedIn {
                             Button {
@@ -31,36 +56,18 @@ struct UserProfileView: View {
                                 if let image = userVM.image {
                                     Image(uiImage: image)
                                         .resizable()
-                                        .cornerRadius(50)
-                                        .frame(width: 180, height: 180)
+                                        .frame(width: 100, height: 100)
                                         .aspectRatio(contentMode: .fill)
                                         .clipShape(Circle())
                                 } else {
                                     Circle()
-                                        .frame(width: 180, height: 180)
+                                        .frame(width: 100, height: 100)
                                         .foregroundColor(.black)
                                 }
-                            }
-                            // The idea is that if you're visiting someone else's profile page you won't be able
-                            // to update their image but you can still see it. Not sure if it works or not.
-                        } else {
-                            if let image = userVM.image {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .cornerRadius(50)
-                                    .frame(width: 180, height: 180)
-                                    .aspectRatio(contentMode: .fill)
-                                    .clipShape(Circle())
-                            } else {
-                                Circle()
-                                    .frame(width: 180, height: 180)
-                                    .foregroundColor(.black)
                             }
                         }
                         Spacer()
                             .frame(width: 15, height: 1)
-                        //                    .ignoresSafeArea()
-                        //                    .padding(.horizontal, 20)
                             .onChange(of: userVM.image, perform: { image in
                                 userVM.image = image
                                 userVM.saveProfileImage()
@@ -68,46 +75,28 @@ struct UserProfileView: View {
                             .sheet(isPresented: $userVM.showSheet) {
                                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$userVM.image)
                             }
-                        
-                        Spacer()
-                        
-                        VStack(alignment: .leading, spacing: 10) {
-                            VStack(alignment: .leading) {
-                                Text("Username:")
-                                    .font(.subheadline)
-                                Text(userVM.user?.username ?? "No user found")
-                                    .font(.title3)
-                            }
-                            VStack(alignment: .leading) {
-                                Text("Email:")
-                                    .font(.subheadline)
-                                Text(userVM.user?.email ?? "No user found")
-                                    .font(.title3)
-                                    .lineLimit(1)
-                            }
-                            
+                        LazyVGrid(columns: columns) {
+                            Text("Followers")
+                                .font(.subheadline)
+                            Text("Following")
+                                .font(.subheadline)
+                            Text("Shelf")
+                                .font(.subheadline)
+                            Text("Coming Soon")
+                                .font(.footnote)
+                                .opacity(0.5)
+                            Text("Coming Soon")
+                                .font(.footnote)
+                                .opacity(0.5)
+                            Text("Coming Soon")
+                                .font(.footnote)
+                                .opacity(0.5)
                         }
+                        .padding(10)
+                        .frame(maxWidth: .infinity)
+                        .background(Color(hex: "282828"))
+                        .foregroundColor(.white)
                     }
-                    .padding(.horizontal)
-                    //MARK: - Followers Ribbon
-                    let columns = [GridItem(.flexible()), GridItem(.flexible())]
-                    
-                    LazyVGrid(columns: columns) {
-                        Text("Followers")
-                            .font(.title3)
-                        Text("Following")
-                            .font(.title3)
-                        Text("Coming soon")
-                            .font(.subheadline)
-                            .opacity(0.5)
-                        Text("Coming Soon")
-                            .font(.subheadline)
-                            .opacity(0.5)
-                    }
-                    .padding(10)
-                    .frame(maxWidth: .infinity)
-                    .background(Color(hex: "282828"))
-                    .foregroundColor(.white)
                     
                     //MARK: - Logout/Delete Account Buttons
                     HStack {
@@ -151,10 +140,11 @@ struct UserProfileView: View {
                             }
                         }
                     }
-                    .padding()
+//                    .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     Spacer()
                 }
+                .padding(.horizontal, 10)
             }
         }
         .onAppear {

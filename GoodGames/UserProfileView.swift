@@ -156,6 +156,8 @@ struct UserProfileView: View {
                     Spacer()
                 }
             }
+            .background(Color.background)
+            .foregroundColor(.white)
         }
         .onAppear {
             if gameVM.recommendedGames.isEmpty {

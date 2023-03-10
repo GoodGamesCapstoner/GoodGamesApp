@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF35551D29BBA2E50099D5FD /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF35551C29BBA2E50099D5FD /* ColorPalette.swift */; };
 		DD1C004A2996C38900479092 /* ReAuthenticateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00462996C38900479092 /* ReAuthenticateView.swift */; };
 		DD1C004B2996C38900479092 /* DeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00472996C38900479092 /* DeleteView.swift */; };
 		DD1C004C2996C38900479092 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00482996C38900479092 /* SignUpView.swift */; };
@@ -60,6 +61,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CF35551C29BBA2E50099D5FD /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		DD1C00462996C38900479092 /* ReAuthenticateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReAuthenticateView.swift; sourceTree = "<group>"; };
 		DD1C00472996C38900479092 /* DeleteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteView.swift; sourceTree = "<group>"; };
 		DD1C00482996C38900479092 /* SignUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				E9EC75F829ADC47600D15547 /* IsPreviewKey.swift */,
 				E9EC75FA29ADCDB000D15547 /* CGFloat+ToInt.swift */,
 				DD89C19C29B26A810081DB97 /* Color+HexCode.swift */,
+				CF35551C29BBA2E50099D5FD /* ColorPalette.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 				E90E56B7297AF2F400D53A9C /* GoodGamesApp.swift in Sources */,
 				E9038E3F29AAB80D00CB0381 /* GameViewModel.swift in Sources */,
 				DD1C004B2996C38900479092 /* DeleteView.swift in Sources */,
+				CF35551D29BBA2E50099D5FD /* ColorPalette.swift in Sources */,
 				DD89C19D29B26A810081DB97 /* Color+HexCode.swift in Sources */,
 				DD1C004C2996C38900479092 /* SignUpView.swift in Sources */,
 				E9752783298A159600D00EB1 /* ShelfView.swift in Sources */,

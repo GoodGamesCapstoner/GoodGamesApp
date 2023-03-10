@@ -21,7 +21,7 @@ struct HomeView: View {
                         .fontWeight(.bold)
                         .padding(.bottom)
                     
-                    Text("Welcome, \(userVM.user?.name ?? "USER")!")
+                    Text("Welcome, \(userVM.user?.username ?? "USERNAME NOT SET/FOUND")!")
                         .font(.title3)
                         .padding(.bottom)
                     

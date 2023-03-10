@@ -81,7 +81,9 @@ class FirestoreManager: ObservableObject {
     }
    
     func mergeFBUser(user: User, uid: String, completion: @escaping (Result<Bool, Error>) -> Void) {
-        if user.name != "" {
+        // This was just the full name before I added first and last. I figure username will be more unique, but if
+        // it causes issues maybe change it to firstName or lastName.
+        if user.username != "" {
             let reference = Firestore
                 .firestore()
                 .collection("users")

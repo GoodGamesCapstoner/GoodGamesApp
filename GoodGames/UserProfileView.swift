@@ -16,7 +16,7 @@ struct UserProfileView: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    Text("\(userVM.user?.name ?? "No User Found")'s Profile")
+                    Text("\(userVM.user?.firstName ?? "Null")'s Profile")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding(.horizontal)
@@ -73,9 +73,9 @@ struct UserProfileView: View {
                         
                         VStack(alignment: .leading, spacing: 10) {
                             VStack(alignment: .leading) {
-                                Text("Name:")
+                                Text("Username:")
                                     .font(.subheadline)
-                                Text(userVM.user?.name ?? "No user found")
+                                Text(userVM.user?.username ?? "No user found")
                                     .font(.title3)
                             }
                             VStack(alignment: .leading) {

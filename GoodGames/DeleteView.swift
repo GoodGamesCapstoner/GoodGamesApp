@@ -74,6 +74,6 @@ struct DeleteView: View {
 
 struct DeleteView_Previews: PreviewProvider {
     static var previews: some View {
-        DeleteView(user: User(uid: "", name: "", email: ""))
+        DeleteView(user: User(uid: "", email: "", username: "", firstName: "", lastName: ""))
     }
 }

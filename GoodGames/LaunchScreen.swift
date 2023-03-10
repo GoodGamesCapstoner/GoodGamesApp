@@ -13,21 +13,29 @@ struct LaunchScreen: View {
     
     var body: some View {
         if !gameVM.viewModelReady {
-            if userVM.isUserAuthenticated == .signedIn, let user = userVM.user {
-                VStack(spacing: 30){
-                    LoadingController()
-                    Text("Loading magnificent game data...")
-                }
-                .onAppear {
-                    gameVM.initializeAppData(with: user)
-                }
-            } else {
-                VStack(spacing: 30){
-                    LoadingController()
-                    Text("Loading your awesome user data...")
-                }
-                .onAppear {
-                    
+            ZStack {
+                LaunchGraphic()
+                
+                if userVM.isUserAuthenticated == .signedIn, let user = userVM.user {
+                    VStack(spacing: 30){
+                        Spacer()
+                        Text("Loading magnificent game data...")
+                            .fontDesign(.monospaced)
+                            .foregroundColor(.white)
+                    }
+                    .onAppear {
+                        gameVM.initializeAppData(with: user)
+                    }
+                } else {
+                    VStack(spacing: 30){
+                        Spacer()
+                        Text("Loading your awesome user data...")
+                            .fontDesign(.monospaced)
+                            .foregroundColor(.white)
+                    }
+                    .onAppear {
+                        
+                    }
                 }
             }
             

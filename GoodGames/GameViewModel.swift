@@ -42,7 +42,7 @@ class GameViewModel: ObservableObject {
     
     //MARK: - Initializer
     init() {
-        timeoutGenerator = NumberGenerator(maximum: 10.0, withIncrement: 2.0)
+        timeoutGenerator = NumberGenerator(maximum: 20.0, withIncrement: 5.0)
     }
     
     func initializeAppData(with user: User) {

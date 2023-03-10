@@ -11,47 +11,56 @@ struct LaunchGraphic: View {
     @State var offset: CGFloat = AnimationConstants.defaultOffset
     @State var rotation: CGFloat = AnimationConstants.defaultRotation
     @State var mScale: CGFloat = AnimationConstants.defaultScale
+    @State var spacing: CGFloat = 20.0
+    @State var leftLetterLean: CGFloat = 0
+    var rightLetterLean: CGFloat {
+        leftLetterLean * -1
+    }
     
     var body: some View {
-        VStack {
+        ZStack {
+            Color(hex: "3D0066")
+            
             VStack {
-                Text("GOOD")
+                HStack(spacing: 20.0) {
+                    Text("G")
+                    Text("O")
+                    Text("O")
+                    Text("D")
+                }
+                .font(.system(size: 60))
                     
                 ZStack {
-                    HStack(spacing: 20) {
+                    HStack(spacing: 20.0) {
                         Text("G")
-                        Text("A")
-                        Text("M")
-                            .scaleEffect(x: 1, y: mScale, anchor: .bottom)
-                        Text("E")
+                            .rotationEffect(Angle(degrees: leftLetterLean), anchor: .bottomLeading)
+                        HStack(spacing: spacing){
+                            Text("A")
+                                .rotationEffect(Angle(degrees: leftLetterLean), anchor: .bottomLeading)
+                            Text("M")
+                                .scaleEffect(x: 1, y: mScale, anchor: .bottom)
+                            Text("E")
+                                .rotationEffect(Angle(degrees: rightLetterLean), anchor: .bottomTrailing)
+                        }
                         Text("S")
+                            .rotationEffect(Angle(degrees: rightLetterLean), anchor: .bottomTrailing)
                     }
                     Image(systemName: "gamecontroller.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .rotationEffect(Angle(degrees: rotation), anchor: .bottomLeading)
                         .offset(x: 0, y: offset)
-                        .frame(width: 50.0)
-                        //.animation(.easeInOut(duration: 2).repeatForever(autoreverses: false), value: isLoading)
+                        .frame(width: 75.0)
                         .onAppear {
                             doAnimationRepeat()
                         }
                 }
-
+                .font(.system(size: 50))
             }
             .fontDesign(.monospaced)
-            .font(.largeTitle)
             .fontWeight(.bold)
-            .foregroundColor(.purple)
-            
-            VStack {
-                Button {
-                    doAnimations()
-                } label: {
-                    Text("Run animation")
-                }
-            }
-        }
+            .foregroundColor(.white)
+        }.edgesIgnoringSafeArea(.vertical)
     }
     func doAnimationRepeat() {
         doAnimations()
@@ -68,6 +77,14 @@ struct LaunchGraphic: View {
         
         withAnimation(.easeIn(duration: 0.10).delay(1.0)){ setMScale(to: 0.1) }      //m "squashed"
         
+        withAnimation(.easeOut(duration: 0.5).delay(1.0)) {self.spacing = 60}
+        withAnimation(.easeOut(duration: 0.5).delay(1.1)) {
+            self.leftLetterLean = -40
+        }
+        withAnimation(.easeOut(duration: 0.25).delay(1.75)) {
+            self.leftLetterLean = 0
+        }
+        
         withAnimation(.easeOut(duration: 0.25).delay(1.0)){ setOffset(to: -20.0) }    //bounce up
         
         withAnimation(.easeIn(duration: 0.20).delay(1.25)){ setOffset(to: 0.0) }      //bounce down
@@ -82,6 +99,7 @@ struct LaunchGraphic: View {
         
         withAnimation(.easeIn(duration: 1.0).delay(3)) { setOffset(to: 400.0) }       //fall off
         
+        withAnimation(.easeOut(duration: 0.5).delay(4.0)) {self.spacing = 20.0}
         withAnimation(.easeInOut(duration: 0.5).delay(4)){ setMScale(to: 1.0) }       //m "revived"
     }
     
@@ -104,7 +122,7 @@ struct LaunchGraphic: View {
     }
     
     struct AnimationConstants {
-        static let defaultOffset: CGFloat = -400.0
+        static let defaultOffset: CGFloat = -525.0
         static let defaultRotation: CGFloat = 0.0
         static let defaultScale: CGFloat = 1.0
     }

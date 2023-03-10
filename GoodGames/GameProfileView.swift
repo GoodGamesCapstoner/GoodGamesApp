@@ -11,6 +11,8 @@ struct GameProfileView: View {
     @EnvironmentObject var gameVM: GameViewModel
     @EnvironmentObject var userVM: UserViewModel
     @Environment(\.isPreview) var isPreview
+    
+    @State var shelfActionLoading = false
 
     var body: some View {
         GeometryReader { geometry in
@@ -68,23 +70,39 @@ struct GameProfileView: View {
                             HStack {
                                 Spacer()
                                 if !gameVM.isInShelf {
-                                    Button("Add to my shelf") {
-                                        if let user = userVM.user {
-                                            gameVM.addCurrentGameToShelf(for: user)
+                                    if !shelfActionLoading {
+                                        Button("Add to my shelf") {
+                                            if let user = userVM.user {
+                                                self.shelfActionLoading = true
+                                                gameVM.addCurrentGameToShelf(for: user)
+                                            }
                                         }
+                                        .buttonStyle(.borderedProminent)
+                                        .tint(.purple)
+                                    } else{
+                                        Text("Adding to shelf...")
+                                            .fontWeight(.bold)
+                                            .onDisappear {
+                                                self.shelfActionLoading = false
+                                            }
                                     }
-                                    .buttonStyle(.borderedProminent)
-                                    .tint(.purple)
                                 } else {
-                                    Text("Game is on your shelf!")
-                                        .fontWeight(.bold)
-//                                    Button("Remove from my shelf") {
-//                                        if let user = userVM.user {
-//                                            gameVM.addCurrentGameToShelf(for: user)
-//                                        }
-//                                    }
-//                                    .buttonStyle(.borderedProminent)
-//                                    .tint(.purple)
+                                    if !shelfActionLoading {
+                                        Button("Remove from my shelf") {
+                                            if let user = userVM.user {
+                                                self.shelfActionLoading = true
+                                                gameVM.removeCurrentGameFromShelf(for: user)
+                                            }
+                                        }
+                                        .buttonStyle(.borderedProminent)
+                                        .tint(.purple)
+                                    } else {
+                                        Text("Removing from shelf...")
+                                            .fontWeight(.bold)
+                                            .onDisappear {
+                                                self.shelfActionLoading = false
+                                            }
+                                    }
                                 }
                                 
 
@@ -141,18 +159,13 @@ struct GameProfileView: View {
                 gameVM.getGame(forID: "mbbWBhgLflnfTLrJIWhv")
             }
             
-            if let user = userVM.user {
-                gameVM.getShelf(for: user)
-            }
+//            if let user = userVM.user {
+//                gameVM.getShelf(for: user)
+//            }
         }
     }
 }
 
-//fileprivate struct Constants {
-//    static let hero_url: String = "https://cdn.cloudflare.steamstatic.com/steam/apps/548430/header.jpg"
-//
-//    //"https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/e5520e0a26c349b166bb72c155a54d21.jpg"
-//}
 
 struct GameProfileView_Previews: PreviewProvider {
     static var previews: some View {

@@ -5,12 +5,18 @@
 //  Created by Jackson Secrist on 2/25/23.
 //
 
-import SwiftUI
+import Foundation
 
 class GameViewModel: ObservableObject {
+    //MARK: - Infrastructure Properties
+    @Published var viewModelReady: Bool = false {
+        didSet {
+            print("** View model is ready **")
+        }
+    }
+    
     //MARK: Single Game
     @Published var game: Game?
-    @Published var isInShelf: Bool = false
     @Published var gameOfTheDay: Game?
     
     //MARK: - Game Lists
@@ -20,45 +26,93 @@ class GameViewModel: ObservableObject {
     @Published var userShelf: [Game] = []
     @Published var relatedGames: [Game] = []
     @Published var recommendedGames: [Game] = []
-    private let firestoreManager = FirestoreManager()
+    
     private let functionsManager = FunctionsManager()
+    private var timeoutGenerator: NumberGenerator
     
-//    public static let previewVM = GameViewModel()
+    //MARK: - Computed Properties
     
-    //MARK: - Initializer
-    init() {
-        if newReleases.isEmpty {
-            self.getNewReleases()
-        }
-        if topRated.isEmpty {
-            self.getTopRated()
-        }
-        if mostReviewed.isEmpty {
-            self.getMostReviewed()
+    var isInShelf: Bool {
+        if let game {
+            return userShelf.contains(game)
+        } else {
+            return false
         }
     }
     
+    //MARK: - Initializer
+    init() {
+        timeoutGenerator = NumberGenerator(maximum: 20.0, withIncrement: 5.0)
+    }
+    
+    func initializeAppData(with user: User) {
+        // start data fetch methods
+        self.getNewReleases()
+        self.getTopRated()
+        self.getMostReviewed()
+        self.getGameOfTheDay()
+        self.getRecommendedGames(for: user)
+        self.getShelfListener(for: user)
+        
+        // start timeout loop to check for data readiness
+        checkForReadyStateTimeout()
+    }
+    
+    func checkForReadyStateTimeout() {
+        let timeout = self.timeoutGenerator.next()
+        if let timeout {
+            print("Checking ready state in \(timeout) seconds...")
+            DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
+                let dataReady = self.checkForReadyState()
+                if dataReady {
+                    self.viewModelReady = true
+                } else {
+                    self.checkForReadyStateTimeout()
+                }
+            }
+        }
+    }
+    
+    func checkForReadyState() -> Bool {
+        let newReleasesReady = !self.newReleases.isEmpty
+        let topRatedReady = !self.topRated.isEmpty
+        let mostReviewedReady = !self.mostReviewed.isEmpty
+        let gameOfTheDayReady = self.gameOfTheDay != nil
+        let recommendedGamesReady = !self.recommendedGames.isEmpty
+        let shelfReady = !self.userShelf.isEmpty
+        
+        return newReleasesReady && topRatedReady && mostReviewedReady && gameOfTheDayReady && recommendedGamesReady && shelfReady
+    }
+    
     //MARK: - User Intents
-    //not sure if this method should re-fetch from the database for data to be refreshed? we'll see
     func selectGame(_ game: Game) {
         clearGameProfileCache()
         
         self.game = game
-        self.isInShelf = userShelf.contains(game)
-        print("Is game in shelf? \(self.isInShelf)")
         getRelatedGames(for: game.appid)
     }
     
     func addCurrentGameToShelf(for user: User) {
         if let game = self.game {
-            firestoreManager.addToShelf(for: user, game: game) { result in
+            FirestoreManager.shared.addToShelf(for: user, game: game) { result in
                 switch result {
                 case .failure(let error):
                     print("Game not added to shelf with error: \(error.localizedDescription)")
-                case .success(let game):
+                case .success(_):
                     print("Game added to shelf")
-                    self.userShelf.append(game)
-                    self.isInShelf = true
+                }
+            }
+        }
+    }
+    
+    func removeCurrentGameFromShelf(for user: User) {
+        if let shelfGame = userShelf.first(where: { $0 == self.game }) {
+            FirestoreManager.shared.removeFromShelf(for: user, game: shelfGame) { result in
+                switch result {
+                case .failure(let error):
+                    print("Game not removed from shelf with error: \(error.localizedDescription)")
+                case .success(_):
+                    print("Game removed from shelf")
                 }
             }
         }
@@ -66,7 +120,7 @@ class GameViewModel: ObservableObject {
     
     //MARK: - Data Fetch Methods
     func getGame(forID uid: String) {
-        firestoreManager.retrieveGame(forID: uid) { (result) in
+        FirestoreManager.shared.retrieveGame(forID: uid) { (result) in
             switch result {
             case .failure(let error):
                 print(error.localizedDescription)
@@ -77,7 +131,7 @@ class GameViewModel: ObservableObject {
     }
     
     func getNewReleases() {
-        firestoreManager.retrieveNewReleases { (result) in
+        FirestoreManager.shared.retrieveNewReleases { (result) in
             self.handleGameListResult(result: result) { games in
                 self.newReleases = games
             }
@@ -85,7 +139,7 @@ class GameViewModel: ObservableObject {
     }
     
     func getTopRated() {
-        firestoreManager.retrieveTopRated { (result) in
+        FirestoreManager.shared.retrieveTopRated { (result) in
             self.handleGameListResult(result: result) { games in
                 self.topRated = games
             }
@@ -93,7 +147,7 @@ class GameViewModel: ObservableObject {
     }
     
     func getMostReviewed() {
-        firestoreManager.retrieveMostReviewed(limit:20) { (result) in
+        FirestoreManager.shared.retrieveMostReviewed(limit:20) { (result) in
             self.handleGameListResult(result: result) { games in
                 self.mostReviewed = games
             }
@@ -101,7 +155,7 @@ class GameViewModel: ObservableObject {
     }
     
     func getGameOfTheDay() {
-        firestoreManager.retrieveMostReviewed(limit: 31) { (result) in
+        FirestoreManager.shared.retrieveMostReviewed(limit: 31) { (result) in
             self.handleGameListResult(result: result) { games in
                 let today = Date()
                 let calendar = Calendar.current
@@ -129,8 +183,8 @@ class GameViewModel: ObservableObject {
     
     //MARK: - Shelf Methods
     
-    func getShelf(for user: User) {
-        firestoreManager.retrieveShelf(for: user) { (result) in
+    func getShelfListener(for user: User) {
+        FirestoreManager.shared.shelfListener(for: user) { (result) in
             self.handleGameListResult(result: result) { games in
                 self.userShelf = games
             }
@@ -152,6 +206,5 @@ class GameViewModel: ObservableObject {
     func clearGameProfileCache() {
         self.game = nil
         self.relatedGames = []
-        self.isInShelf = false
     }
 }

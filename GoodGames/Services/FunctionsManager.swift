@@ -28,7 +28,6 @@ extension FunctionsError: LocalizedError {
 }
 
 class FunctionsManager {
-    private let firestoreManager = FirestoreManager()
     
     //MARK: - Private Methods
     private func fetchData(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
@@ -97,7 +96,7 @@ class FunctionsManager {
                 print("Error: \(error.localizedDescription)")
             case .success(let appids):
                 print("Games recommended: \(appids.count)")
-                self.firestoreManager.retrieveGamesWith(matching: appids, completion: completion)
+                FirestoreManager.shared.retrieveGamesWith(matching: appids, completion: completion)
             }
         }
     }
@@ -116,7 +115,7 @@ class FunctionsManager {
                 print("Error: \(error.localizedDescription)")
             case .success(let appids):
                 print("Games recommended: \(appids.count)")
-                self.firestoreManager.retrieveGamesWith(matching: appids, completion: completion)
+                FirestoreManager.shared.retrieveGamesWith(matching: appids, completion: completion)
             }
         }
     }

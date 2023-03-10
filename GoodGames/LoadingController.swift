@@ -11,26 +11,31 @@ struct LoadingController: View {
     @State private var isLoading: Bool = false
     
     var size: CGFloat {
-        isLoading ? 50 : 5
+        isLoading ? 50 : 50
+    }
+    
+    var rotation: CGFloat {
+        isLoading ? 360 : 0
     }
     
     var color: Color {
-        isLoading ? .purple : .gray
+        isLoading ? .purple : .purple
     }
     
     var body: some View {
         VStack{
-            Text("Top")
+//            Text("Top")
             Image(systemName: "gamecontroller.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: size)
+                .frame(width: 100)
+                .rotationEffect(Angle.degrees(rotation))
                 .foregroundColor(color)
-                .animation(.easeInOut(duration: 2).repeatForever(), value: isLoading)
+                .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: isLoading)
                 .onAppear {
                     self.isLoading = true
                 }
-            Text("Bottom")
+//            Text("Bottom")
         }
     }
 }

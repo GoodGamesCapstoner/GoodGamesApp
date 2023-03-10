@@ -8,17 +8,16 @@
 import Foundation
 
 class GameViewModel: ObservableObject {
+    //MARK: - Infrastructure Properties
+    @Published var viewModelReady: Bool = false {
+        didSet {
+            print("** View model is ready **")
+        }
+    }
+    
     //MARK: Single Game
     @Published var game: Game?
     @Published var gameOfTheDay: Game?
-    
-    var isInShelf: Bool {
-        if let game {
-            return userShelf.contains(game)
-        } else {
-            return false
-        }
-    }
     
     //MARK: - Game Lists
     @Published var newReleases: [Game] = []
@@ -29,18 +28,60 @@ class GameViewModel: ObservableObject {
     @Published var recommendedGames: [Game] = []
     
     private let functionsManager = FunctionsManager()
+    private var timeoutGenerator: NumberGenerator
+    
+    //MARK: - Computed Properties
+    
+    var isInShelf: Bool {
+        if let game {
+            return userShelf.contains(game)
+        } else {
+            return false
+        }
+    }
     
     //MARK: - Initializer
     init() {
-        if newReleases.isEmpty {
-            self.getNewReleases()
+        timeoutGenerator = NumberGenerator(maximum: 10.0, withIncrement: 2.0)
+    }
+    
+    func initializeAppData(with user: User) {
+        // start data fetch methods
+        self.getNewReleases()
+        self.getTopRated()
+        self.getMostReviewed()
+        self.getGameOfTheDay()
+        self.getRecommendedGames(for: user)
+        self.getShelfListener(for: user)
+        
+        // start timeout loop to check for data readiness
+        checkForReadyStateTimeout()
+    }
+    
+    func checkForReadyStateTimeout() {
+        let timeout = self.timeoutGenerator.next()
+        if let timeout {
+            print("Checking ready state in \(timeout) seconds...")
+            DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
+                let dataReady = self.checkForReadyState()
+                if dataReady {
+                    self.viewModelReady = true
+                } else {
+                    self.checkForReadyStateTimeout()
+                }
+            }
         }
-        if topRated.isEmpty {
-            self.getTopRated()
-        }
-        if mostReviewed.isEmpty {
-            self.getMostReviewed()
-        }
+    }
+    
+    func checkForReadyState() -> Bool {
+        let newReleasesReady = !self.newReleases.isEmpty
+        let topRatedReady = !self.topRated.isEmpty
+        let mostReviewedReady = !self.mostReviewed.isEmpty
+        let gameOfTheDayReady = self.gameOfTheDay != nil
+        let recommendedGamesReady = !self.recommendedGames.isEmpty
+        let shelfReady = !self.userShelf.isEmpty
+        
+        return newReleasesReady && topRatedReady && mostReviewedReady && gameOfTheDayReady && recommendedGamesReady && shelfReady
     }
     
     //MARK: - User Intents

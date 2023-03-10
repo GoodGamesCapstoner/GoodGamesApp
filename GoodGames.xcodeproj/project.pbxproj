@@ -41,6 +41,8 @@
 		E90E56B7297AF2F400D53A9C /* GoodGamesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */; };
 		E90E56BB297AF2F600D53A9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90E56BA297AF2F600D53A9C /* Assets.xcassets */; };
 		E90E56BE297AF2F600D53A9C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90E56BD297AF2F600D53A9C /* Preview Assets.xcassets */; };
+		E92E09B429BAE05A00D02AD7 /* NumberGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E09B329BAE05A00D02AD7 /* NumberGenerator.swift */; };
+		E92E09B629BAEDFB00D02AD7 /* LaunchGraphic.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E09B529BAEDFB00D02AD7 /* LaunchGraphic.swift */; };
 		E94D72D529B01D860015F41A /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D72D429B01D860015F41A /* TestView.swift */; };
 		E94D72D729B0253A0015F41A /* FunctionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D72D629B0253A0015F41A /* FunctionsManager.swift */; };
 		E94D72D929B2D2AE0015F41A /* PlaceholderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D72D829B2D2AE0015F41A /* PlaceholderCard.swift */; };
@@ -82,6 +84,8 @@
 		E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodGamesApp.swift; sourceTree = "<group>"; };
 		E90E56BA297AF2F600D53A9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E90E56BD297AF2F600D53A9C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E92E09B329BAE05A00D02AD7 /* NumberGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGenerator.swift; sourceTree = "<group>"; };
+		E92E09B529BAEDFB00D02AD7 /* LaunchGraphic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchGraphic.swift; sourceTree = "<group>"; };
 		E94D72D429B01D860015F41A /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		E94D72D629B0253A0015F41A /* FunctionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsManager.swift; sourceTree = "<group>"; };
 		E94D72D829B2D2AE0015F41A /* PlaceholderCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderCard.swift; sourceTree = "<group>"; };
@@ -264,6 +268,7 @@
 				E9D3151B299C504A0047DD1F /* StarRating.swift */,
 				E9579F7429B6D8CA0056E221 /* LoadingSpinner.swift */,
 				E9579F7629B6DDE80056E221 /* LoadingController.swift */,
+				E92E09B529BAEDFB00D02AD7 /* LaunchGraphic.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -274,6 +279,7 @@
 				E9EC75F829ADC47600D15547 /* IsPreviewKey.swift */,
 				E9EC75FA29ADCDB000D15547 /* CGFloat+ToInt.swift */,
 				DD89C19C29B26A810081DB97 /* Color+HexCode.swift */,
+				E92E09B329BAE05A00D02AD7 /* NumberGenerator.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -382,6 +388,7 @@
 				E975276D298089E200D00EB1 /* Game.swift in Sources */,
 				E975277D298A0D3B00D00EB1 /* MainTabView.swift in Sources */,
 				DD1C004D2996C38900479092 /* LoginView.swift in Sources */,
+				E92E09B429BAE05A00D02AD7 /* NumberGenerator.swift in Sources */,
 				E9A9D804299F382700AC9459 /* UserCard.swift in Sources */,
 				E9579F7529B6D8CA0056E221 /* LoadingSpinner.swift in Sources */,
 				E975277F298A116C00D00EB1 /* HomeView.swift in Sources */,
@@ -400,6 +407,7 @@
 				E90E56B7297AF2F400D53A9C /* GoodGamesApp.swift in Sources */,
 				E9038E3F29AAB80D00CB0381 /* GameViewModel.swift in Sources */,
 				DD1C004B2996C38900479092 /* DeleteView.swift in Sources */,
+				E92E09B629BAEDFB00D02AD7 /* LaunchGraphic.swift in Sources */,
 				DD89C19D29B26A810081DB97 /* Color+HexCode.swift in Sources */,
 				DD1C004C2996C38900479092 /* SignUpView.swift in Sources */,
 				E9752783298A159600D00EB1 /* ShelfView.swift in Sources */,

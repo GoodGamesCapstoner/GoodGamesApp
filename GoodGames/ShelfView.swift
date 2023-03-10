@@ -26,11 +26,11 @@ struct ShelfView: View {
                 }
             }
             .onAppear {
-                if let user = userVM.user {
-                    if gameVM.userShelf.isEmpty {
-                        gameVM.getShelfListener(for: user)
-                    }
-                }
+//                if let user = userVM.user {
+//                    if gameVM.userShelf.isEmpty {
+//                        gameVM.getShelfListener(for: user)
+//                    }
+//                }
             }
         }
     }

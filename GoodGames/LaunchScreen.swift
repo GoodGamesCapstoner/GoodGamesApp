@@ -12,7 +12,30 @@ struct LaunchScreen: View {
     @EnvironmentObject var gameVM: GameViewModel
     
     var body: some View {
-        LoadingController()
+        if !gameVM.viewModelReady {
+            if userVM.isUserAuthenticated == .signedIn, let user = userVM.user {
+                VStack(spacing: 30){
+                    LoadingController()
+                    Text("Loading magnificent game data...")
+                }
+                .onAppear {
+                    gameVM.initializeAppData(with: user)
+                }
+            } else {
+                VStack(spacing: 30){
+                    LoadingController()
+                    Text("Loading your awesome user data...")
+                }
+                .onAppear {
+                    
+                }
+            }
+            
+        }
+        else {
+            MainTabView()
+        }
+        
     }
 }
 

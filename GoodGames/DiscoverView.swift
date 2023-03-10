@@ -54,20 +54,20 @@ struct DiscoverView: View {
             Spacer()
         }
         .onAppear {
-            if gameVM.recommendedGames.isEmpty {
-                if let user = userVM.user {
-                    gameVM.getRecommendedGames(for: user)
-                }
-            }
-            if gameVM.newReleases.isEmpty {
-                gameVM.getNewReleases()
-            }
-            if gameVM.topRated.isEmpty {
-                gameVM.getTopRated()
-            }
-            if gameVM.mostReviewed.isEmpty {
-                gameVM.getMostReviewed()
-            }
+//            if gameVM.recommendedGames.isEmpty {
+//                if let user = userVM.user {
+//                    gameVM.getRecommendedGames(for: user)
+//                }
+//            }
+//            if gameVM.newReleases.isEmpty {
+//                gameVM.getNewReleases()
+//            }
+//            if gameVM.topRated.isEmpty {
+//                gameVM.getTopRated()
+//            }
+//            if gameVM.mostReviewed.isEmpty {
+//                gameVM.getMostReviewed()
+//            }
         }
     }
 }

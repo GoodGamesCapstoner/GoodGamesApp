@@ -15,37 +15,16 @@ struct UserProfileView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack {
-                    Text("\(userVM.user?.username ?? "Null")")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding(.horizontal)
-                        .padding(.top, 5)
-                    
-                    //MARK: - Profile Image & Details
-                    HStack {
-                        
-//                        Spacer()
-                        
-//                        VStack(alignment: .leading, spacing: 10) {
-//                            VStack(alignment: .leading) {
-//                                Text("Name:")
-//                                    .font(.subheadline)
-//                                Text("\(userVM.user?.firstName ?? "No user found") \(userVM.user?.lastName ?? "")")
-//                                    .font(.title3)
-//                            }
-//                            VStack(alignment: .leading) {
-//                                Text("Email:")
-//                                    .font(.subheadline)
-//                                Text(userVM.user?.email ?? "No user found")
-//                                    .font(.title3)
-//                                    .lineLimit(1)
-//                            }
-//
-//                        }
+                Text("\(userVM.user?.firstName ?? "No user found") \(userVM.user?.lastName ?? "")")
+                    .navigationBarTitle("@\(userVM.user?.username ?? "NULL")", displayMode: .inline)
+                // Add settings button
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            menuButton
+                        }
                     }
-                    .padding(.horizontal)
-                    //MARK: - Followers, Following, and Shelf Ribbon
+                VStack {
+                    //MARK: - PFP, Followers, Following, and Shelf Ribbon
                     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
                     
                     HStack {
@@ -76,11 +55,11 @@ struct UserProfileView: View {
                                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$userVM.image)
                             }
                         LazyVGrid(columns: columns) {
+                            Text("Shelf")
+                                .font(.subheadline)
                             Text("Followers")
                                 .font(.subheadline)
                             Text("Following")
-                                .font(.subheadline)
-                            Text("Shelf")
                                 .font(.subheadline)
                             Text("Coming Soon")
                                 .font(.footnote)
@@ -93,37 +72,12 @@ struct UserProfileView: View {
                                 .opacity(0.5)
                         }
                         .padding(10)
-                        .frame(maxWidth: .infinity)
                         .background(Color(hex: "282828"))
                         .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .cornerRadius(10)
                     }
-                    
-                    //MARK: - Logout/Delete Account Buttons
-                    HStack {
-                        if userVM.isUserAuthenticated == .signedIn {
-    //                    if vm.user == nil {
-                            Button {
-                                userVM.logOut()
-                            } label: {
-                                Text("Log out")
-                            }
-                            .bold()
-                            .buttonStyle(.bordered)
-                        }
-                        if userVM.isUserAuthenticated == .signedIn {
-                            Button {
-                                userVM.showDeletion.toggle()
-                            } label: {
-                                Text("Delete Account")
-                                    .foregroundColor(.red)
-                                    .buttonStyle(.borderless)
-                            }
-                            .buttonStyle(.bordered)
-                            .sheet(isPresented: $userVM.showDeletion) {
-                                DeleteView(user: userVM.user!)
-                            }
-                        }
-                    }.padding(.vertical, 5)
+            
                     Divider()
                     
                     //MARK: - Shelf and Recommended Games
@@ -140,13 +94,13 @@ struct UserProfileView: View {
                             }
                         }
                     }
-//                    .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     Spacer()
                 }
                 .padding(.horizontal, 10)
             }
         }
+        .navigationBarItems(trailing: menuButton)
         .onAppear {
             if gameVM.recommendedGames.isEmpty {
                 if let user = userVM.user {
@@ -158,6 +112,15 @@ struct UserProfileView: View {
                 gameVM.getShelf(for: user)
             }
         }
+    }
+}
+
+//MARK: - Button that takes the user to the settings page
+var menuButton: some View {
+    NavigationLink(destination: SettingsView()) {
+        Image(systemName: "gearshape")
+            .imageScale(.large)
+            .foregroundColor(.black)
     }
 }
 

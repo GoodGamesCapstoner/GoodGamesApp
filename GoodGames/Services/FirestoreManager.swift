@@ -39,6 +39,7 @@ extension FireStoreError: LocalizedError {
 
 struct ListenerRegistry {
     var shelf: ListenerRegistration?
+    var reviews: [Int: ListenerRegistration?] = [:]
 }
 
 class FirestoreManager: ObservableObject {
@@ -53,6 +54,11 @@ class FirestoreManager: ObservableObject {
     private init() {
         self.firestore = Firestore.firestore()
         self.listeners = ListenerRegistry()
+    }
+    
+    //MARK: - Listener Access
+    func isShelfListenerOpen() -> Bool {
+        return listeners.shelf != nil
     }
     
     //MARK: - User Management Methods
@@ -191,11 +197,9 @@ class FirestoreManager: ObservableObject {
     }
     
     func retrieveGames(matching query: Query, completion: @escaping (Result<[Game], Error>) -> Void) {
-//        print("Attempting to get documents matching query...")
         getDocuments(matching: query) { result in
             switch result {
             case .success(let documents):
-//                print("Documents retrieved. Attempting to map to game objects...")
                 let games = documents.compactMap({ docSnapshot -> Game? in
                     guard let game = try? docSnapshot.data(as: Game?.self) else {
                         print("Failed to convert document snapshot to Game object. Missing values may be present in document: \(docSnapshot.documentID)")
@@ -203,8 +207,6 @@ class FirestoreManager: ObservableObject {
                     }
                     return game
                 })
-                
-//                print("Game objects mapped. Calling completion...")
                 completion(.success(games))
             case .failure(let error):
                 print("Failed to retrieve documents.")
@@ -216,40 +218,28 @@ class FirestoreManager: ObservableObject {
     func retrieveGamesWith(matching appids: [Int], completion: @escaping (Result<[Game], Error>) -> Void) {
         let collection = Firestore.firestore().collection("games")
         let query = collection.whereField(Game.CodingKeys.appid.rawValue, in: appids)
-//        print("Query set, attemtpting to retrieve games matching appid list...")
         retrieveGames(matching: query, completion: completion)
     }
     
     func retrieveNewReleases(completion: @escaping (Result<[Game], Error>) -> Void) {
         let collection = Firestore.firestore().collection("games")
         let query = collection.order(by: "release_date", descending: true).limit(to: 20)
-//        print("Query set, attemtpting to retrieve newly released games...")
         retrieveGames(matching: query, completion: completion)
     }
     
     func retrieveTopRated(completion: @escaping (Result<[Game], Error>) -> Void) {
         let collection = Firestore.firestore().collection("games")
         let query = collection.order(by: Game.CodingKeys.reviewScore.rawValue, descending: true).limit(to: 20)
-//        print("Query set, attemtpting to retrieve top rated games...")
         retrieveGames(matching: query, completion: completion)
     }
     
     func retrieveMostReviewed(limit:Int, completion: @escaping (Result<[Game], Error>) -> Void) {
         let collection = Firestore.firestore().collection("games")
         let query = collection.order(by: Game.CodingKeys.totalReviews.rawValue, descending: true).limit(to: 20)
-//        print("Query set, attemtpting to retrieve most reviewed games...")
         retrieveGames(matching: query, completion: completion)
     }
     
     //MARK: - Read/Write methods for shelf data
-//    func retrieveShelf(for user: User, completion: @escaping (Result<[Game], Error>) -> Void) {
-//        let collection = Firestore.firestore().collection("users/\(user.uid)/shelf")
-//        let query = collection.order(by: Game.CodingKeys.name.rawValue)
-//        
-//        retrieveGames(matching: query, completion: completion)
-//    }
-    
-    
     func addToShelf(for user: User, game: Game, completion: @escaping (Result<Bool, Error>) -> Void) {
         let collection = Firestore.firestore().collection("users").document(user.uid).collection("shelf")
         
@@ -275,9 +265,6 @@ class FirestoreManager: ObservableObject {
             print("Error writing document: \(error)")
         }
     }
-    
-    
-    //private var listenerRegistration: ListenerRegistration?
     
     func shelfListener(for user: User, completion: @escaping (Result<[Game], Error>) -> Void) {
         let db = Firestore.firestore()
@@ -320,6 +307,59 @@ class FirestoreManager: ObservableObject {
             } else {
                 completion(.success(true))
             }
+        }
+    }
+    
+    //MARK: - Read/Write methods for reviews
+    
+    func subscribeToReviews(for game: Game, completion: @escaping (Result<[Review], Error>) -> Void) {
+        let query = firestore.collection("reviews").whereField(Review.CodingKeys.appid.rawValue, isEqualTo: game.appid)
+        
+        if listeners.reviews[game.appid] == nil {
+            print("** CREATING LISTENER FOR REVIEWS FOR \(game.appid) **")
+            listeners.reviews[game.appid] = query.addSnapshotListener({ querySnapshot, error in
+                guard let documents = querySnapshot?.documents else {
+                    completion(.failure(FireStoreError.noSnapshotData))
+                    return
+                }
+                
+                let reviews = documents.compactMap({ docSnapshot -> Review? in
+                    guard let game = try? docSnapshot.data(as: Review?.self) else {
+                        print("Failed to convert document snapshot to Review. Missing values may be present in document: \(docSnapshot.documentID)")
+                        return nil
+                    }
+                    return game
+                })
+                
+                completion(.success(reviews))
+                print("** LISTENER INVOKED - REVIEWS UPDATED **")
+            })
+        }
+    }
+    
+    func createReview(_ review: Review, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let collection = firestore.collection("reviews")
+        
+        var ref: DocumentReference? = nil
+        
+        do {
+            ref = try collection.addDocument(from: review, completion: { error in
+                if let error {
+                    print("Error writing document: \(error)")
+                    completion(.failure(FireStoreError.unknownError))
+                    return
+                }
+                
+                guard ref != nil else {
+                    print("Document reference is nil")
+                    completion(.failure(FireStoreError.unknownError))
+                    return
+                }
+                completion(.success(true))
+            })
+        }
+        catch {
+            print("Error writing document: \(error)")
         }
     }
 }

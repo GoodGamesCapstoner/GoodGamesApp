@@ -13,6 +13,8 @@ struct GameProfileView: View {
     @Environment(\.isPreview) var isPreview
     
     @State var shelfActionLoading = false
+    
+    @State var reviewSheetPresented = false
 
     var body: some View {
         GeometryReader { geometry in
@@ -110,6 +112,23 @@ struct GameProfileView: View {
                             }
                             Divider()
                             //MARK: - Reviews
+                            Group {
+                                Text("Write a review for \(game.name):")
+                                Button("Write Review") {
+                                    gameVM.reviewSavedSuccessfully = false
+                                    reviewSheetPresented.toggle()
+                                }
+                                .buttonStyle(.borderedProminent)
+                                .tint(.purple)
+                                .sheet(isPresented: $reviewSheetPresented) {
+                                    //nothin
+                                } content: {
+                                    AddReviewSheet(sheetIsPresented: $reviewSheetPresented)
+                                }
+
+                                Divider()
+                            }
+                            
 //                            Group {
 //                                Text("Top Reviews: (\(game.totalReviews))")
 //                                    .padding(.bottom, 5)

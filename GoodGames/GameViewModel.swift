@@ -18,6 +18,10 @@ class GameViewModel: ObservableObject {
     //MARK: Single Game
     @Published var game: Game?
     @Published var gameOfTheDay: Game?
+    @Published var reviewsForGame: [Review] = []
+    
+    //MARK: Review
+    @Published var reviewSavedSuccessfully = false
     
     //MARK: - Game Lists
     @Published var newReleases: [Game] = []
@@ -79,7 +83,7 @@ class GameViewModel: ObservableObject {
         let mostReviewedReady = !self.mostReviewed.isEmpty
         let gameOfTheDayReady = self.gameOfTheDay != nil
         let recommendedGamesReady = !self.recommendedGames.isEmpty
-        let shelfReady = !self.userShelf.isEmpty
+        let shelfReady = FirestoreManager.shared.isShelfListenerOpen()
         
         return newReleasesReady && topRatedReady && mostReviewedReady && gameOfTheDayReady && recommendedGamesReady && shelfReady
     }
@@ -187,6 +191,31 @@ class GameViewModel: ObservableObject {
         FirestoreManager.shared.shelfListener(for: user) { (result) in
             self.handleGameListResult(result: result) { games in
                 self.userShelf = games
+            }
+        }
+    }
+    
+    //MARK: - Review Methods
+    
+    func listenToReviews(for game: Game){
+        FirestoreManager.shared.subscribeToReviews(for: game) { result in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let reviews):
+                self.reviewsForGame = reviews
+            }
+        }
+    }
+    
+    func saveReview(_ review: Review){
+        FirestoreManager.shared.createReview(review) { result in
+            switch result {
+            case .failure(let error):
+                print("Review not saved with error: \(error.localizedDescription)")
+            case .success(let saved):
+                self.reviewSavedSuccessfully = saved
+                print("Review saved.")
             }
         }
     }

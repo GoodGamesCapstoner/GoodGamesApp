@@ -18,6 +18,13 @@ struct Review: Codable, Identifiable {
     let userid: String
     let username: String
     
+    var formattedDate: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .none
+        return dateFormatter.string(from: self.creationDate)
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id
         case appid

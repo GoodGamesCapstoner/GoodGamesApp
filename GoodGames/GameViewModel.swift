@@ -94,6 +94,7 @@ class GameViewModel: ObservableObject {
         
         self.game = game
         getRelatedGames(for: game.appid)
+        getReviews(for: game.appid)
     }
     
     func addCurrentGameToShelf(for user: User) {
@@ -197,8 +198,8 @@ class GameViewModel: ObservableObject {
     
     //MARK: - Review Methods
     
-    func listenToReviews(for game: Game){
-        FirestoreManager.shared.subscribeToReviews(for: game) { result in
+    func getReviews(for appid: Int){
+        FirestoreManager.shared.subscribeToReviews(for: appid) { result in
             switch result {
             case .failure(let error):
                 print(error.localizedDescription)
@@ -235,5 +236,6 @@ class GameViewModel: ObservableObject {
     func clearGameProfileCache() {
         self.game = nil
         self.relatedGames = []
+        self.reviewsForGame = []
     }
 }

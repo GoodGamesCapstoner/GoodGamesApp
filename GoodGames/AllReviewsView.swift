@@ -15,7 +15,7 @@ struct AllReviewsView: View {
             if let game = gameVM.game {
                 VStack(alignment: .leading) {
                     ForEach(gameVM.reviewsForGame) { review in
-                        IndividualRating(review: review)
+                        IndividualReview(review: review)
                     }
                 }
                 .navigationTitle(Text("\(gameVM.reviewsForGame.count) \(gameVM.reviewsForGame.count <= 1 ? "review": "reviews") for \(game.name)"))

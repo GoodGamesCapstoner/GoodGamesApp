@@ -157,7 +157,7 @@ struct GameProfileView: View {
                                 if gameVM.reviewsForGame.count > 0 {
                                     VStack(alignment: .leading) {
                                         ForEach(gameVM.reviewsForGame.prefix(3)) { review in
-                                            IndividualRating(review: review)
+                                            IndividualReview(review: review)
                                         }
                                     }
                                     

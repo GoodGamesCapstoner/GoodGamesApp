@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct IndividualRating: View {
+struct IndividualReview: View {
     var review: Review
     var body: some View {
         ZStack {
@@ -37,7 +37,7 @@ struct IndividualRating: View {
 
 struct IndividualRating_Previews: PreviewProvider {
     static var previews: some View {
-        IndividualRating( review:
+        IndividualReview( review:
             Review(
                 appid: 0,
                 creationDate: Date(),

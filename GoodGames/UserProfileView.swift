@@ -32,16 +32,26 @@ struct UserProfileView: View {
                             Button {
                                 userVM.showSheet = true
                             } label: {
-                                if let image = userVM.image {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .frame(width: 100, height: 100)
-                                        .aspectRatio(contentMode: .fill)
-                                        .clipShape(Circle())
-                                } else {
-                                    Circle()
-                                        .frame(width: 100, height: 100)
-                                        .foregroundColor(.black)
+                                ZStack {
+                                    if let image = userVM.image {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .frame(width: 100, height: 100)
+                                            .aspectRatio(contentMode: .fill)
+                                            .clipShape(Circle())
+                                        
+                                    } else {
+                                        Circle()
+                                            .frame(width: 100, height: 100)
+                                            .foregroundColor(.black)
+                                    }
+                                    
+                                    VStack {
+                                            Spacer()
+                                            Image(systemName: "pencil.circle.fill")
+                                                .foregroundColor(.black)
+                                                .offset(CGSize(width: 0.0, height: 7.5))
+                                        }
                                 }
                             }
                         }
@@ -77,7 +87,7 @@ struct UserProfileView: View {
                         .frame(maxWidth: .infinity)
                         .cornerRadius(10)
                     }
-            
+                    Spacer()
                     Divider()
                     
                     //MARK: - Shelf and Recommended Games

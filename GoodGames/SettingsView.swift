@@ -13,48 +13,44 @@ struct SettingsView: View {
     @EnvironmentObject var userVM: UserViewModel
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            VStack(alignment: .leading) {
-                Text("Name:")
-                    .font(.subheadline)
-                Text("\(userVM.user?.firstName ?? "No user found") \(userVM.user?.lastName ?? "")")
-                    .font(.title3)
-            }
-            VStack(alignment: .leading) {
-                Text("Email:")
-                    .font(.subheadline)
-                Text(userVM.user?.email ?? "No user found")
-                    .font(.title3)
-                    .lineLimit(1)
-            }
-            
-            //MARK: - Logout/Delete Account Buttons
-            HStack {
-                if userVM.isUserAuthenticated == .signedIn {
-    //                    if vm.user == nil {
-                    Button {
-                        userVM.logOut()
-                    } label: {
-                        Text("Log out")
-                    }
-                    .bold()
-                    .buttonStyle(.bordered)
+        NavigationView {
+            List {
+                // MARK: - Account Information
+                Section(header: Text("Account Information")) {
+                    Text("Username: \(userVM.user?.username ?? "No username found")")
+                    Text("Name: \(userVM.user?.firstName ?? "No name found") \(userVM.user?.lastName ?? "")")
+                    Text("Email: \(userVM.user?.email ?? "No email found")")
                 }
-                if userVM.isUserAuthenticated == .signedIn {
-                    Button {
-                        userVM.showDeletion.toggle()
-                    } label: {
-                        Text("Delete Account")
-                            .foregroundColor(.red)
-                            .buttonStyle(.borderless)
+                
+                //MARK: - Logout/Delete Account Buttons
+                HStack {
+                    if userVM.isUserAuthenticated == .signedIn {
+                        Button {
+                            userVM.logOut()
+                        } label: {
+                            Text("Log out")
+                        }
+                        .bold()
+                        .buttonStyle(.bordered)
                     }
-                    .buttonStyle(.bordered)
-                    .sheet(isPresented: $userVM.showDeletion) {
-                        DeleteView(user: userVM.user!)
+                    Spacer()
+                    if userVM.isUserAuthenticated == .signedIn {
+                        Button {
+                            userVM.showDeletion.toggle()
+                        } label: {
+                            Text("Delete Account")
+                                .foregroundColor(.red)
+                                .buttonStyle(.borderless)
+                        }
+                        .buttonStyle(.bordered)
+                        .sheet(isPresented: $userVM.showDeletion) {
+                            DeleteView(user: userVM.user!)
+                        }
                     }
-                }
-            }.padding(.vertical, 5)
-            Spacer()
+                }.padding(.vertical, 5)
+            }
+            .listStyle(GroupedListStyle())
+//            .navigationBarTitle("Settings")
         }
     }
     

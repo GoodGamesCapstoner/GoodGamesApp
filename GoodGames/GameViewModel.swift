@@ -18,6 +18,10 @@ class GameViewModel: ObservableObject {
     //MARK: Single Game
     @Published var game: Game?
     @Published var gameOfTheDay: Game?
+    @Published var reviewsForGame: [Review] = []
+    
+    //MARK: Review
+    @Published var reviewSavedSuccessfully = false
     
     //MARK: - Game Lists
     @Published var newReleases: [Game] = []
@@ -79,7 +83,7 @@ class GameViewModel: ObservableObject {
         let mostReviewedReady = !self.mostReviewed.isEmpty
         let gameOfTheDayReady = self.gameOfTheDay != nil
         let recommendedGamesReady = !self.recommendedGames.isEmpty
-        let shelfReady = !self.userShelf.isEmpty
+        let shelfReady = FirestoreManager.shared.isShelfListenerOpen()
         
         return newReleasesReady && topRatedReady && mostReviewedReady && gameOfTheDayReady && recommendedGamesReady && shelfReady
     }
@@ -90,6 +94,7 @@ class GameViewModel: ObservableObject {
         
         self.game = game
         getRelatedGames(for: game.appid)
+        getReviews(for: game.appid)
     }
     
     func addCurrentGameToShelf(for user: User) {
@@ -191,6 +196,31 @@ class GameViewModel: ObservableObject {
         }
     }
     
+    //MARK: - Review Methods
+    
+    func getReviews(for appid: Int){
+        FirestoreManager.shared.subscribeToReviews(for: appid) { result in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let reviews):
+                self.reviewsForGame = reviews
+            }
+        }
+    }
+    
+    func saveReview(_ review: Review){
+        FirestoreManager.shared.createReview(review) { result in
+            switch result {
+            case .failure(let error):
+                print("Review not saved with error: \(error.localizedDescription)")
+            case .success(let saved):
+                self.reviewSavedSuccessfully = saved
+                print("Review saved.")
+            }
+        }
+    }
+    
     //MARK: - Error Handler
     private func handleGameListResult(result: Result<[Game], Error>, onSuccess: @escaping ([Game]) -> Void ) {
         switch result {
@@ -206,5 +236,6 @@ class GameViewModel: ObservableObject {
     func clearGameProfileCache() {
         self.game = nil
         self.relatedGames = []
+        self.reviewsForGame = []
     }
 }

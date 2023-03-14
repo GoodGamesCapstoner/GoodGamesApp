@@ -73,10 +73,15 @@ struct GameProfileView: View {
                                 Spacer()
                                 if !gameVM.isInShelf {
                                     if !shelfActionLoading {
-                                        Button("Add to my shelf") {
+                                        Button {
                                             if let user = userVM.user {
                                                 self.shelfActionLoading = true
                                                 gameVM.addCurrentGameToShelf(for: user)
+                                            }
+                                        } label: {
+                                            HStack {
+                                                Text("Add to my shelf")
+                                                Image(systemName: "bookmark.fill")
                                             }
                                         }
                                         .buttonStyle(.borderedProminent)
@@ -90,10 +95,15 @@ struct GameProfileView: View {
                                     }
                                 } else {
                                     if !shelfActionLoading {
-                                        Button("Remove from my shelf") {
+                                        Button {
                                             if let user = userVM.user {
                                                 self.shelfActionLoading = true
                                                 gameVM.removeCurrentGameFromShelf(for: user)
+                                            }
+                                        } label: {
+                                            HStack {
+                                                Text("Remove from my shelf")
+                                                Image(systemName: "bookmark.slash.fill")
                                             }
                                         }
                                         .buttonStyle(.borderedProminent)
@@ -113,10 +123,29 @@ struct GameProfileView: View {
                             Divider()
                             //MARK: - Reviews
                             Group {
-                                Text("Write a review for \(game.name):")
-                                Button("Write Review") {
+                                Text("Top Reviews for \(game.name):")
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                    .padding(.top, 5)
+                                
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text("@Blackstone rated")
+                                        StarRating(rating: 5, outOf: 5, .starsOnly)
+                                    }
+                                    Text("\"I dug a tunnel and fell down a hole and died. My friends followed me and also died. 10/10\"")
+                                        .padding(.horizontal, 15)
+                                        .padding(.vertical, 1)
+                                }
+                                .padding(.vertical, 10)
+                                Button {
                                     gameVM.reviewSavedSuccessfully = false
                                     reviewSheetPresented.toggle()
+                                } label: {
+                                    HStack {
+                                        Text("Write Review")
+                                        Image(systemName: "star.bubble.fill")
+                                    }
                                 }
                                 .buttonStyle(.borderedProminent)
                                 .tint(.purple)

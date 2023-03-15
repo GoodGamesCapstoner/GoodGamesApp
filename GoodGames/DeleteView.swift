@@ -33,7 +33,7 @@ struct DeleteView: View {
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                         Button(canDelete ? "DELETE ACCOUNT" : "Authenticate") {
                             if canDelete {
-                                FirestoreManager().deleteUserData(uid: user.uid) { result in
+                                FirestoreManager.shared.deleteUserData(uid: user.uid) { result in
                                     dismiss()
                                     switch result {
                                     case .success:

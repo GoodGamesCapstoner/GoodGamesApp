@@ -14,6 +14,7 @@ import FirebaseFirestore
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+      FirebaseConfiguration.shared.setLoggerLevel(.min)
       FirebaseApp.configure()
 #if EMULATORS
       print(
@@ -54,7 +55,7 @@ struct GoodGamesApp: App {
                 LoginView().environmentObject(userVM)
             }
             else {
-                MainTabView()
+                LaunchScreen()
                     .environmentObject(userVM)
                     .environmentObject(gameVM)
                     .environmentObject(GamesLookupViewModel())

@@ -23,8 +23,7 @@ struct Game: Codable, Identifiable, Equatable {
     let shortDescription, tags: String
     let totalReviews: Int
     
-    
-    //MARK: - Computer Properties
+    //MARK: - Computed Properties
     var cardImage: String {
         CardImage.url(for: self)
     }

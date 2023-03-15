@@ -23,7 +23,7 @@ struct SettingsView: View {
                 }
                 
                 //MARK: - Logout/Delete Account Buttons
-                HStack {
+                Section(header: Text("Actions")) {
                     if userVM.isUserAuthenticated == .signedIn {
                         Button {
                             userVM.logOut()
@@ -31,26 +31,21 @@ struct SettingsView: View {
                             Text("Log out")
                         }
                         .bold()
-                        .buttonStyle(.bordered)
                     }
-                    Spacer()
                     if userVM.isUserAuthenticated == .signedIn {
                         Button {
                             userVM.showDeletion.toggle()
                         } label: {
                             Text("Delete Account")
                                 .foregroundColor(.red)
-                                .buttonStyle(.borderless)
                         }
-                        .buttonStyle(.bordered)
                         .sheet(isPresented: $userVM.showDeletion) {
                             DeleteView(user: userVM.user!)
                         }
                     }
-                }.padding(.vertical, 5)
+                }
             }
             .listStyle(GroupedListStyle())
-//            .navigationBarTitle("Settings")
         }
     }
     

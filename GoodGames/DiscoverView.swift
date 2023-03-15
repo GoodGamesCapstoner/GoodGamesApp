@@ -124,6 +124,6 @@ struct GameProfileBarView: View {
         HStack {
             Text("\(game.name)")
         }
-        .frame(maxWidth: .infinity, minHeight: .infinity)
+//        .frame(maxWidth: .infinity, minHeight: .infinity)
     }
 }

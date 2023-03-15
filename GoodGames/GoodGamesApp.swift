@@ -57,6 +57,7 @@ struct GoodGamesApp: App {
                 MainTabView()
                     .environmentObject(userVM)
                     .environmentObject(gameVM)
+                    .environmentObject(GamesLookupViewModel())
             }
         }
     }

@@ -16,12 +16,14 @@ class GamesLookupViewModel: ObservableObject {
     private let db = Firestore.firestore()
     
     func fetchGames(from keyword: String) {
-        db.collection("Games").whereField("keywordsForLookup", arrayContains: keyword).getDocuments { querySnapshot, error in
-            guard let documents = querySnapshot?.documents, error == nil else { return }
-            self.queriedGames = documents.compactMap {
-                QueryDocumentSnapshot in
-                try? QueryDocumentSnapshot.data(as: Game.self)
-            }
-        }
+
+        
+//        db.collection("games").whereField("keywordsForLookup", arrayContains: keyword).getDocuments { querySnapshot, error in
+//            guard let documents = querySnapshot?.documents, error == nil else { return }
+//            self.queriedGames = documents.compactMap {
+//                QueryDocumentSnapshot in
+//                try? QueryDocumentSnapshot.data(as: Game.self)
+//            }
+//        }
     }
 }

@@ -14,15 +14,15 @@ struct DiscoverView: View {
     @EnvironmentObject var gamesLookupVM: GamesLookupViewModel
     
     var body: some View {
-        let keywordBinding = Binding<String>(
-            get: {
-                searchString
-            },
-            set: { newValue in
-                searchString = newValue
-                gamesLookupVM.fetchGames(from: searchString)
-            }
-        )
+//        let keywordBinding = Binding<String>(
+//            get: {
+//                searchString
+//            },
+//            set: { newValue in
+//                searchString = newValue
+//                gamesLookupVM.fetchGames(from: searchString)
+//            }
+//        )
 
         
         VStack {
@@ -30,13 +30,15 @@ struct DiscoverView: View {
                 .font(.largeTitle)
                 .padding(.top)
             
-            SearchBar(searchString: keywordBinding)
+            SearchBar(searchString: $searchString)
                 .padding(.leading, 15)
                 .padding(.trailing, 15)
             ScrollView {
-                ForEach(gamesLookupVM.queriedGames, id: \..appid) { game in
+                ForEach(gamesLookupVM.queriedGames, id: \.appid) { game in
                     GameProfileBarView(game: game)
                 }
+            }.onChange(of: searchString) { newValue in
+                gamesLookupVM.fetchGames(from: newValue)
             }
                 
             Spacer()

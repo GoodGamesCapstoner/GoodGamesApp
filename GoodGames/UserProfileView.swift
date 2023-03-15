@@ -112,15 +112,17 @@ struct UserProfileView: View {
         }
         .navigationBarItems(trailing: menuButton)
         .onAppear {
-            if gameVM.recommendedGames.isEmpty {
-                if let user = userVM.user {
-                    gameVM.getRecommendedGames(for: user)
-                }
-            }
-            
-            if let user = userVM.user {
-                gameVM.getShelf(for: user)
-            }
+//            if gameVM.recommendedGames.isEmpty {
+//                if let user = userVM.user {
+//                    gameVM.getRecommendedGames(for: user)
+//                }
+//            }
+//            
+//            if let user = userVM.user {
+//                if gameVM.userShelf.isEmpty {
+//                    gameVM.getShelfListener(for: user)
+//                }
+//            }
         }
     }
 }

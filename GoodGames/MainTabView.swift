@@ -60,5 +60,6 @@ struct MainTabView_Previews: PreviewProvider {
         MainTabView()
             .environmentObject(UserViewModel())
             .environmentObject(GameViewModel())
+            .environmentObject(GamesLookupViewModel())
     }
 }

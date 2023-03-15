@@ -11,16 +11,34 @@ struct DiscoverView: View {
     @State var searchString: String = ""
     @EnvironmentObject var gameVM: GameViewModel
     @EnvironmentObject var userVM: UserViewModel
+    @EnvironmentObject var gamesLookupVM: GamesLookupViewModel
     
     var body: some View {
+        let keywordBinding = Binding<String>(
+            get: {
+                searchString
+            },
+            set: { newValue in
+                searchString = newValue
+                gamesLookupVM.fetchGames(from: searchString)
+            }
+        )
+
+        
         VStack {
             Text("Discovery")
                 .font(.largeTitle)
                 .padding(.top)
             
-            SearchBar(searchString: $searchString)
+            SearchBar(searchString: keywordBinding)
                 .padding(.leading, 15)
                 .padding(.trailing, 15)
+            ScrollView {
+                ForEach(gamesLookupVM.queriedGames, id: \..appid) { game in
+                    GameProfileBarView(game: game)
+                }
+            }
+                
             Spacer()
             ScrollView {
                 VStack(alignment: .leading) {
@@ -79,6 +97,8 @@ struct SearchBar: View {
                 Image(systemName: "magnifyingglass").foregroundColor(.gray)
                 TextField("Search", text: $searchString)
                     .font(Font.system(size: 21))
+                    .autocorrectionDisabled(true)
+                    .autocapitalization(.none)
             }
             .padding(7)
             .background(Color(.systemGray6))
@@ -91,5 +111,17 @@ struct SearchView_Previews: PreviewProvider {
         DiscoverView()
             .environmentObject(GameViewModel())
             .environmentObject(UserViewModel())
+            .environmentObject(GamesLookupViewModel())
+    }
+}
+
+struct GameProfileBarView: View {
+    var game: Game
+    
+    var body: some View {
+        HStack {
+            Text("\(game.name)")
+        }
+        .frame(maxWidth: .infinity, minHeight: .infinity)
     }
 }

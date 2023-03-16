@@ -19,7 +19,7 @@ struct LaunchGraphic: View {
     
     var body: some View {
         ZStack {
-            Color(hex: "3D0066")
+            Color.purpleGG
             
             VStack {
                 HStack(spacing: 20.0) {

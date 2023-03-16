@@ -17,7 +17,6 @@ struct HomeView: View {
             VStack {
                 ScrollView {
                     Text("GoodGames Home")
-                        .foregroundColor(.white)
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding(.bottom)
@@ -25,12 +24,10 @@ struct HomeView: View {
                     Text("Welcome, \(userVM.user?.username ?? "USERNAME NOT SET/FOUND")!")
                         .font(.title3)
                         .padding(.bottom)
-                        .foregroundColor(.white)
                     
                     VStack(alignment: .leading) {
                         Text("Game of the Day")
                             .font(.title2)
-                            .foregroundColor(.white)
                         
                         if let game = gameVM.gameOfTheDay {
                             ExtendedGameCard(game:game)
@@ -42,19 +39,22 @@ struct HomeView: View {
                     HStack {
                         Text("Your Squad (Coming Soon)")
                             .font(.title2)
-                            .foregroundColor(.white)
                         Spacer()
                     }
                     ZStack {
-                        HorizontalCarousel(label: "") {
-                            ForEach(0..<10) {_ in
-                                UserCard()
-                            }
-                        }
+//                        HorizontalCarousel(label: "") {
+//                            ForEach(0..<10) {_ in
+//                                UserCard()
+//                            }
+//                        }.padding(5)
                         RoundedRectangle(cornerRadius: 5)
-                            .foregroundColor(.gray)
-                            .opacity(0.9)
-                            .blur(radius: 1)
+                            .foregroundColor(.purpleGG)
+                            .opacity(1)
+                        Text("These awesome features will be here soon!")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .multilineTextAlignment(.center)
+                            .padding()
                     }
                     
                     HorizontalCarousel(label: "Recommended Games for You") {
@@ -66,27 +66,10 @@ struct HomeView: View {
                     Spacer()
                 }
                 .padding()
-                .foregroundColor(.white)
-                .background(Color.background)
+                .background(Color.grayGG)
             }
         }
-        .onAppear {
-            //gameVM.getGameOfTheDay()
-            
-//            if gameVM.recommendedGames.isEmpty {
-//                if let user = userVM.user {
-//                    gameVM.getRecommendedGames(for: user)
-//                }
-//            }
-        }
         
-//        .onChange(of: userVM.user) { newUser in
-//            if gameVM.recommendedGames.isEmpty {
-//                if let newUser {
-//                    gameVM.getRecommendedGames(for: newUser)
-//                }
-//            }
-//        }
     }
 }
 
@@ -95,5 +78,7 @@ struct HomeView_Previews: PreviewProvider {
         HomeView()
             .environmentObject(GameViewModel())
             .environmentObject(UserViewModel())
+            .environment(\.colorScheme, .dark)
+            
     }
 }

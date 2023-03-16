@@ -13,10 +13,12 @@ struct ExtendedGameCard: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(game.name)
-                    .font(.headline)
+                    .font(.title3)
+                    .fontWeight(.bold)
                 Spacer()
-                Text(game.shortDescription)
+                Text(AttributedString(stringLiteral: game.shortDescription))
                     .font(.footnote)
+                Spacer()
             }
             
             Spacer()
@@ -25,7 +27,7 @@ struct ExtendedGameCard: View {
         }
         .frame(maxWidth: 350, maxHeight: 150)
         .padding()
-        .background(.gray)
+        .background(Color.purpleGG)
         .cornerRadius(5)
     }
 }

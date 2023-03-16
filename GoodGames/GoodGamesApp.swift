@@ -49,16 +49,20 @@ struct GoodGamesApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var userVM = UserViewModel()
     @StateObject var gameVM = GameViewModel()
+    @StateObject var lookupVM = GamesLookupViewModel()
     var body: some Scene {
         WindowGroup {
             if userVM.isUserAuthenticated != .signedIn {
-                LoginView().environmentObject(userVM)
+                LoginView()
+                    .environmentObject(userVM)
+                    .environment(\.colorScheme, .dark)
             }
             else {
                 LaunchScreen()
                     .environmentObject(userVM)
                     .environmentObject(gameVM)
-                    .environmentObject(GamesLookupViewModel())
+                    .environmentObject(lookupVM)
+                    .environment(\.colorScheme, .dark)
             }
         }
     }

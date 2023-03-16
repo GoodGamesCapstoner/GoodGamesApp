@@ -11,7 +11,11 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class GamesLookupViewModel: ObservableObject {
-    @Published var queriedGames: [Game] =  []
+    @Published var queriedGames: [Game] =  [] {
+        didSet {
+            print(queriedGames.count)
+        }
+    }
     
     private let db = Firestore.firestore()
     

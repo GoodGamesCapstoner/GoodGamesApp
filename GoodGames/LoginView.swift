@@ -6,41 +6,39 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(hex: "282828")
+                Color.grayGG
                 
                 RoundedRectangle(cornerRadius: 3, style: .continuous)
-                    .foregroundStyle(.linearGradient(colors: [.purple, .blue], startPoint:
-                            .topLeading, endPoint: .bottomTrailing))
+//                    .foregroundStyle(.linearGradient(colors: [.purple, .blue], startPoint:
+//                            .topLeading, endPoint: .bottomTrailing))
+                    .foregroundColor(.purpleGG)
                     .frame(width: 1000, height: 400)
                     .rotationEffect(.degrees(135))
                     .offset(y: -350)
                 if userVM.isUserAuthenticated != .signedIn {
                     VStack(spacing: 20) {
-                        Text("Welcome")
-                            .foregroundColor(.white)
-                            .font(.system(size:40, weight: .bold, design: .rounded))
-                            .offset(x: -100, y: -100)
+                        Text("Welcome to Good Games")
+                            .font(.largeTitle)
+                            .fontDesign(.monospaced)
+                            .fontWeight(.bold)
+                            .offset(x: -60, y: -100)
                         
-                        TextField("", text: $userVM.email)
-                            .foregroundColor(.white)
+                        TextField("Email", text: $userVM.email)
                             .textFieldStyle(.plain)
-                            .placeholder(when: userVM.email.isEmpty) {
-                                Text("Email")
-                                    .foregroundColor(.white)
-                                    .bold()
-                            }
+                            .autocorrectionDisabled(true)
+                            .textInputAutocapitalization(.never)
+                            .tint(.white)
+                        
                         Rectangle()
                             .frame(width: 350, height: 1)
                             .foregroundColor(.white)
                         
-                        SecureField("",text: $userVM.password)
-                            .foregroundColor(.white)
+                        SecureField("Password",text: $userVM.password)
                             .textFieldStyle(.plain)
-                            .placeholder(when: userVM.password.isEmpty) {
-                                Text("Password")
-                                    .foregroundColor(.white)
-                                    .bold()
-                            }
+                            .autocorrectionDisabled(true)
+                            .textInputAutocapitalization(.never)
+                            .tint(.white)
+                        
                         Rectangle()
                             .frame(width: 350, height: 1)
                             .foregroundColor(.white)
@@ -53,7 +51,7 @@ struct LoginView: View {
                                 .frame(width: 200, height: 40)
                                 .background(
                                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(.linearGradient(colors: [.purple, .blue], startPoint: .top, endPoint: .bottomTrailing))
+                                        .fill(.linearGradient(colors: [Color.purpleGG, Color.lightPurpleGG], startPoint: .top, endPoint: .bottomTrailing))
                                 )
                                 .foregroundColor(.white)
                         }
@@ -69,6 +67,7 @@ struct LoginView: View {
                         .tint(.white)
                         .sheet(isPresented: $userVM.newAccount) {
                             SignUpView()
+                                .environment(\.colorScheme, .dark)
                         }
                     }
                     .frame(width: 350)
@@ -95,6 +94,8 @@ extension View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView().environmentObject(UserViewModel())
+        LoginView()
+            .environmentObject(UserViewModel())
+            .environment(\.colorScheme, .dark)
     }
 }

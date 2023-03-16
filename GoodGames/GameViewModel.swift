@@ -63,16 +63,14 @@ class GameViewModel: ObservableObject {
     }
     
     func checkForReadyStateTimeout() {
-        let timeout = self.timeoutGenerator.next()
-        if let timeout {
-            print("Checking ready state in \(timeout) seconds...")
-            DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
-                let dataReady = self.checkForReadyState()
-                if dataReady {
-                    self.viewModelReady = true
-                } else {
-                    self.checkForReadyStateTimeout()
-                }
+        let timeout = 5.0
+        print("Checking ready state in \(timeout) seconds...")
+        DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
+            let dataReady = self.checkForReadyState()
+            if dataReady {
+                self.viewModelReady = true
+            } else {
+                self.checkForReadyStateTimeout()
             }
         }
     }
@@ -165,7 +163,7 @@ class GameViewModel: ObservableObject {
                 let today = Date()
                 let calendar = Calendar.current
                 let dateIndex =  calendar.component(.day, from: today)
-                self.gameOfTheDay = games[dateIndex]
+                self.gameOfTheDay = games[dateIndex-1]
             }
         }
     }

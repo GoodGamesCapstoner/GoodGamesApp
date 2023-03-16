@@ -8,8 +8,8 @@
 import SwiftUI
 
 extension Color {
-    static let mainAccent = Color("MainColor")
-    static let background = Color("backgroundColor")
-    static let toolbarAccent = Color("Set2Color2")
-    static let brightAccent = Color("brightPurple")
+    static let purpleGG = Color("MainColor")
+    static let grayGG = Color("backgroundColor")
+    static let lightPurpleGG = Color("Set2Color2")
+    static let brightPurpleGG = Color("brightPurple")
 }

@@ -21,7 +21,7 @@ struct ShelfView: View {
                 let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
                 LazyVGrid(columns: columns) {
                     ForEach(gameVM.userShelf) { game in
-                        GameCard(game: game)
+                        GameCard(game: game, size: .larger)
                     }
                 }
             }
@@ -33,7 +33,7 @@ struct ShelfView: View {
 //                }
             }
         }
-        .background(Color.background)
+        .background(Color.grayGG)
         .foregroundColor(.white)
     }
 }

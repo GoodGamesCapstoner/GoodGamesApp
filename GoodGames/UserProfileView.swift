@@ -15,14 +15,7 @@ struct UserProfileView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                Text("\(userVM.user?.firstName ?? "No user found") \(userVM.user?.lastName ?? "")")
-                    .navigationBarTitle("@\(userVM.user?.username ?? "NULL")", displayMode: .inline)
-                // Add settings button
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            menuButton
-                        }
-                    }
+                
                 VStack {
                     //MARK: - PFP, Followers, Following, and Shelf Ribbon
                     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
@@ -48,9 +41,19 @@ struct UserProfileView: View {
                                     
                                     VStack {
                                             Spacer()
-                                            Image(systemName: "pencil.circle.fill")
-                                                .foregroundColor(.black)
-                                                .offset(CGSize(width: 0.0, height: 7.5))
+                                            ZStack {
+                                                Circle()
+                                                    .foregroundColor(.white)
+                                                    .frame(width: 29, height: 29)
+                                                Image(systemName: "square.and.pencil.circle.fill")
+                                                    .resizable()
+                                                    .foregroundColor(Color.purpleGG)
+                                                    .frame(width: 30, height: 30)
+                                            }
+                                            
+//                                            .cornerRadius(100)
+                                            .offset(CGSize(width: 40.0, height: 0))
+                                            
                                         }
                                 }
                             }
@@ -64,28 +67,35 @@ struct UserProfileView: View {
                             .sheet(isPresented: $userVM.showSheet) {
                                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$userVM.image)
                             }
-                        LazyVGrid(columns: columns) {
-                            Text("Shelf")
+                        VStack(spacing: 5) {
+                            Text("\(userVM.user?.firstName ?? "No user found") \(userVM.user?.lastName ?? "")")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                            LazyVGrid(columns: columns) {
+                                Group {
+                                    Text("Shelf")
+                                    Text("Followers")
+                                    Text("Following")
+                                }
                                 .font(.subheadline)
-                            Text("Followers")
-                                .font(.subheadline)
-                            Text("Following")
-                                .font(.subheadline)
-                            Text("Coming Soon")
-                                .font(.footnote)
-                                .opacity(0.5)
-                            Text("Coming Soon")
-                                .font(.footnote)
-                                .opacity(0.5)
-                            Text("Coming Soon")
-                                .font(.footnote)
-                                .opacity(0.5)
+                                .fontWeight(.bold)
+                                Text("Coming Soon")
+                                    .font(.footnote)
+                                    .opacity(0.5)
+                                Text("Coming Soon")
+                                    .font(.footnote)
+                                    .opacity(0.5)
+                                Text("Coming Soon")
+                                    .font(.footnote)
+                                    .opacity(0.5)
+                            }
+                            .padding(10)
+                            .background(Color.purpleGG)
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .cornerRadius(10)
                         }
-                        .padding(10)
-                        .background(Color(hex: "282828"))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .cornerRadius(10)
                     }
                     Spacer()
                     Divider()
@@ -108,23 +118,21 @@ struct UserProfileView: View {
                     Spacer()
                 }
                 .padding(.horizontal, 10)
+                .padding(.top, 10)
             }
-            .background(Color.background)
+            .background(Color.grayGG)
             .foregroundColor(.white)
-        }
-        .navigationBarItems(trailing: menuButton)
-        .onAppear {
-//            if gameVM.recommendedGames.isEmpty {
-//                if let user = userVM.user {
-//                    gameVM.getRecommendedGames(for: user)
-//                }
-//            }
-//            
-//            if let user = userVM.user {
-//                if gameVM.userShelf.isEmpty {
-//                    gameVM.getShelfListener(for: user)
-//                }
-//            }
+            // Add settings button
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Text("@\(userVM.user?.username ?? "NULL")")
+                        .font(.title)
+                        .fontWeight(.bold)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    menuButton
+                }
+            }
         }
     }
 }
@@ -132,9 +140,11 @@ struct UserProfileView: View {
 //MARK: - Button that takes the user to the settings page
 var menuButton: some View {
     NavigationLink(destination: SettingsView()) {
-        Image(systemName: "gearshape")
-            .imageScale(.large)
-            .foregroundColor(.black)
+        Image(systemName: "gearshape.fill")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 25)
+            .foregroundColor(.purpleGG)
     }
 }
 
@@ -143,5 +153,6 @@ struct UserProfileView_Previews: PreviewProvider {
         UserProfileView()
             .environmentObject(GameViewModel())
             .environmentObject(UserViewModel())
+            .environment(\.colorScheme, .dark)
     }
 }

@@ -7,24 +7,26 @@ struct ReAuthenticateView: View {
     @State private var errorText = ""
     var body: some View {
             ZStack {
-                Color(hex: "282828")
+                Color.grayGG
                             
                 RoundedRectangle(cornerRadius: 3, style: .continuous)
-                    .foregroundStyle(.linearGradient(colors: [.purple, .blue], startPoint:
-                            .topLeading, endPoint: .bottomTrailing))
+                    .foregroundColor(.purpleGG)
                     .frame(width: 1000, height: 400)
                     .rotationEffect(.degrees(135))
                     .offset(y: -350)
                 
                 VStack(spacing: 20) {
-                    SecureField("Enter your password", text: $password)
-                        .foregroundColor(.white)
+                    Text("Please re-enter your password to delete your account")
+                        .font(.title3)
+//                        .fontDesign(.monospaced)
+                        .fontWeight(.bold)
+                        .offset(x: -20, y: -100)
+                    
+                    SecureField("Password", text: $password)
                         .textFieldStyle(.plain)
-                        .placeholder(when: password.isEmpty) {
-                        Text("Enter your password")
-                                .foregroundColor(.white)
-                                .bold()
-                        }
+                        .autocorrectionDisabled(true)
+                        .textInputAutocapitalization(.never)
+                        .tint(.white)
                     
                     Rectangle()
                         .frame(width: 350, height: 1)
@@ -40,7 +42,7 @@ struct ReAuthenticateView: View {
                             .frame(width: 200, height: 40)
                             .background(
                                 RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                    .fill(.linearGradient(colors: [.purple, .blue], startPoint: .top, endPoint: .bottomTrailing))
+                                    .fill(.linearGradient(colors: [Color.purpleGG, Color.lightPurpleGG], startPoint: .top, endPoint: .bottomTrailing))
                             )
                             .foregroundColor(.white)
                     }
@@ -80,5 +82,6 @@ struct ReAuthenticateView: View {
 struct ReAuthenticateView_Previews: PreviewProvider {
     static var previews: some View {
         ReAuthenticateView(canDelete: .constant(false), showAuth: .constant(true))
+            .environment(\.colorScheme, .dark)
     }
 }

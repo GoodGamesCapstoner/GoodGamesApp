@@ -62,6 +62,7 @@ struct DeleteView: View {
                     Spacer()
                     } else {
                         ReAuthenticateView(canDelete: $canDelete, showAuth: $showAuth)
+                            .environment(\.colorScheme, .dark)
                     }
                 }
             .frame(width: 350)

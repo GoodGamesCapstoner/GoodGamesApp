@@ -111,7 +111,7 @@ struct AddReviewSheet: View {
                         Text("Post Review")
                     }
                     .buttonStyle(.borderedProminent)
-                    .tint(.purple)
+                    .tint(Color.purpleGG)
                     .padding(.vertical)
                 }
                 .onChange(of: gameVM.reviewSavedSuccessfully) { newValue in
@@ -125,6 +125,7 @@ struct AddReviewSheet: View {
                 }
             }
             .padding()
+            .background(Color.grayGG)
             .navigationTitle("Write Review")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -133,7 +134,7 @@ struct AddReviewSheet: View {
                         sheetIsPresented = false
                     } label: {
                         Text("Cancel")
-                    }
+                    }.tint(Color.purpleGG)
                 }
             }
             Spacer()
@@ -146,5 +147,6 @@ struct AddReviewSheet_Previews: PreviewProvider {
         AddReviewSheet(sheetIsPresented: .constant(true))
             .environmentObject(GameViewModel())
             .environmentObject(UserViewModel())
+            .environment(\.colorScheme, .dark)
     }
 }

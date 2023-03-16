@@ -11,23 +11,28 @@ struct AllReviewsView: View {
     @EnvironmentObject var gameVM: GameViewModel
     
     var body: some View {
-        ScrollView {
-            if let game = gameVM.game {
-                VStack(alignment: .leading) {
-                    ForEach(gameVM.reviewsForGame) { review in
-                        IndividualReview(review: review)
+        ZStack {
+            ScrollView {
+                if let game = gameVM.game {
+                    VStack(alignment: .leading) {
+                        ForEach(gameVM.reviewsForGame) { review in
+                            IndividualReview(review: review)
+                        }
                     }
+                    .navigationTitle(Text("\(gameVM.reviewsForGame.count) \(gameVM.reviewsForGame.count <= 1 ? "review": "reviews") for \(game.name)"))
+                    .navigationBarTitleDisplayMode(.inline)
                 }
-                .navigationTitle(Text("\(gameVM.reviewsForGame.count) \(gameVM.reviewsForGame.count <= 1 ? "review": "reviews") for \(game.name)"))
-                .navigationBarTitleDisplayMode(.inline)
             }
+            .padding(.horizontal)
         }
-        .padding(.horizontal)
+        .background(Color.grayGG)
+        
     }
 }
 
 struct AllReviewsView_Previews: PreviewProvider {
     static var previews: some View {
         AllReviewsView()
+            .environment(\.colorScheme, .dark)
     }
 }

@@ -16,13 +16,14 @@ struct PlaceholderCard: View {
             Spacer()
             Text(label)
                 .font(.system(size: 15))
+                .fontWeight(.bold)
                 .multilineTextAlignment(.center)
         }
         .padding(.vertical)
         .padding(.horizontal, 5)
         .frame(width: 100, height: 150)
-        .foregroundColor(.black)
-        .background(.gray)
+        .foregroundColor(.white)
+        .background(Color.purpleGG)
     }
 }
 

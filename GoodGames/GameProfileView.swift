@@ -33,7 +33,7 @@ struct GameProfileView: View {
                         }
                     }
                     .buttonStyle(.borderedProminent)
-                    .tint(.purple)
+                    .tint(Color.purpleGG)
                 } else{
                     Text("Adding to shelf...")
                         .fontWeight(.bold)
@@ -55,7 +55,7 @@ struct GameProfileView: View {
                         }
                     }
                     .buttonStyle(.borderedProminent)
-                    .tint(.purple)
+                    .tint(Color.purpleGG)
                 } else {
                     Text("Removing from shelf...")
                         .fontWeight(.bold)
@@ -81,11 +81,12 @@ struct GameProfileView: View {
             }
         }
         .buttonStyle(.borderedProminent)
-        .tint(.purple)
+        .tint(Color.purpleGG)
         .sheet(isPresented: $reviewSheetPresented) {
             //nothin
         } content: {
             AddReviewSheet(sheetIsPresented: $reviewSheetPresented)
+                .environment(\.colorScheme, .dark)
         }
     }
 
@@ -205,6 +206,7 @@ struct GameProfileView: View {
                 .edgesIgnoringSafeArea(.top)
             }
         }
+        .background(Color.grayGG)
         .onAppear {
             if isPreview{
                 gameVM.getGame(forID: "mbbWBhgLflnfTLrJIWhv")
@@ -220,5 +222,6 @@ struct GameProfileView_Previews: PreviewProvider {
             .environmentObject(GameViewModel())
             .environmentObject(UserViewModel())
             .environment(\.isPreview, true)
+            .environment(\.colorScheme, .dark)
     }
 }

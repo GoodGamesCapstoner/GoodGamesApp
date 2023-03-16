@@ -7,51 +7,48 @@ struct SignUpView: View {
         ZStack {
             
             // Background
-            Color(hex: "282828")
+            Color.grayGG
             
             RoundedRectangle(cornerRadius: 3, style: .continuous)
-                            .foregroundStyle(.linearGradient(colors: [.purple, .blue], startPoint:
-                                    .topLeading, endPoint: .bottomTrailing))
-                            .frame(width: 1000, height: 400)
-                            .rotationEffect(.degrees(135))
-                            .offset(y: -350)
+                .foregroundColor(.purpleGG)
+                .frame(width: 1000, height: 400)
+                .rotationEffect(.degrees(135))
+                .offset(y: -350)
             
             // VStack for the login fields
             VStack(spacing: 20) {
-                Text("Sign Up")
-                    .foregroundColor(.white)
-                    .font(.system(size:40, weight: .bold, design: .rounded))
-                    .offset(x: -100, y: -100)
+                Text("Create Account")
+                    .font(.largeTitle)
+                    .fontDesign(.monospaced)
+                    .fontWeight(.bold)
+                    .offset(x: -30, y: -80)
+//                Text("It's great to have you on our team!")
+//                    .font(.subheadline)
+//                    .fontDesign(.monospaced)
+//                    .fontWeight(.bold)
+//                    .offset(x: -10, y: -70)
                 
                 // HStack holding the first and last name fields each with their own VStack to
                 // match the formatting of the other fields. Notice that the rectangle is slightly
                 // shorter for first name than last name to account for the gap between them
                 HStack {
                     VStack(spacing: 20) {
-                        TextField("", text: $vm.firstName)
-                            .foregroundColor(.white)
+                        TextField("First Name", text: $vm.firstName)
                             .textFieldStyle(.plain)
-                            .placeholder(when: vm.firstName.isEmpty) {
-                                Text("First Name")
-                                    .foregroundColor(.white)
-                                    .bold()
-                                    .multilineTextAlignment(.center)
-                            }
+                            .autocorrectionDisabled(true)
+                            .textInputAutocapitalization(.never)
+                            .tint(.white)
                         Rectangle()
                             .frame(width: 165, height: 1)
                             .foregroundColor(.white)
                     }
                     
                     VStack(spacing: 20) {
-                        TextField("", text: $vm.lastName)
-                            .foregroundColor(.white)
+                        TextField("Last Name", text: $vm.lastName)
                             .textFieldStyle(.plain)
-                            .placeholder(when: vm.lastName.isEmpty) {
-                                Text("Last Name")
-                                    .foregroundColor(.white)
-                                    .bold()
-                                    .multilineTextAlignment(.center)
-                            }
+                            .autocorrectionDisabled(true)
+                            .textInputAutocapitalization(.never)
+                            .tint(.white)
                         Rectangle()
                             .frame(width: 175, height: 1)
                             .foregroundColor(.white)
@@ -59,38 +56,29 @@ struct SignUpView: View {
                 }
                 
                 // Username, email, and password all within the parent VStack
-                TextField("", text: $vm.username)
-                    .foregroundColor(.white)
+                TextField("Username", text: $vm.username)
                     .textFieldStyle(.plain)
-                    .placeholder(when: vm.username.isEmpty) {
-                        Text("Username")
-                            .foregroundColor(.white)
-                            .bold()
-                    }
+                    .autocorrectionDisabled(true)
+                    .textInputAutocapitalization(.never)
+                    .tint(.white)
                 Rectangle()
                     .frame(width: 350, height: 1)
                     .foregroundColor(.white)
                 
-                TextField("", text: $vm.email)
-                    .foregroundColor(.white)
+                TextField("Email Address", text: $vm.email)
                     .textFieldStyle(.plain)
-                    .placeholder(when: vm.email.isEmpty) {
-                        Text("Email Address")
-                            .foregroundColor(.white)
-                            .bold()
-                    }
+                    .autocorrectionDisabled(true)
+                    .textInputAutocapitalization(.never)
+                    .tint(.white)
                 Rectangle()
                     .frame(width: 350, height: 1)
                     .foregroundColor(.white)
                 
-                SecureField("", text: $vm.password)
-                    .foregroundColor(.white)
+                SecureField("Password", text: $vm.password)
                     .textFieldStyle(.plain)
-                    .placeholder(when: vm.password.isEmpty) {
-                        Text("Password")
-                            .foregroundColor(.white)
-                            .bold()
-                    }
+                    .autocorrectionDisabled(true)
+                    .textInputAutocapitalization(.never)
+                    .tint(.white)
                 Rectangle()
                     .frame(width: 350, height: 1)
                     .foregroundColor(.white)
@@ -112,7 +100,7 @@ struct SignUpView: View {
                             .frame(width: 200, height: 40)
                             .background(
                                 RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                    .fill(.linearGradient(colors: [.purple, .blue], startPoint: .top, endPoint: .bottomTrailing))
+                                    .fill(.linearGradient(colors: [Color.purpleGG, Color.lightPurpleGG], startPoint: .top, endPoint: .bottomTrailing))
                             )
                             .foregroundColor(.white)
                     }
@@ -139,5 +127,6 @@ struct SignUpView: View {
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
         SignUpView()
+            .environment(\.colorScheme, .dark)
     }
 }

@@ -11,8 +11,8 @@ struct MainTabView: View {
     @EnvironmentObject var userVM: UserViewModel
     
     init() {
-        UITabBar.appearance().backgroundColor = UIColor.lightGray
-        UITabBar.appearance().unselectedItemTintColor = UIColor.darkGray
+        UITabBar.appearance().backgroundColor = UIColor(Color.grayGG)
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.white)
     }
     
     var body: some View {
@@ -50,15 +50,9 @@ struct MainTabView: View {
                     Text("Profile")
                 }.tag(4)
             }
-//            NavigationStack {
-//                TestView()
-//            }
-//            .tabItem {
-//                Image(systemName: "globe")
-//                Text("Test")
-//            }.tag(5)
+//            .fontDesign(.monospaced)
         }
-        .accentColor(Color.brightAccent)
+        .accentColor(.purpleGG)
     }
 }
 
@@ -68,5 +62,6 @@ struct MainTabView_Previews: PreviewProvider {
             .environmentObject(UserViewModel())
             .environmentObject(GameViewModel())
             .environmentObject(GamesLookupViewModel())
+            .environment(\.colorScheme, .dark)
     }
 }

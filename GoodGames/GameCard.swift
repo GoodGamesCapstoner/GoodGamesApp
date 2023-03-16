@@ -8,9 +8,13 @@
 import SwiftUI
 import FirebaseFirestore
 
+
+
 struct GameCard: View {
     @EnvironmentObject var gameVM: GameViewModel
     var game: Game
+    
+    var size: CardSize = .normal
     var body: some View {
         NavigationLink {
             GameProfileView()
@@ -20,12 +24,35 @@ struct GameCard: View {
             } placeholder: {
                 PlaceholderCard(label: game.name)
             }
-            .frame(width: 100, height: 150)
+            .frame(width: size.getWidth(), height: size.getHeight())
+            .cornerRadius(5)
         }
         .simultaneousGesture(TapGesture().onEnded({
             gameVM.selectGame(game)
         }))
     }
+}
+
+enum CardSize {
+    case normal
+    case larger
+    
+    func getWidth() -> CGFloat {
+        switch self {
+        case .normal:
+            return 100
+        case .larger:
+            return 120
+        }
+    }
+    
+    func getHeight() -> CGFloat {
+        return (self.getWidth() * CardAspect.ratio)
+    }
+}
+
+struct CardAspect {
+    static var ratio: CGFloat = 3.0/2.0
 }
 
 //struct GameCard_Previews: PreviewProvider {

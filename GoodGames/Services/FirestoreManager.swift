@@ -313,11 +313,15 @@ class FirestoreManager: ObservableObject {
     //MARK: - Read/Write methods for reviews
     
     func subscribeToReviews(for appid: Int, completion: @escaping (Result<[Review], Error>) -> Void) {
-        let query = firestore.collection("reviews").whereField(Review.CodingKeys.appid.rawValue, isEqualTo: appid).order(by: Review.CodingKeys.creationDate.rawValue)
+        let query = firestore.collection("reviews").whereField(Review.CodingKeys.appid.rawValue, isEqualTo: appid).order(by: Review.CodingKeys.creationDate.rawValue, descending: true)
         
         if listeners.reviews[appid] == nil {
             print("** CREATING LISTENER FOR REVIEWS FOR \(appid) **")
             listeners.reviews[appid] = query.addSnapshotListener({ querySnapshot, error in
+                if let error = error {
+                    print(" * Review Listener error: \(error.localizedDescription) * ")
+                }
+                
                 guard let documents = querySnapshot?.documents else {
                     completion(.failure(FireStoreError.noSnapshotData))
                     return

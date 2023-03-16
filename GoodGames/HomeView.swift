@@ -71,22 +71,22 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            gameVM.getGameOfTheDay()
+            //gameVM.getGameOfTheDay()
             
-            if gameVM.recommendedGames.isEmpty {
-                if let user = userVM.user {
-                    gameVM.getRecommendedGames(for: user)
-                }
-            }
+//            if gameVM.recommendedGames.isEmpty {
+//                if let user = userVM.user {
+//                    gameVM.getRecommendedGames(for: user)
+//                }
+//            }
         }
         
-        .onChange(of: userVM.user) { newUser in
-            if gameVM.recommendedGames.isEmpty {
-                if let newUser {
-                    gameVM.getRecommendedGames(for: newUser)
-                }
-            }
-        }
+//        .onChange(of: userVM.user) { newUser in
+//            if gameVM.recommendedGames.isEmpty {
+//                if let newUser {
+//                    gameVM.getRecommendedGames(for: newUser)
+//                }
+//            }
+//        }
     }
 }
 

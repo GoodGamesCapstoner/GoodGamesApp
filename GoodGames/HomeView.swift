@@ -17,6 +17,7 @@ struct HomeView: View {
             VStack {
                 ScrollView {
                     Text("GoodGames Home")
+                        .foregroundColor(.white)
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding(.bottom)
@@ -24,10 +25,12 @@ struct HomeView: View {
                     Text("Welcome, \(userVM.user?.username ?? "USERNAME NOT SET/FOUND")!")
                         .font(.title3)
                         .padding(.bottom)
+                        .foregroundColor(.white)
                     
                     VStack(alignment: .leading) {
                         Text("Game of the Day")
                             .font(.title2)
+                            .foregroundColor(.white)
                         
                         if let game = gameVM.gameOfTheDay {
                             ExtendedGameCard(game:game)
@@ -39,6 +42,7 @@ struct HomeView: View {
                     HStack {
                         Text("Your Squad (Coming Soon)")
                             .font(.title2)
+                            .foregroundColor(.white)
                         Spacer()
                     }
                     ZStack {
@@ -62,6 +66,8 @@ struct HomeView: View {
                     Spacer()
                 }
                 .padding()
+                .foregroundColor(.white)
+                .background(Color.background)
             }
         }
         .onAppear {

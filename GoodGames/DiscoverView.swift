@@ -53,6 +53,8 @@ struct DiscoverView: View {
             }
             Spacer()
         }
+        .background(Color.background)
+        .foregroundColor(.white)
         .onAppear {
 //            if gameVM.recommendedGames.isEmpty {
 //                if let user = userVM.user {

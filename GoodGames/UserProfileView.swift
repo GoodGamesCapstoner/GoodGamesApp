@@ -109,6 +109,8 @@ struct UserProfileView: View {
                 }
                 .padding(.horizontal, 10)
             }
+            .background(Color.background)
+            .foregroundColor(.white)
         }
         .navigationBarItems(trailing: menuButton)
         .onAppear {

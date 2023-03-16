@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF1945A629BFE0CF0022C610 /* GamesLookupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1945A529BFE0CF0022C610 /* GamesLookupViewModel.swift */; };
 		CF35551D29BBA2E50099D5FD /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF35551C29BBA2E50099D5FD /* ColorPalette.swift */; };
 		DD1C004A2996C38900479092 /* ReAuthenticateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00462996C38900479092 /* ReAuthenticateView.swift */; };
 		DD1C004B2996C38900479092 /* DeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C00472996C38900479092 /* DeleteView.swift */; };
@@ -73,6 +74,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CF1945A529BFE0CF0022C610 /* GamesLookupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesLookupViewModel.swift; sourceTree = "<group>"; };
 		CF35551C29BBA2E50099D5FD /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		DD1C00462996C38900479092 /* ReAuthenticateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReAuthenticateView.swift; sourceTree = "<group>"; };
 		DD1C00472996C38900479092 /* DeleteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteView.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				DD1C004F2996C39600479092 /* SignUpViewModel.swift */,
 				DD720AD42996D7CD003F9CCD /* UserViewModel.swift */,
 				E9038E3E29AAB80D00CB0381 /* GameViewModel.swift */,
+				CF1945A529BFE0CF0022C610 /* GamesLookupViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				E9D3EBBB29C023FA00915F5C /* ReviewHelper.swift in Sources */,
 				E9752788298C768C00D00EB1 /* HorizontalCarousel.swift in Sources */,
 				DD1C004A2996C38900479092 /* ReAuthenticateView.swift in Sources */,
+				CF1945A629BFE0CF0022C610 /* GamesLookupViewModel.swift in Sources */,
 				E975276D298089E200D00EB1 /* Game.swift in Sources */,
 				E975277D298A0D3B00D00EB1 /* MainTabView.swift in Sources */,
 				E9EDBF7929C13503003F97E5 /* AllReviewsView.swift in Sources */,

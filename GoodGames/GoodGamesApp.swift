@@ -58,6 +58,7 @@ struct GoodGamesApp: App {
                 LaunchScreen()
                     .environmentObject(userVM)
                     .environmentObject(gameVM)
+                    .environmentObject(GamesLookupViewModel())
             }
         }
     }

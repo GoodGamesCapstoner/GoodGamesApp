@@ -10,40 +10,46 @@ import SwiftUI
 struct MainTabView: View {
     @EnvironmentObject var userVM: UserViewModel
     
+    init() {
+        UITabBar.appearance().backgroundColor = UIColor.lightGray
+        UITabBar.appearance().unselectedItemTintColor = UIColor.darkGray
+    }
+    
     var body: some View {
         TabView(selection: $userVM.tabSelection) {
-            NavigationStack {
-                HomeView()
+            Group {
+                NavigationStack {
+                    HomeView()
+                }
+                .tabItem {
+                    Image(systemName: "house")
+                    Text("Home")
+                }.tag(1)
+                
+                NavigationStack {
+                    DiscoverView()
+                }
+                .tabItem {
+                    Image(systemName: "magnifyingglass")
+                    Text("Discover")
+                }.tag(2)
+                
+                NavigationStack {
+                    ShelfView()
+                }
+                .tabItem {
+                    Image(systemName: "books.vertical")
+                    Text("My Shelf")
+                }.tag(3)
+                
+                NavigationStack {
+                    UserProfileView()
+                }
+                .tabItem {
+                    Image(systemName: "person")
+                    Text("Profile")
+                }.tag(4)
             }
-            .tabItem {
-                Image(systemName: "house")
-                Text("Home")
-            }.tag(1)
-            
-            NavigationStack {
-                DiscoverView()
-            }
-            .tabItem {
-                Image(systemName: "magnifyingglass")
-                Text("Discover")
-            }.tag(2)
-            
-            NavigationStack {
-                ShelfView()
-            }
-            .tabItem {
-                Image(systemName: "books.vertical")
-                Text("My Shelf")
-            }.tag(3)
-            
-            NavigationStack {
-                UserProfileView()
-            }
-            .tabItem {
-                Image(systemName: "person")
-                Text("Profile")
-            }.tag(4)
-            
 //            NavigationStack {
 //                TestView()
 //            }
@@ -52,6 +58,7 @@ struct MainTabView: View {
 //                Text("Test")
 //            }.tag(5)
         }
+        .accentColor(Color.brightAccent)
     }
 }
 

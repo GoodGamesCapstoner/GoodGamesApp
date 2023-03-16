@@ -33,6 +33,8 @@ struct ShelfView: View {
 //                }
             }
         }
+        .background(Color.background)
+        .foregroundColor(.white)
     }
 }
 

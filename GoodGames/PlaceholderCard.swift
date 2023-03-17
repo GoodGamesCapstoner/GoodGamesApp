@@ -23,7 +23,7 @@ struct PlaceholderCard: View {
         .padding(.horizontal, 5)
         .frame(width: 100, height: 150)
         .foregroundColor(.white)
-        .background(Color.purpleGG)
+        .background(Color.primaryAccent)
     }
 }
 

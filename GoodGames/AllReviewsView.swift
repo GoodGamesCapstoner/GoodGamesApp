@@ -25,7 +25,7 @@ struct AllReviewsView: View {
             }
             .padding(.horizontal)
         }
-        .background(Color.grayGG)
+        .background(Color.primaryBackground)
         
     }
 }

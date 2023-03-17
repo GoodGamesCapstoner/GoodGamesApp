@@ -11,7 +11,7 @@ struct MainTabView: View {
     @EnvironmentObject var userVM: UserViewModel
     
     init() {
-        UITabBar.appearance().backgroundColor = UIColor(Color.grayGG)
+        UITabBar.appearance().backgroundColor = UIColor(Color.secondaryBackground)
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.white)
     }
     
@@ -52,7 +52,7 @@ struct MainTabView: View {
             }
 //            .fontDesign(.monospaced)
         }
-        .accentColor(.purpleGG)
+        .accentColor(.primaryAccent)
     }
 }
 

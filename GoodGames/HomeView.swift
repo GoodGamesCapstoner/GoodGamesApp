@@ -48,7 +48,7 @@ struct HomeView: View {
 //                            }
 //                        }.padding(5)
                         RoundedRectangle(cornerRadius: 5)
-                            .foregroundColor(.purpleGG)
+                            .foregroundColor(.secondaryBackground)
                             .opacity(1)
                         Text("These awesome features will be here soon!")
                             .font(.title3)
@@ -66,7 +66,7 @@ struct HomeView: View {
                     Spacer()
                 }
                 .padding()
-                .background(Color.grayGG)
+                .background(Color.primaryBackground)
             }
         }
         

@@ -47,7 +47,7 @@ struct UserProfileView: View {
                                                     .frame(width: 29, height: 29)
                                                 Image(systemName: "square.and.pencil.circle.fill")
                                                     .resizable()
-                                                    .foregroundColor(Color.purpleGG)
+                                                    .foregroundColor(Color.primaryAccent)
                                                     .frame(width: 30, height: 30)
                                             }
                                             
@@ -90,7 +90,7 @@ struct UserProfileView: View {
                                     .opacity(0.5)
                             }
                             .padding(10)
-                            .background(Color.purpleGG)
+                            .background(Color.secondaryBackground)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
@@ -120,7 +120,7 @@ struct UserProfileView: View {
                 .padding(.horizontal, 10)
                 .padding(.top, 10)
             }
-            .background(Color.grayGG)
+            .background(Color.primaryBackground)
             .foregroundColor(.white)
             // Add settings button
             .toolbar {
@@ -144,7 +144,7 @@ var menuButton: some View {
             .resizable()
             .scaledToFit()
             .frame(width: 25)
-            .foregroundColor(.purpleGG)
+            .foregroundColor(.primaryAccent)
     }
 }
 

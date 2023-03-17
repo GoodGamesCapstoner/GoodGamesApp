@@ -48,7 +48,7 @@ struct SearchView: View {
                 }
             }
         }
-        .background(Color.grayGG)
+        .background(Color.primaryBackground)
         .onAppear {
             self.focus = .search
             

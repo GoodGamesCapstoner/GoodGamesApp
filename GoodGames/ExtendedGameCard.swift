@@ -27,7 +27,7 @@ struct ExtendedGameCard: View {
         }
         .frame(maxWidth: 350, maxHeight: 150)
         .padding()
-        .background(Color.purpleGG)
+        .background(Color.secondaryBackground)
         .cornerRadius(5)
     }
 }

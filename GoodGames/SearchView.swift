@@ -52,7 +52,7 @@ struct SearchView: View {
         .onAppear {
             self.focus = .search
             
-//            lookupVM.fetchGames(from: searchString)
+            lookupVM.fetchGames(from: searchString)
         }
     }
 }

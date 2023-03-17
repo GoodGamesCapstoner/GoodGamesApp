@@ -27,6 +27,8 @@ struct AddReviewSheet: View {
         showHoursError ? 1.0 : 0
     }
     
+    var appid: Int
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -93,7 +95,7 @@ struct AddReviewSheet: View {
                             return
                         }
                         
-                        if let hoursPlayed = review.hoursPlayedInt, let game = gameVM.game, let user = userVM.user {
+                        if let hoursPlayed = review.hoursPlayedInt, let game = gameVM.cachedGames[appid], let user = userVM.user {
                             let review = Review(
                                 appid: game.appid,
                                 creationDate: Date(),
@@ -142,11 +144,11 @@ struct AddReviewSheet: View {
     }
 }
 
-struct AddReviewSheet_Previews: PreviewProvider {
-    static var previews: some View {
-        AddReviewSheet(sheetIsPresented: .constant(true))
-            .environmentObject(GameViewModel())
-            .environmentObject(UserViewModel())
-            .environment(\.colorScheme, .dark)
-    }
-}
+//struct AddReviewSheet_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddReviewSheet(sheetIsPresented: .constant(true))
+//            .environmentObject(GameViewModel())
+//            .environmentObject(UserViewModel())
+//            .environment(\.colorScheme, .dark)
+//    }
+//}

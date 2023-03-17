@@ -12,7 +12,7 @@ struct SearchResult: View {
     var game: Game
     var body: some View {
         NavigationLink {
-            GameProfileView()
+            GameProfileView(appID: game.appid)
         } label: {
             HStack {
                 AsyncImage(url: URL(string: game.headerImage)) { image in

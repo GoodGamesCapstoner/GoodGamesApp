@@ -17,19 +17,30 @@ struct GameCard: View {
     var size: CardSize = .normal
     var body: some View {
         NavigationLink {
-            GameProfileView()
+            GameProfileView(appID: game.appid)
         } label: {
-            AsyncImage(url: URL(string: game.cardImage)) { image in
-                image.resizable()
-            } placeholder: {
-                PlaceholderCard(label: game.name)
-            }
-            .frame(width: size.getWidth(), height: size.getHeight())
-            .cornerRadius(5)
+            cardView
         }
         .simultaneousGesture(TapGesture().onEnded({
             gameVM.selectGame(game)
         }))
+        
+//        NavigationLink(value: "GameProfile \(game.appid)") {
+//            cardView
+//        }
+//        .simultaneousGesture(TapGesture().onEnded({
+//            gameVM.selectGame(game)
+//        }))
+    }
+    
+    var cardView: some View {
+        AsyncImage(url: URL(string: game.cardImage)) { image in
+            image.resizable()
+        } placeholder: {
+            PlaceholderCard(label: game.name)
+        }
+        .frame(width: size.getWidth(), height: size.getHeight())
+        .cornerRadius(5)
     }
 }
 
@@ -54,12 +65,3 @@ enum CardSize {
 struct CardAspect {
     static var ratio: CGFloat = 3.0/2.0
 }
-
-//struct GameCard_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let fm = FirestoreManager()
-//        NavigationStack {
-//            GameCard(game: GameViewModel.previewVM.game)
-//        }
-//    }
-//}

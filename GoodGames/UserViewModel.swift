@@ -21,8 +21,6 @@ class UserViewModel: ObservableObject {
     @Published var showDeletion = false
 //    @Published var userID: String?  /
     
-    //MARK: - Published Vars -> Navigation
-    @Published var tabSelection: Int = 1
     
     var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
     public init(isUserAuthenticated: Published<AuthState>

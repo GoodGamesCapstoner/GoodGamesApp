@@ -75,6 +75,7 @@
 		E9EDBF7D29C2E228003F97E5 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EDBF7C29C2E228003F97E5 /* SearchBar.swift */; };
 		E9EDBF7F29C2E747003F97E5 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EDBF7E29C2E747003F97E5 /* SearchResult.swift */; };
 		E9EDBF8129C2F223003F97E5 /* FakeSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EDBF8029C2F223003F97E5 /* FakeSearchBar.swift */; };
+		E9EDBF8329C41472003F97E5 /* TabSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EDBF8229C41472003F97E5 /* TabSelection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -131,6 +132,7 @@
 		E9EDBF7C29C2E228003F97E5 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		E9EDBF7E29C2E747003F97E5 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		E9EDBF8029C2F223003F97E5 /* FakeSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeSearchBar.swift; sourceTree = "<group>"; };
+		E9EDBF8229C41472003F97E5 /* TabSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,10 +165,10 @@
 		DD1C00522996C3A400479092 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				DD1C00532996C3A400479092 /* StorageManager.swift */,
 				DD1C00542996C3A400479092 /* AuthManager.swift */,
 				DD1C005C2996D06700479092 /* FirestoreManager.swift */,
 				E94D72D629B0253A0015F41A /* FunctionsManager.swift */,
+				DD1C00532996C3A400479092 /* StorageManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -256,10 +258,9 @@
 			isa = PBXGroup;
 			children = (
 				E9D3EBB929C023E700915F5C /* Helpers */,
-				DD1C004F2996C39600479092 /* SignUpViewModel.swift */,
-				DD720AD42996D7CD003F9CCD /* UserViewModel.swift */,
 				E9038E3E29AAB80D00CB0381 /* GameViewModel.swift */,
 				CF1945A529BFE0CF0022C610 /* GamesLookupViewModel.swift */,
+				DD720AD42996D7CD003F9CCD /* UserViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -295,16 +296,11 @@
 		E9752786298C75E000D00EB1 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				E9D3EBBC29C02C5100915F5C /* LaunchAndLoading */,
 				E9579F7329B6D8520056E221 /* Cards */,
+				E9D3EBBC29C02C5100915F5C /* LaunchAndLoading */,
+				E9EDBF8529C41AA1003F97E5 /* Reviews */,
+				E9EDBF8429C41A7A003F97E5 /* Search */,
 				E9752787298C768C00D00EB1 /* HorizontalCarousel.swift */,
-				E9D3151B299C504A0047DD1F /* StarRating.swift */,
-				E9D3EBBD29C02DC500915F5C /* AddReviewSheet.swift */,
-				E9D3EBBF29C0327B00915F5C /* StarRatingInteractive.swift */,
-				E9EDBF7629C123B3003F97E5 /* IndividualReview.swift */,
-				E9EDBF7C29C2E228003F97E5 /* SearchBar.swift */,
-				E9EDBF7E29C2E747003F97E5 /* SearchResult.swift */,
-				E9EDBF8029C2F223003F97E5 /* FakeSearchBar.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -313,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				E9D3EBBA29C023FA00915F5C /* ReviewHelper.swift */,
+				DD1C004F2996C39600479092 /* SignUpViewModel.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -330,13 +327,35 @@
 		E9EC75F729ADC43E00D15547 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				E9EC75F829ADC47600D15547 /* IsPreviewKey.swift */,
 				E9EC75FA29ADCDB000D15547 /* CGFloat+ToInt.swift */,
-				DD89C19C29B26A810081DB97 /* Color+HexCode.swift */,
-				E92E09B329BAE05A00D02AD7 /* NumberGenerator.swift */,
 				CF35551C29BBA2E50099D5FD /* ColorPalette.swift */,
+				DD89C19C29B26A810081DB97 /* Color+HexCode.swift */,
+				E9EC75F829ADC47600D15547 /* IsPreviewKey.swift */,
+				E92E09B329BAE05A00D02AD7 /* NumberGenerator.swift */,
+				E9EDBF8229C41472003F97E5 /* TabSelection.swift */,
 			);
 			name = Utility;
+			sourceTree = "<group>";
+		};
+		E9EDBF8429C41A7A003F97E5 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				E9EDBF8029C2F223003F97E5 /* FakeSearchBar.swift */,
+				E9EDBF7C29C2E228003F97E5 /* SearchBar.swift */,
+				E9EDBF7E29C2E747003F97E5 /* SearchResult.swift */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
+		E9EDBF8529C41AA1003F97E5 /* Reviews */ = {
+			isa = PBXGroup;
+			children = (
+				E9D3EBBD29C02DC500915F5C /* AddReviewSheet.swift */,
+				E9EDBF7629C123B3003F97E5 /* IndividualReview.swift */,
+				E9D3EBBF29C0327B00915F5C /* StarRatingInteractive.swift */,
+				E9D3151B299C504A0047DD1F /* StarRating.swift */,
+			);
+			name = Reviews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -445,6 +464,7 @@
 				E9752788298C768C00D00EB1 /* HorizontalCarousel.swift in Sources */,
 				DD1C004A2996C38900479092 /* ReAuthenticateView.swift in Sources */,
 				CF1945A629BFE0CF0022C610 /* GamesLookupViewModel.swift in Sources */,
+				E9EDBF8329C41472003F97E5 /* TabSelection.swift in Sources */,
 				E975276D298089E200D00EB1 /* Game.swift in Sources */,
 				E975277D298A0D3B00D00EB1 /* MainTabView.swift in Sources */,
 				E9EDBF7929C13503003F97E5 /* AllReviewsView.swift in Sources */,

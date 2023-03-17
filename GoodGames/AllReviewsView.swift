@@ -9,17 +9,18 @@ import SwiftUI
 
 struct AllReviewsView: View {
     @EnvironmentObject var gameVM: GameViewModel
+    var appid: Int
     
     var body: some View {
         ZStack {
             ScrollView {
-                if let game = gameVM.game {
+                if let game = gameVM.cachedGames[appid], let reviews = gameVM.cachedReviews[appid] {
                     VStack(alignment: .leading) {
-                        ForEach(gameVM.reviewsForGame) { review in
+                        ForEach(reviews) { review in
                             IndividualReview(review: review)
                         }
                     }
-                    .navigationTitle(Text("\(gameVM.reviewsForGame.count) \(gameVM.reviewsForGame.count <= 1 ? "review": "reviews") for \(game.name)"))
+                    .navigationTitle(Text("\(reviews.count) \(reviews.count <= 1 ? "review": "reviews") for \(game.name)"))
                     .navigationBarTitleDisplayMode(.inline)
                 }
             }
@@ -30,9 +31,9 @@ struct AllReviewsView: View {
     }
 }
 
-struct AllReviewsView_Previews: PreviewProvider {
-    static var previews: some View {
-        AllReviewsView()
-            .environment(\.colorScheme, .dark)
-    }
-}
+//struct AllReviewsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AllReviewsView()
+//            .environment(\.colorScheme, .dark)
+//    }
+//}

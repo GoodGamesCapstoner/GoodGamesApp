@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainTabView: View {
     @EnvironmentObject var userVM: UserViewModel
+    @EnvironmentObject var gameVM: GameViewModel
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor(Color.secondaryBackground)
@@ -16,7 +17,7 @@ struct MainTabView: View {
     }
     
     var body: some View {
-        TabView(selection: $userVM.tabSelection) {
+        TabView(selection: $gameVM.tabSelection) {
             Group {
                 NavigationStack {
                     HomeView()
@@ -24,7 +25,7 @@ struct MainTabView: View {
                 .tabItem {
                     Image(systemName: "house")
                     Text("Home")
-                }.tag(1)
+                }.tag(TabSelection.home)
                 
                 NavigationStack {
                     DiscoverView()
@@ -32,7 +33,7 @@ struct MainTabView: View {
                 .tabItem {
                     Image(systemName: "magnifyingglass")
                     Text("Discover")
-                }.tag(2)
+                }.tag(TabSelection.discover)
                 
                 NavigationStack {
                     ShelfView()
@@ -40,7 +41,7 @@ struct MainTabView: View {
                 .tabItem {
                     Image(systemName: "books.vertical")
                     Text("My Shelf")
-                }.tag(3)
+                }.tag(TabSelection.shelf)
                 
                 NavigationStack {
                     UserProfileView()
@@ -48,9 +49,8 @@ struct MainTabView: View {
                 .tabItem {
                     Image(systemName: "person")
                     Text("Profile")
-                }.tag(4)
+                }.tag(TabSelection.user)
             }
-//            .fontDesign(.monospaced)
         }
         .accentColor(.primaryAccent)
     }

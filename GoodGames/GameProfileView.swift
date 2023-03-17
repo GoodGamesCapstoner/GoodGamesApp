@@ -13,86 +13,14 @@ struct GameProfileView: View {
     @Environment(\.isPreview) var isPreview
     
     @State var shelfActionLoading = false
-    
     @State var reviewSheetPresented = false
     
-    var addRemoveShelfButtons: some View {
-        HStack {
-            Spacer()
-            if !gameVM.isInShelf {
-                if !shelfActionLoading {
-                    Button {
-                        if let user = userVM.user {
-                            self.shelfActionLoading = true
-                            gameVM.addCurrentGameToShelf(for: user)
-                        }
-                    } label: {
-                        HStack {
-                            Text("Add to my shelf")
-                            Image(systemName: "bookmark.fill")
-                        }
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(Color.primaryAccent)
-                } else{
-                    Text("Adding to shelf...")
-                        .fontWeight(.bold)
-                        .onDisappear {
-                            self.shelfActionLoading = false
-                        }
-                }
-            } else {
-                if !shelfActionLoading {
-                    Button {
-                        if let user = userVM.user {
-                            self.shelfActionLoading = true
-                            gameVM.removeCurrentGameFromShelf(for: user)
-                        }
-                    } label: {
-                        HStack {
-                            Text("Remove from my shelf")
-                            Image(systemName: "bookmark.slash.fill")
-                        }
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(Color.primaryAccent)
-                } else {
-                    Text("Removing from shelf...")
-                        .fontWeight(.bold)
-                        .onDisappear {
-                            self.shelfActionLoading = false
-                        }
-                }
-            }
-            
 
-            Spacer()
-        }
-    }
-    
-    var reviewButton: some View {
-        Button {
-            gameVM.reviewSavedSuccessfully = false
-            reviewSheetPresented.toggle()
-        } label: {
-            HStack {
-                Text("Write a Review")
-                Image(systemName: "star.bubble.fill")
-            }
-        }
-        .buttonStyle(.borderedProminent)
-        .tint(Color.primaryAccent)
-        .sheet(isPresented: $reviewSheetPresented) {
-            //nothin
-        } content: {
-            AddReviewSheet(sheetIsPresented: $reviewSheetPresented)
-                .environment(\.colorScheme, .dark)
-        }
-    }
+    var appID: Int
 
     var body: some View {
         GeometryReader { geometry in
-            if let game = gameVM.game {
+            if let game = gameVM.cachedGames[appID] {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
                         //MARK: - Hero Image
@@ -155,9 +83,9 @@ struct GameProfileView: View {
                                     .fontWeight(.bold)
                                     .padding(.vertical, 5)
                                 
-                                if gameVM.reviewsForGame.count > 0 {
+                                if let reviews = gameVM.cachedReviews[appID], reviews.count > 0 {
                                     VStack(alignment: .leading) {
-                                        ForEach(gameVM.reviewsForGame.prefix(3)) { review in
+                                        ForEach(reviews.prefix(3)) { review in
                                             IndividualReview(review: review)
                                         }
                                     }
@@ -168,10 +96,10 @@ struct GameProfileView: View {
                                         Spacer()
                                         
                                         NavigationLink {
-                                            AllReviewsView()
+                                            AllReviewsView(appid: appID)
                                         } label: {
                                             HStack {
-                                                Text("All reviews (\(gameVM.reviewsForGame.count))")
+                                                Text("All reviews (\(reviews.count))")
                                                 Image(systemName: "arrowshape.right.fill")
                                             }
                                         }
@@ -193,9 +121,11 @@ struct GameProfileView: View {
 
                             //MARK: - Similar Games
                             Group {
-                                HorizontalCarousel(label: "Similar Games to \(game.name)") {
-                                    ForEach(gameVM.relatedGames) { game in
-                                        GameCard(game: game)
+                                if let relatedGames = gameVM.cachedRelatedGames[appID] {
+                                    HorizontalCarousel(label: "Similar Games to \(game.name)") {
+                                        ForEach(relatedGames) { game in
+                                            GameCard(game: game)
+                                        }
                                     }
                                 }
                             }
@@ -209,8 +139,85 @@ struct GameProfileView: View {
         .background(Color.primaryBackground)
         .onAppear {
             if isPreview{
-                gameVM.getGame(forID: "mbbWBhgLflnfTLrJIWhv")
+                gameVM.fetchAndCacheGame(with: appID)
+                gameVM.fetchAndCacheReviews(for: appID)
+                gameVM.fetchAndCacheRelatedGames(for: appID)
             }
+            gameVM.currentGameAppid = appID
+        }
+    }
+    
+    var addRemoveShelfButtons: some View {
+        HStack {
+            Spacer()
+            if !gameVM.isInShelf {
+                if !shelfActionLoading {
+                    Button {
+                        if let user = userVM.user {
+                            self.shelfActionLoading = true
+                            gameVM.addCurrentGameToShelf(for: user)
+                        }
+                    } label: {
+                        HStack {
+                            Text("Add to my shelf")
+                            Image(systemName: "bookmark.fill")
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(Color.purpleGG)
+                } else{
+                    Text("Adding to shelf...")
+                        .fontWeight(.bold)
+                        .onDisappear {
+                            self.shelfActionLoading = false
+                        }
+                }
+            } else {
+                if !shelfActionLoading {
+                    Button {
+                        if let user = userVM.user {
+                            self.shelfActionLoading = true
+                            gameVM.removeCurrentGameFromShelf(for: user)
+                        }
+                    } label: {
+                        HStack {
+                            Text("Remove from my shelf")
+                            Image(systemName: "bookmark.slash.fill")
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(Color.purpleGG)
+                } else {
+                    Text("Removing from shelf...")
+                        .fontWeight(.bold)
+                        .onDisappear {
+                            self.shelfActionLoading = false
+                        }
+                }
+            }
+            
+
+            Spacer()
+        }
+    }
+    
+    var reviewButton: some View {
+        Button {
+            gameVM.reviewSavedSuccessfully = false
+            reviewSheetPresented.toggle()
+        } label: {
+            HStack {
+                Text("Write a Review")
+                Image(systemName: "star.bubble.fill")
+            }
+        }
+        .buttonStyle(.borderedProminent)
+        .tint(Color.purpleGG)
+        .sheet(isPresented: $reviewSheetPresented) {
+            //nothin
+        } content: {
+            AddReviewSheet(sheetIsPresented: $reviewSheetPresented, appid: appID)
+                .environment(\.colorScheme, .dark)
         }
     }
 }
@@ -218,7 +225,7 @@ struct GameProfileView: View {
 
 struct GameProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        GameProfileView()
+        GameProfileView(appID: 251570)
             .environmentObject(GameViewModel())
             .environmentObject(UserViewModel())
             .environment(\.isPreview, true)

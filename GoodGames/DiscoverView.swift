@@ -55,7 +55,7 @@ struct DiscoverView: View {
             }
             Spacer()
         }
-        .background(Color.grayGG)
+        .background(Color.primaryBackground)
         .foregroundColor(.white)
     }
 }

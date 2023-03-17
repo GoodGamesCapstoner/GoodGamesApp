@@ -8,8 +8,15 @@
 import SwiftUI
 
 extension Color {
-    static let purpleGG = Color("MainColor")
-    static let grayGG = Color("backgroundColor")
-    static let lightPurpleGG = Color("Set2Color2")
-    static let brightPurpleGG = Color("brightPurple")
+    //accent colors
+    static let accentSet = "A1"
+    static let accentDarkIsPrimary = true
+    static let primaryAccent = Color("\(accentSet)-\(accentDarkIsPrimary ? "Dark":"Light")")
+    static let secondaryAccent = Color("\(accentSet)-\(accentDarkIsPrimary ? "Light":"Dark")")
+    
+    //background colors
+    static let backgroundSet = "B3"
+    static let backgroundDarkIsPrimary = true
+    static let primaryBackground = Color("\(backgroundSet)-\(backgroundDarkIsPrimary ? "Dark":"Light")")
+    static let secondaryBackground = Color("\(backgroundSet)-\(backgroundDarkIsPrimary ? "Light":"Dark")")
 }

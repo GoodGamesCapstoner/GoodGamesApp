@@ -12,7 +12,7 @@ struct MainTabView: View {
     @EnvironmentObject var gameVM: GameViewModel
     
     init() {
-        UITabBar.appearance().backgroundColor = UIColor(Color.grayGG)
+        UITabBar.appearance().backgroundColor = UIColor(Color.secondaryBackground)
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.white)
     }
     
@@ -52,7 +52,7 @@ struct MainTabView: View {
                 }.tag(TabSelection.user)
             }
         }
-        .accentColor(.purpleGG)
+        .accentColor(.primaryAccent)
     }
 }
 

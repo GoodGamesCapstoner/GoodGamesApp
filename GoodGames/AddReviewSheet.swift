@@ -31,115 +31,118 @@ struct AddReviewSheet: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                VStack(alignment: .leading){
-                    Text("Please describe what you liked or disliked about this game.")
-                    ZStack {
-                        TextField("Your thoughts...", text: $review.text, axis: .vertical)
-                            .textFieldStyle(.roundedBorder)
-                            .onChange(of: review.text, perform: { newValue in
-                                withAnimation {
-                                    showTextError = false
-                                }
-                            })
-                        HStack {
-                            Spacer()
-                            Image(systemName: "exclamationmark.triangle.fill")
-                            Text("Required")
-                        }
-                        .opacity(animatedOpacity1)
-                        .foregroundColor(.red)
-                        .padding(.trailing)
-                    }
-                    .padding(.bottom)
-                    
-                    Text("Please rate this game out of 5 stars.")
-                    StarRatingInteractive(rating: $review.rating)
-                        .padding(.top, 5)
-                        .padding(.bottom)
-                    
-                    Text("How many hours have you played this game? (Approx)")
-                    ZStack {
-                        TextField("Hours", text: $review.hoursPlayed)
-                            .keyboardType(.numberPad)
-                            .textFieldStyle(.roundedBorder)
-                            .onChange(of: review.hoursPlayed, perform: { newValue in
-                                withAnimation {
-                                    showHoursError = false
-                                }
-                            })
-                        HStack {
-                            Spacer()
-                            Image(systemName: "exclamationmark.triangle.fill")
-                            Text("Required")
-                        }
-                        .opacity(animatedOpacity2)
-                        .foregroundColor(.red)
-                        .padding(.trailing)
-                    }
-                    .padding(.bottom)
-                }
+            GeometryReader { geometry in
                 VStack {
-                    Button {
-                        guard review.hoursPlayed != "" && review.text != "" else {
-                            if review.text == "" {
-                                withAnimation(Animation.easeOut(duration: 0.5)) {
-                                    showTextError = true
-                                }
+                    VStack(alignment: .leading){
+                        Text("Please describe what you liked or disliked about this game.")
+                        ZStack {
+                            TextField("Your thoughts...", text: $review.text, axis: .vertical)
+                                .textFieldStyle(.roundedBorder)
+                                .onChange(of: review.text, perform: { newValue in
+                                    withAnimation {
+                                        showTextError = false
+                                    }
+                                })
+                            HStack {
+                                Spacer()
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                Text("Required")
                             }
-                            if review.hoursPlayed == "" {
-                                withAnimation {
-                                    showHoursError = true
-                                }
+                            .opacity(animatedOpacity1)
+                            .foregroundColor(.red)
+                            .padding(.trailing)
+                        }
+                        .padding(.bottom)
+                        
+                        Text("Please rate this game out of 5 stars.")
+                        StarRatingInteractive(rating: $review.rating)
+                            .padding(.top, 5)
+                            .padding(.bottom)
+                        
+                        Text("How many hours have you played this game? (Approx)")
+                        ZStack {
+                            TextField("Hours", text: $review.hoursPlayed)
+                                .keyboardType(.numberPad)
+                                .textFieldStyle(.roundedBorder)
+                                .onChange(of: review.hoursPlayed, perform: { newValue in
+                                    withAnimation {
+                                        showHoursError = false
+                                    }
+                                })
+                            HStack {
+                                Spacer()
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                Text("Required")
                             }
-                            return
+                            .opacity(animatedOpacity2)
+                            .foregroundColor(.red)
+                            .padding(.trailing)
                         }
-                        
-                        if let hoursPlayed = review.hoursPlayedInt, let game = gameVM.cachedGames[appid], let user = userVM.user {
-                            let review = Review(
-                                appid: game.appid,
-                                creationDate: Date(),
-                                hoursPlayed: hoursPlayed,
-                                rating: review.rating,
-                                text: review.text,
-                                userid: user.uid,
-                                username: user.username
-                            )
-                            gameVM.saveReview(review)
-                            self.waitingForSave = true
+                        .padding(.bottom)
+                    }
+                    VStack {
+                        Button {
+                            guard review.hoursPlayed != "" && review.text != "" else {
+                                if review.text == "" {
+                                    withAnimation(Animation.easeOut(duration: 0.5)) {
+                                        showTextError = true
+                                    }
+                                }
+                                if review.hoursPlayed == "" {
+                                    withAnimation {
+                                        showHoursError = true
+                                    }
+                                }
+                                return
+                            }
+                            
+                            if let hoursPlayed = review.hoursPlayedInt, let game = gameVM.cachedGames[appid], let user = userVM.user {
+                                let review = Review(
+                                    appid: game.appid,
+                                    creationDate: Date(),
+                                    hoursPlayed: hoursPlayed,
+                                    rating: review.rating,
+                                    text: review.text,
+                                    userid: user.uid,
+                                    username: user.username
+                                )
+                                gameVM.saveReview(review)
+                                self.waitingForSave = true
+                            }
+                            
+                        } label: {
+                            Text("Post Review")
                         }
-                        
-                    } label: {
-                        Text("Post Review")
+                        .buttonStyle(.borderedProminent)
+                        .tint(Color.primaryAccent)
+                        .padding(.vertical)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .tint(Color.purpleGG)
-                    .padding(.vertical)
-                }
-                .onChange(of: gameVM.reviewSavedSuccessfully) { newValue in
-                    if newValue && self.waitingForSave {
-                        sheetIsPresented = false
+                    .onChange(of: gameVM.reviewSavedSuccessfully) { newValue in
+                        if newValue && self.waitingForSave {
+                            sheetIsPresented = false
+                        }
+                    }
+                    
+                    if waitingForSave {
+                        LoadingSpinner()
                     }
                 }
+                .padding()
                 
-                if waitingForSave {
-                    LoadingSpinner()
+                .navigationTitle("Write Review")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            sheetIsPresented = false
+                        } label: {
+                            Text("Cancel")
+                        }.tint(Color.primaryAccent)
+                    }
                 }
+                Spacer()
             }
-            .padding()
-            .background(Color.grayGG)
-            .navigationTitle("Write Review")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        sheetIsPresented = false
-                    } label: {
-                        Text("Cancel")
-                    }.tint(Color.purpleGG)
-                }
-            }
-            Spacer()
+            .background(Color.primaryBackground)
         }
     }
 }

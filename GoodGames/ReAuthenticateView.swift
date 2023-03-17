@@ -7,10 +7,10 @@ struct ReAuthenticateView: View {
     @State private var errorText = ""
     var body: some View {
             ZStack {
-                Color.grayGG
+                Color.primaryBackground
                             
                 RoundedRectangle(cornerRadius: 3, style: .continuous)
-                    .foregroundColor(.purpleGG)
+                    .foregroundColor(.secondaryBackground)
                     .frame(width: 1000, height: 400)
                     .rotationEffect(.degrees(135))
                     .offset(y: -350)
@@ -42,7 +42,7 @@ struct ReAuthenticateView: View {
                             .frame(width: 200, height: 40)
                             .background(
                                 RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                    .fill(.linearGradient(colors: [Color.purpleGG, Color.lightPurpleGG], startPoint: .top, endPoint: .bottomTrailing))
+                                    .fill(.linearGradient(colors: [Color.primaryAccent, Color.secondaryAccent], startPoint: .top, endPoint: .bottomTrailing))
                             )
                             .foregroundColor(.white)
                     }

@@ -33,7 +33,7 @@ struct ShelfView: View {
 //                }
             }
         }
-        .background(Color.grayGG)
+        .background(Color.primaryBackground)
         .foregroundColor(.white)
     }
 }

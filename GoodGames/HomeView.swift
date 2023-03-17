@@ -46,26 +46,31 @@ struct HomeView: View {
 //                                UserCard()
 //                            }
 //                        }.padding(5)
-                    RoundedRectangle(cornerRadius: 5)
-                        .foregroundColor(.purpleGG)
-                        .opacity(1)
-                    Text("These awesome features will be here soon!")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                }
-                
-                HorizontalCarousel(label: "Recommended Games for You") {
-                    ForEach(gameVM.recommendedGames) { game in
-                        GameCard(game: game)
+
+                        RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(.secondaryBackground)
+                            .opacity(1)
+                        Text("These awesome features will be here soon!")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                    }
+                    
+                    HorizontalCarousel(label: "Recommended Games for You") {
+                        ForEach(gameVM.recommendedGames) { game in
+                            GameCard(game: game)
+                        }
                     }
                 }
                 
-                Spacer()
+
+                
+                //Spacer()
+
             }
             .padding()
-            .background(Color.grayGG)
+            .background(Color.primaryBackground)
         }
         
     }

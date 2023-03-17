@@ -16,11 +16,11 @@ struct LoadingSpinner: View {
     var body: some View {
         ZStack {
             Circle()
-                .stroke(Color(.systemGray5), lineWidth: 5)
+                .stroke(Color.secondaryBackground, lineWidth: 5)
                 .frame(width: 100, height: 100)
             Circle()
                 .trim(from: 0, to: progress)
-                .stroke(.purple, lineWidth: 5)
+                .stroke(Color.primaryAccent, lineWidth: 5)
                 .frame(width: 100, height: 100)
                 .rotationEffect(Angle(degrees: 270))
                 .animation(Animation.easeInOut(duration: 1.5).repeatForever(autoreverses: false), value: isLoading)

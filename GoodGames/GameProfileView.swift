@@ -15,6 +15,7 @@ struct GameProfileView: View {
     @State var shelfActionLoading = false
     @State var reviewSheetPresented = false
     
+
     var appID: Int
 
     var body: some View {
@@ -135,7 +136,7 @@ struct GameProfileView: View {
                 .edgesIgnoringSafeArea(.top)
             }
         }
-        .background(Color.grayGG)
+        .background(Color.primaryBackground)
         .onAppear {
             if isPreview{
                 gameVM.fetchAndCacheGame(with: appID)

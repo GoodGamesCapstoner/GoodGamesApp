@@ -14,22 +14,26 @@ class GameViewModel: ObservableObject {
             print("** View model is ready **")
         }
     }
+    @Published var tabSelection: TabSelection = .home
     
-    //MARK: Single Game
-    @Published var game: Game?
-    @Published var gameOfTheDay: Game?
-    @Published var reviewsForGame: [Review] = []
-    
+    //MARK: Game Profile Presentation
+    @Published var currentGameAppid: Int?
+
     //MARK: Review
     @Published var reviewSavedSuccessfully = false
     
     //MARK: - Game Lists
+    @Published var gameOfTheDay: Game?
     @Published var newReleases: [Game] = []
     @Published var topRated: [Game] = []
     @Published var mostReviewed: [Game] = []
     @Published var userShelf: [Game] = []
-    @Published var relatedGames: [Game] = []
     @Published var recommendedGames: [Game] = []
+    
+    //MARK: Caches
+    @Published var cachedGames: [Int: Game] = [:]
+    @Published var cachedRelatedGames: [Int : [Game]] = [:]
+    @Published var cachedReviews: [Int: [Review]] = [:]
     
     private let functionsManager = FunctionsManager()
     private var timeoutGenerator: NumberGenerator
@@ -37,7 +41,7 @@ class GameViewModel: ObservableObject {
     //MARK: - Computed Properties
     
     var isInShelf: Bool {
-        if let game {
+        if let currentGameAppid, let game = cachedGames[currentGameAppid] {
             return userShelf.contains(game)
         } else {
             return false
@@ -49,6 +53,7 @@ class GameViewModel: ObservableObject {
         timeoutGenerator = NumberGenerator(maximum: 20.0, withIncrement: 5.0)
     }
     
+    //MARK: - Initialization Helpers
     func initializeAppData(with user: User) {
         // start data fetch methods
         self.getNewReleases()
@@ -88,15 +93,13 @@ class GameViewModel: ObservableObject {
     
     //MARK: - User Intents
     func selectGame(_ game: Game) {
-        clearGameProfileCache()
-        
-        self.game = game
-        getRelatedGames(for: game.appid)
-        getReviews(for: game.appid)
+        cacheGame(game) //stick the game in the cache
+        fetchAndCacheRelatedGames(for: game.appid) //fetch the related games and cache them
+        fetchAndCacheReviews(for: game.appid) //fetch the reviews and cache them
     }
     
     func addCurrentGameToShelf(for user: User) {
-        if let game = self.game {
+        if let currentGameAppid, let game = cachedGames[currentGameAppid] {
             FirestoreManager.shared.addToShelf(for: user, game: game) { result in
                 switch result {
                 case .failure(let error):
@@ -109,30 +112,88 @@ class GameViewModel: ObservableObject {
     }
     
     func removeCurrentGameFromShelf(for user: User) {
-        if let shelfGame = userShelf.first(where: { $0 == self.game }) {
-            FirestoreManager.shared.removeFromShelf(for: user, game: shelfGame) { result in
-                switch result {
-                case .failure(let error):
-                    print("Game not removed from shelf with error: \(error.localizedDescription)")
-                case .success(_):
-                    print("Game removed from shelf")
+        if let currentGameAppid, let game = cachedGames[currentGameAppid] {
+            if let shelfGame = userShelf.first(where: { $0 == game }) {
+                FirestoreManager.shared.removeFromShelf(for: user, game: shelfGame) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Game not removed from shelf with error: \(error.localizedDescription)")
+                    case .success(_):
+                        print("Game removed from shelf")
+                    }
                 }
             }
         }
     }
     
-    //MARK: - Data Fetch Methods
-    func getGame(forID uid: String) {
-        FirestoreManager.shared.retrieveGame(forID: uid) { (result) in
+    func saveReview(_ review: Review){
+        FirestoreManager.shared.createReview(review) { result in
+            switch result {
+            case .failure(let error):
+                print("Review not saved with error: \(error.localizedDescription)")
+            case .success(let saved):
+                self.reviewSavedSuccessfully = saved
+                print("Review saved.")
+            }
+        }
+    }
+
+    //MARK: - Cache Methods
+    func cacheGame(_ game: Game) {
+        self.cachedGames[game.appid] = game
+    }
+    
+    func fetchAndCacheGame(with appid: Int) {
+        FirestoreManager.shared.retrieveGame(by: appid) { result in
             switch result {
             case .failure(let error):
                 print(error.localizedDescription)
             case .success(let game):
-                self.game = game
+                self.cachedGames[appid] = game
             }
         }
     }
     
+    func fetchAndCacheRelatedGames(for appid: Int) {
+        functionsManager.getGamesRelated(to: appid) { result in
+            self.handleGameListResult(result: result) { games in
+                self.cachedRelatedGames[appid] = games
+            }
+        }
+    }
+    
+    func fetchAndCacheReviews(for appid: Int){
+        FirestoreManager.shared.subscribeToReviews(for: appid) { result in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let reviews):
+                self.cachedReviews[appid] = reviews
+            }
+        }
+    }
+
+    //MARK: - Shelf Listener
+    
+    func getShelfListener(for user: User) {
+        FirestoreManager.shared.shelfListener(for: user) { (result) in
+            self.handleGameListResult(result: result) { games in
+                self.userShelf = games
+            }
+        }
+    }
+    
+    //MARK: - Error Handler
+    private func handleGameListResult(result: Result<[Game], Error>, onSuccess: @escaping ([Game]) -> Void ) {
+        switch result {
+        case .failure(let error):
+            print(error.localizedDescription)
+        case .success(let games):
+            onSuccess(games)
+        }
+    }
+    
+    //MARK: - Initial Data Fetch Methods
     func getNewReleases() {
         FirestoreManager.shared.retrieveNewReleases { (result) in
             self.handleGameListResult(result: result) { games in
@@ -168,72 +229,11 @@ class GameViewModel: ObservableObject {
         }
     }
     
-    func getRelatedGames(for appid: Int) {
-        functionsManager.getGamesRelated(to: appid) { result in
-            self.handleGameListResult(result: result) { games in
-                self.relatedGames = games
-            }
-        }
-    }
-    
     func getRecommendedGames(for user: User) {
         functionsManager.getRecommendedGames(for: user) { result in
             self.handleGameListResult(result: result) { games in
                 self.recommendedGames = games
             }
         }
-    }
-    
-    //MARK: - Shelf Methods
-    
-    func getShelfListener(for user: User) {
-        FirestoreManager.shared.shelfListener(for: user) { (result) in
-            self.handleGameListResult(result: result) { games in
-                self.userShelf = games
-            }
-        }
-    }
-    
-    //MARK: - Review Methods
-    
-    func getReviews(for appid: Int){
-        FirestoreManager.shared.subscribeToReviews(for: appid) { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let reviews):
-                self.reviewsForGame = reviews
-            }
-        }
-    }
-    
-    func saveReview(_ review: Review){
-        FirestoreManager.shared.createReview(review) { result in
-            switch result {
-            case .failure(let error):
-                print("Review not saved with error: \(error.localizedDescription)")
-            case .success(let saved):
-                self.reviewSavedSuccessfully = saved
-                print("Review saved.")
-            }
-        }
-    }
-    
-    //MARK: - Error Handler
-    private func handleGameListResult(result: Result<[Game], Error>, onSuccess: @escaping ([Game]) -> Void ) {
-        switch result {
-        case .failure(let error):
-            print(error.localizedDescription)
-        case .success(let games):
-            onSuccess(games)
-        }
-    }
-    
-    //MARK: - Cleanup Methods
-    
-    func clearGameProfileCache() {
-        self.game = nil
-        self.relatedGames = []
-        self.reviewsForGame = []
     }
 }

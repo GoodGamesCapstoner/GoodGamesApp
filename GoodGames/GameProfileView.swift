@@ -13,8 +13,138 @@ struct GameProfileView: View {
     @Environment(\.isPreview) var isPreview
     
     @State var shelfActionLoading = false
-    
     @State var reviewSheetPresented = false
+    
+    var appID: Int
+
+    var body: some View {
+        GeometryReader { geometry in
+            if let game = gameVM.cachedGames[appID] {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        //MARK: - Hero Image
+                        AsyncImage(url: URL(string: game.headerImage)) { image in
+                            image.resizable()
+                        } placeholder: {
+                            //nothin yet
+                        }
+                        .edgesIgnoringSafeArea(.top)
+                        .frame(width: geometry.size.width, height: geometry.size.width/2.1)
+
+                        //MARK: - Game Title
+                        Text("\(game.name)")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .padding(.horizontal)
+                            .padding(.top, 5)
+
+                        //MARK: - Main Page Content
+                        VStack(alignment: .leading) {
+                            //MARK: - Overall Rating
+                            StarRating(rating: game.calculatedRating, outOf: game.maxRating)
+                            .font(.title2)
+                            .padding(.vertical, 10)
+
+                            Divider()
+
+                            //MARK: - Description
+                            Text(game.shortDescription)
+                            
+                            Group {
+                                Divider()
+                                //MARK: - Game Specs
+                                let columns = [GridItem(.fixed(geometry.size.width/3), alignment: .topLeading), GridItem(.flexible(), alignment: .topLeading)]
+                                LazyVGrid(columns: columns, spacing: 10) {
+                                    Text("Genres:").fontWeight(.bold)
+                                    Text(game.formattedGenres)
+                                    Text("Developer:").fontWeight(.bold)
+                                    Text(game.developer)
+                                    Text("Publisher:").fontWeight(.bold)
+                                    Text(game.publisher)
+                                    Text("Platforms:").fontWeight(.bold)
+                                    Text(game.platform)
+                                    Text("Release Date: ").fontWeight(.bold) //NEEDS WORK (DATE FORMATTER)
+                                    Text(game.formattedReleaseDate)
+                                }
+                                Divider()
+                            }
+
+                            
+
+                            //MARK: - Add to shelf button
+                            addRemoveShelfButtons
+                            Divider()
+                            
+                            //MARK: - Reviews
+                            Group {
+                                Text("Top Reviews for \(game.name):")
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                    .padding(.vertical, 5)
+                                
+                                if let reviews = gameVM.cachedReviews[appID], reviews.count > 0 {
+                                    VStack(alignment: .leading) {
+                                        ForEach(reviews.prefix(3)) { review in
+                                            IndividualReview(review: review)
+                                        }
+                                    }
+                                    
+                                    HStack {
+                                        reviewButton
+                                        
+                                        Spacer()
+                                        
+                                        NavigationLink {
+                                            AllReviewsView(appid: appID)
+                                        } label: {
+                                            HStack {
+                                                Text("All reviews (\(reviews.count))")
+                                                Image(systemName: "arrowshape.right.fill")
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    VStack {
+                                        Text("There are no reviews yet.")
+                                    }
+                                    
+                                    HStack {
+                                        Spacer()
+                                        reviewButton
+                                        Spacer()
+                                    }
+                                }
+                                
+                                Divider()
+                            }
+
+                            //MARK: - Similar Games
+                            Group {
+                                if let relatedGames = gameVM.cachedRelatedGames[appID] {
+                                    HorizontalCarousel(label: "Similar Games to \(game.name)") {
+                                        ForEach(relatedGames) { game in
+                                            GameCard(game: game)
+                                        }
+                                    }
+                                }
+                            }
+                        }.padding(.horizontal)
+                        Spacer()
+                    }
+                }
+                .edgesIgnoringSafeArea(.top)
+            }
+        }
+        .background(Color.grayGG)
+        .onAppear {
+            if isPreview{
+                gameVM.fetchAndCacheGame(with: appID)
+                gameVM.fetchAndCacheReviews(for: appID)
+                gameVM.fetchAndCacheRelatedGames(for: appID)
+            }
+            gameVM.currentGameAppid = appID
+        }
+    }
     
     var addRemoveShelfButtons: some View {
         HStack {
@@ -85,132 +215,8 @@ struct GameProfileView: View {
         .sheet(isPresented: $reviewSheetPresented) {
             //nothin
         } content: {
-            AddReviewSheet(sheetIsPresented: $reviewSheetPresented)
+            AddReviewSheet(sheetIsPresented: $reviewSheetPresented, appid: appID)
                 .environment(\.colorScheme, .dark)
-        }
-    }
-
-    var body: some View {
-        GeometryReader { geometry in
-            if let game = gameVM.game {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        //MARK: - Hero Image
-                        AsyncImage(url: URL(string: game.headerImage)) { image in
-                            image.resizable()
-                        } placeholder: {
-                            //nothin yet
-                        }
-                        .edgesIgnoringSafeArea(.top)
-                        .frame(width: geometry.size.width, height: geometry.size.width/2.1)
-
-                        //MARK: - Game Title
-                        Text("\(game.name)")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .padding(.horizontal)
-                            .padding(.top, 5)
-
-                        //MARK: - Main Page Content
-                        VStack(alignment: .leading) {
-                            //MARK: - Overall Rating
-                            StarRating(rating: game.calculatedRating, outOf: game.maxRating)
-                            .font(.title2)
-                            .padding(.vertical, 10)
-
-                            Divider()
-
-                            //MARK: - Description
-                            Text(game.shortDescription)
-                            
-                            Group {
-                                Divider()
-                                //MARK: - Game Specs
-                                let columns = [GridItem(.fixed(geometry.size.width/3), alignment: .topLeading), GridItem(.flexible(), alignment: .topLeading)]
-                                LazyVGrid(columns: columns, spacing: 10) {
-                                    Text("Genres:").fontWeight(.bold)
-                                    Text(game.formattedGenres)
-                                    Text("Developer:").fontWeight(.bold)
-                                    Text(game.developer)
-                                    Text("Publisher:").fontWeight(.bold)
-                                    Text(game.publisher)
-                                    Text("Platforms:").fontWeight(.bold)
-                                    Text(game.platform)
-                                    Text("Release Date: ").fontWeight(.bold) //NEEDS WORK (DATE FORMATTER)
-                                    Text(game.formattedReleaseDate)
-                                }
-                                Divider()
-                            }
-
-                            
-
-                            //MARK: - Add to shelf button
-                            addRemoveShelfButtons
-                            Divider()
-                            
-                            //MARK: - Reviews
-                            Group {
-                                Text("Top Reviews for \(game.name):")
-                                    .font(.title3)
-                                    .fontWeight(.bold)
-                                    .padding(.vertical, 5)
-                                
-                                if gameVM.reviewsForGame.count > 0 {
-                                    VStack(alignment: .leading) {
-                                        ForEach(gameVM.reviewsForGame.prefix(3)) { review in
-                                            IndividualReview(review: review)
-                                        }
-                                    }
-                                    
-                                    HStack {
-                                        reviewButton
-                                        
-                                        Spacer()
-                                        
-                                        NavigationLink {
-                                            AllReviewsView()
-                                        } label: {
-                                            HStack {
-                                                Text("All reviews (\(gameVM.reviewsForGame.count))")
-                                                Image(systemName: "arrowshape.right.fill")
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    VStack {
-                                        Text("There are no reviews yet.")
-                                    }
-                                    
-                                    HStack {
-                                        Spacer()
-                                        reviewButton
-                                        Spacer()
-                                    }
-                                }
-                                
-                                Divider()
-                            }
-
-                            //MARK: - Similar Games
-                            Group {
-                                HorizontalCarousel(label: "Similar Games to \(game.name)") {
-                                    ForEach(gameVM.relatedGames) { game in
-                                        GameCard(game: game)
-                                    }
-                                }
-                            }
-                        }.padding(.horizontal)
-                        Spacer()
-                    }
-                }
-                .edgesIgnoringSafeArea(.top)
-            }
-        }
-        .background(Color.grayGG)
-        .onAppear {
-            if isPreview{
-                gameVM.getGame(forID: "mbbWBhgLflnfTLrJIWhv")
-            }
         }
     }
 }
@@ -218,7 +224,7 @@ struct GameProfileView: View {
 
 struct GameProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        GameProfileView()
+        GameProfileView(appID: 251570)
             .environmentObject(GameViewModel())
             .environmentObject(UserViewModel())
             .environment(\.isPreview, true)

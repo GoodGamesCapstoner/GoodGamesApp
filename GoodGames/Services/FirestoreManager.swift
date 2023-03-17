@@ -174,24 +174,41 @@ class FirestoreManager: ObservableObject {
     }
     
     //MARK: - Get Methods for Game Data
-    func retrieveGame(forID uid: String, completion: @escaping (Result<Game, Error>) -> Void) {
-        let reference = Firestore.firestore().collection("games").document(uid)
+//    func retrieveGame(forID uid: String, completion: @escaping (Result<Game, Error>) -> Void) {
+//        let reference = Firestore.firestore().collection("games").document(uid)
+//
+//        getDocument(for: reference) { result in
+//            switch result {
+//            case .success(let document):
+//                do {
+//                    // Added question mark because of an error, not sure if this is correct or not
+//                    guard let game = try document.data(as: Game?.self) else {
+//                        completion(.failure(FireStoreError.noDocumentSnapshot))
+//                        return
+//                    }
+//                    completion(.success(game))
+//                } catch {
+//                    completion(.failure(FireStoreError.unknownError))
+//                }
+//            case .failure(let error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+    
+    func retrieveGame(by appid: Int, completion:@escaping (Result<Game, Error>) -> Void) {
+        let query = firestore.collection("games").whereField(Game.CodingKeys.appid.rawValue, isEqualTo: appid)
         
-        getDocument(for: reference) { result in
+        retrieveGames(matching: query) { result in
             switch result {
-            case .success(let document):
-                do {
-                    // Added question mark because of an error, not sure if this is correct or not
-                    guard let game = try document.data(as: Game?.self) else {
-                        completion(.failure(FireStoreError.noDocumentSnapshot))
-                        return
-                    }
-                    completion(.success(game))
-                } catch {
-                    completion(.failure(FireStoreError.unknownError))
-                }
             case .failure(let error):
                 completion(.failure(error))
+            case .success(let games):
+                if let game = games.first {
+                    completion(.success(game))
+                } else {
+                    completion(.failure(FireStoreError.noSnapshotData))
+                }
             }
         }
     }

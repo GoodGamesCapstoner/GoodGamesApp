@@ -71,9 +71,8 @@ struct HomeView: View {
             }
             .padding()
             .background(Color.primaryBackground)
-        }
-        
     }
+        
 }
 
 struct HomeView_Previews: PreviewProvider {

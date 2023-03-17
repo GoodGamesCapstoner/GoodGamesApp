@@ -164,7 +164,7 @@ struct GameProfileView: View {
                         }
                     }
                     .buttonStyle(.borderedProminent)
-                    .tint(Color.purpleGG)
+                    .tint(Color.primaryAccent)
                 } else{
                     Text("Adding to shelf...")
                         .fontWeight(.bold)
@@ -186,7 +186,7 @@ struct GameProfileView: View {
                         }
                     }
                     .buttonStyle(.borderedProminent)
-                    .tint(Color.purpleGG)
+                    .tint(Color.primaryAccent)
                 } else {
                     Text("Removing from shelf...")
                         .fontWeight(.bold)
@@ -212,7 +212,7 @@ struct GameProfileView: View {
             }
         }
         .buttonStyle(.borderedProminent)
-        .tint(Color.purpleGG)
+        .tint(Color.primaryAccent)
         .sheet(isPresented: $reviewSheetPresented) {
             //nothin
         } content: {

@@ -33,7 +33,7 @@ struct DeleteView: View {
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                         Button(canDelete ? "DELETE ACCOUNT" : "Authenticate") {
                             if canDelete {
-                                FirestoreManager().deleteUserData(uid: user.uid) { result in
+                                FirestoreManager.shared.deleteUserData(uid: user.uid) { result in
                                     dismiss()
                                     switch result {
                                     case .success:
@@ -62,6 +62,7 @@ struct DeleteView: View {
                     Spacer()
                     } else {
                         ReAuthenticateView(canDelete: $canDelete, showAuth: $showAuth)
+                            .environment(\.colorScheme, .dark)
                     }
                 }
             .frame(width: 350)
@@ -74,6 +75,6 @@ struct DeleteView: View {
 
 struct DeleteView_Previews: PreviewProvider {
     static var previews: some View {
-        DeleteView(user: User(uid: "", name: "", email: ""))
+        DeleteView(user: User(uid: "", email: "", username: "", firstName: "", lastName: ""))
     }
 }

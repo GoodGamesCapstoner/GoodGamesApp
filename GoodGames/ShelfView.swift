@@ -21,16 +21,20 @@ struct ShelfView: View {
                 let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
                 LazyVGrid(columns: columns) {
                     ForEach(gameVM.userShelf) { game in
-                        GameCard(game: game)
+                        GameCard(game: game, size: .larger)
                     }
                 }
             }
             .onAppear {
-                if let user = userVM.user {
-                    gameVM.getShelf(for: user)
-                }
+//                if let user = userVM.user {
+//                    if gameVM.userShelf.isEmpty {
+//                        gameVM.getShelfListener(for: user)
+//                    }
+//                }
             }
         }
+        .background(Color.primaryBackground)
+        .foregroundColor(.white)
     }
 }
 

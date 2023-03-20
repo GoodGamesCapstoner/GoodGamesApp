@@ -15,52 +15,51 @@ struct UserProfileView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
+                
                 VStack {
-                    Text("\(userVM.user?.name ?? "No User Found")'s Profile")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .padding(.horizontal)
-                        .padding(.top, 5)
+                    //MARK: - PFP, Followers, Following, and Shelf Ribbon
+                    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
                     
-                    //MARK: - Profile Image & Details
                     HStack {
                         if userVM.isUserAuthenticated == .signedIn {
                             Button {
                                 userVM.showSheet = true
                             } label: {
-                                if let image = userVM.image {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .cornerRadius(50)
-                                        .frame(width: 180, height: 180)
-                                        .aspectRatio(contentMode: .fill)
-                                        .clipShape(Circle())
-                                } else {
-                                    Circle()
-                                        .frame(width: 180, height: 180)
-                                        .foregroundColor(.black)
+                                ZStack {
+                                    if let image = userVM.image {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .frame(width: 100, height: 100)
+                                            .aspectRatio(contentMode: .fill)
+                                            .clipShape(Circle())
+                                        
+                                    } else {
+                                        Circle()
+                                            .frame(width: 100, height: 100)
+                                            .foregroundColor(.black)
+                                    }
+                                    
+                                    VStack {
+                                            Spacer()
+                                            ZStack {
+                                                Circle()
+                                                    .foregroundColor(.white)
+                                                    .frame(width: 29, height: 29)
+                                                Image(systemName: "square.and.pencil.circle.fill")
+                                                    .resizable()
+                                                    .foregroundColor(Color.primaryAccent)
+                                                    .frame(width: 30, height: 30)
+                                            }
+                                            
+//                                            .cornerRadius(100)
+                                            .offset(CGSize(width: 40.0, height: 0))
+                                            
+                                        }
                                 }
-                            }
-                            // The idea is that if you're visiting someone else's profile page you won't be able
-                            // to update their image but you can still see it. Not sure if it works or not.
-                        } else {
-                            if let image = userVM.image {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .cornerRadius(50)
-                                    .frame(width: 180, height: 180)
-                                    .aspectRatio(contentMode: .fill)
-                                    .clipShape(Circle())
-                            } else {
-                                Circle()
-                                    .frame(width: 180, height: 180)
-                                    .foregroundColor(.black)
                             }
                         }
                         Spacer()
                             .frame(width: 15, height: 1)
-                        //                    .ignoresSafeArea()
-                        //                    .padding(.horizontal, 20)
                             .onChange(of: userVM.image, perform: { image in
                                 userVM.image = image
                                 userVM.saveProfileImage()
@@ -68,73 +67,37 @@ struct UserProfileView: View {
                             .sheet(isPresented: $userVM.showSheet) {
                                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$userVM.image)
                             }
-                        
-                        Spacer()
-                        
-                        VStack(alignment: .leading, spacing: 10) {
-                            VStack(alignment: .leading) {
-                                Text("Name:")
-                                    .font(.subheadline)
-                                Text(userVM.user?.name ?? "No user found")
-                                    .font(.title3)
+                        VStack(spacing: 5) {
+                            Text("\(userVM.user?.firstName ?? "No user found") \(userVM.user?.lastName ?? "")")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                            LazyVGrid(columns: columns) {
+                                Group {
+                                    Text("Shelf")
+                                    Text("Followers")
+                                    Text("Following")
+                                }
+                                .font(.subheadline)
+                                .fontWeight(.bold)
+                                Text("Coming Soon")
+                                    .font(.footnote)
+                                    .opacity(0.5)
+                                Text("Coming Soon")
+                                    .font(.footnote)
+                                    .opacity(0.5)
+                                Text("Coming Soon")
+                                    .font(.footnote)
+                                    .opacity(0.5)
                             }
-                            VStack(alignment: .leading) {
-                                Text("Email:")
-                                    .font(.subheadline)
-                                Text(userVM.user?.email ?? "No user found")
-                                    .font(.title3)
-                                    .lineLimit(1)
-                            }
-                            
+                            .padding(10)
+                            .background(Color.secondaryBackground)
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .cornerRadius(10)
                         }
                     }
-                    .padding(.horizontal)
-                    //MARK: - Followers Ribbon
-                    let columns = [GridItem(.flexible()), GridItem(.flexible())]
-                    
-                    LazyVGrid(columns: columns) {
-                        Text("Followers")
-                            .font(.title3)
-                        Text("Following")
-                            .font(.title3)
-                        Text("Coming soon")
-                            .font(.subheadline)
-                            .opacity(0.5)
-                        Text("Coming Soon")
-                            .font(.subheadline)
-                            .opacity(0.5)
-                    }
-                    .padding(10)
-                    .frame(maxWidth: .infinity)
-                    .background(Color(hex: "282828"))
-                    .foregroundColor(.white)
-                    
-                    //MARK: - Logout/Delete Account Buttons
-                    HStack {
-                        if userVM.isUserAuthenticated == .signedIn {
-    //                    if vm.user == nil {
-                            Button {
-                                userVM.logOut()
-                            } label: {
-                                Text("Log out")
-                            }
-                            .bold()
-                            .buttonStyle(.bordered)
-                        }
-                        if userVM.isUserAuthenticated == .signedIn {
-                            Button {
-                                userVM.showDeletion.toggle()
-                            } label: {
-                                Text("Delete Account")
-                                    .foregroundColor(.red)
-                                    .buttonStyle(.borderless)
-                            }
-                            .buttonStyle(.bordered)
-                            .sheet(isPresented: $userVM.showDeletion) {
-                                DeleteView(user: userVM.user!)
-                            }
-                        }
-                    }.padding(.vertical, 5)
+                    Spacer()
                     Divider()
                     
                     //MARK: - Shelf and Recommended Games
@@ -151,23 +114,37 @@ struct UserProfileView: View {
                             }
                         }
                     }
-                    .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     Spacer()
                 }
+                .padding(.horizontal, 10)
+                .padding(.top, 10)
             }
-        }
-        .onAppear {
-            if gameVM.recommendedGames.isEmpty {
-                if let user = userVM.user {
-                    gameVM.getRecommendedGames(for: user)
+            .background(Color.primaryBackground)
+            .foregroundColor(.white)
+            // Add settings button
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Text("@\(userVM.user?.username ?? "NULL")")
+                        .font(.title)
+                        .fontWeight(.bold)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    menuButton
                 }
             }
-            
-            if let user = userVM.user {
-                gameVM.getShelf(for: user)
-            }
         }
+    }
+}
+
+//MARK: - Button that takes the user to the settings page
+var menuButton: some View {
+    NavigationLink(destination: SettingsView()) {
+        Image(systemName: "gearshape.fill")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 25)
+            .foregroundColor(.primaryAccent)
     }
 }
 
@@ -176,5 +153,6 @@ struct UserProfileView_Previews: PreviewProvider {
         UserProfileView()
             .environmentObject(GameViewModel())
             .environmentObject(UserViewModel())
+            .environment(\.colorScheme, .dark)
     }
 }

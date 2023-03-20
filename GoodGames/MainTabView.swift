@@ -9,49 +9,50 @@ import SwiftUI
 
 struct MainTabView: View {
     @EnvironmentObject var userVM: UserViewModel
+    @EnvironmentObject var gameVM: GameViewModel
+    
+    init() {
+        UITabBar.appearance().backgroundColor = UIColor(Color.secondaryBackground)
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.white)
+    }
     
     var body: some View {
-        TabView(selection: $userVM.tabSelection) {
-            NavigationStack {
-                HomeView()
+        TabView(selection: $gameVM.tabSelection) {
+            Group {
+                NavigationStack {
+                    HomeView()
+                }
+                .tabItem {
+                    Image(systemName: "house")
+                    Text("Home")
+                }.tag(TabSelection.home)
+                
+                NavigationStack {
+                    DiscoverView()
+                }
+                .tabItem {
+                    Image(systemName: "magnifyingglass")
+                    Text("Discover")
+                }.tag(TabSelection.discover)
+                
+                NavigationStack {
+                    ShelfView()
+                }
+                .tabItem {
+                    Image(systemName: "books.vertical")
+                    Text("My Shelf")
+                }.tag(TabSelection.shelf)
+                
+                NavigationStack {
+                    UserProfileView()
+                }
+                .tabItem {
+                    Image(systemName: "person")
+                    Text("Profile")
+                }.tag(TabSelection.user)
             }
-            .tabItem {
-                Image(systemName: "house")
-                Text("Home")
-            }.tag(1)
-            
-            NavigationStack {
-                DiscoverView()
-            }
-            .tabItem {
-                Image(systemName: "magnifyingglass")
-                Text("Discover")
-            }.tag(2)
-            
-            NavigationStack {
-                ShelfView()
-            }
-            .tabItem {
-                Image(systemName: "books.vertical")
-                Text("My Shelf")
-            }.tag(3)
-            
-            NavigationStack {
-                UserProfileView()
-            }
-            .tabItem {
-                Image(systemName: "person")
-                Text("Profile")
-            }.tag(4)
-            
-//            NavigationStack {
-//                TestView()
-//            }
-//            .tabItem {
-//                Image(systemName: "globe")
-//                Text("Test")
-//            }.tag(5)
         }
+        .accentColor(.primaryAccent)
     }
 }
 
@@ -60,5 +61,7 @@ struct MainTabView_Previews: PreviewProvider {
         MainTabView()
             .environmentObject(UserViewModel())
             .environmentObject(GameViewModel())
+            .environmentObject(GamesLookupViewModel())
+            .environment(\.colorScheme, .dark)
     }
 }

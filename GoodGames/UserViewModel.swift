@@ -12,15 +12,15 @@ class UserViewModel: ObservableObject {
     @Published var isUserAuthenticated: AuthState
     @Published var email: String = ""
     @Published var password: String = ""
-    @Published var fullname: String = ""
+    @Published var username: String = ""
+    @Published var firstName: String = ""
+    @Published var lastName: String = ""
     @Published var image:UIImage?
     @Published var showSheet = false
     @Published var newAccount = false
     @Published var showDeletion = false
 //    @Published var userID: String?  /
     
-    //MARK: - Published Vars -> Navigation
-    @Published var tabSelection: Int = 1
     
     var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
     public init(isUserAuthenticated: Published<AuthState>
@@ -38,10 +38,13 @@ class UserViewModel: ObservableObject {
                 self.image = nil
                 self.email = ""
                 self.password = ""
+                self.username = ""
+                self.firstName = ""
+                self.lastName = ""
                 return
             }
             self.isUserAuthenticated = .signedIn
-            FirestoreManager().retrieveFBUser(uid: user!.uid) { (result) in
+            FirestoreManager.shared.retrieveFBUser(uid: user!.uid) { (result) in
                 switch result {
                 case .failure(let error):
                     print(error.localizedDescription)
@@ -73,17 +76,22 @@ class UserViewModel: ObservableObject {
     func getProfileImage() {
         let storageManager = StorageManager()
         if let userID = user?.uid {
-            storageManager.getImage(for: "Profiles", named: userID, completion: { result in
+            storageManager.getImage(for: "Profiles", named: userID) { result in
                 switch result {
                 case .success(let url):
-                    let data = try? Data(contentsOf: url)
-                    if let imageData = data {
-                        self.image = UIImage(data: imageData)!
-                    }
+                    URLSession.shared.dataTask(with: url) { data, response, error in
+                        if let imageData = data {
+                            DispatchQueue.main.async {
+                                self.image = UIImage(data: imageData)
+                            }
+                        } else if let error = error {
+                            print(error.localizedDescription)
+                        }
+                    }.resume()
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
-            })
+            }
         }
     }
     

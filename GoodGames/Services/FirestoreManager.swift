@@ -252,7 +252,7 @@ class FirestoreManager: ObservableObject {
     
     func retrieveMostReviewed(limit:Int, completion: @escaping (Result<[Game], Error>) -> Void) {
         let collection = Firestore.firestore().collection("games")
-        let query = collection.order(by: Game.CodingKeys.totalReviews.rawValue, descending: true).limit(to: 20)
+        let query = collection.order(by: Game.CodingKeys.totalReviews.rawValue, descending: true).limit(to: limit)
         retrieveGames(matching: query, completion: completion)
     }
     

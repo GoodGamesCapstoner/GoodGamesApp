@@ -7,11 +7,17 @@
 
 import Foundation
 
+enum ReadyState {
+    case notStarted, preparing, ready, failed
+}
+
 class GameViewModel: ObservableObject {
     //MARK: - Infrastructure Properties
-    @Published var viewModelReady: Bool = false {
+    @Published var modelReadyState: ReadyState = .notStarted {
         didSet {
-            print("** View model is ready **")
+            if modelReadyState == .ready {
+                print("** View model is ready **")
+            }
         }
     }
     @Published var tabSelection: TabSelection = .home
@@ -36,7 +42,7 @@ class GameViewModel: ObservableObject {
     @Published var cachedReviews: [Int: [Review]] = [:]
     
     private let functionsManager = FunctionsManager()
-    private var timeoutGenerator: NumberGenerator
+    private var timeoutGenerator: TimeoutGenerator
     
     //MARK: - Computed Properties
     
@@ -50,11 +56,12 @@ class GameViewModel: ObservableObject {
     
     //MARK: - Initializer
     init() {
-        timeoutGenerator = NumberGenerator(maximum: 20.0, withIncrement: 5.0)
+        timeoutGenerator = TimeoutGenerator(timeout: 5.0, repeat: 6)
     }
     
     //MARK: - Initialization Helpers
     func initializeAppData(with user: User) {
+        self.modelReadyState = .preparing
         // start data fetch methods
         self.getNewReleases()
         self.getTopRated()
@@ -64,16 +71,24 @@ class GameViewModel: ObservableObject {
         self.getShelfListener(for: user)
         
         // start timeout loop to check for data readiness
+        timeoutGenerator.reset()
         checkForReadyStateTimeout()
     }
     
     func checkForReadyStateTimeout() {
-        let timeout = 5.0
+        let timeout = timeoutGenerator.next()
+        
+        guard let timeout else {
+            self.modelReadyState = .failed
+            print("View model initialzation has failed. Exiting timeout loop.")
+            return
+        }
+        
         print("Checking ready state in \(timeout) seconds...")
         DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
             let dataReady = self.checkForReadyState()
             if dataReady {
-                self.viewModelReady = true
+                self.modelReadyState = .ready
             } else {
                 self.checkForReadyStateTimeout()
             }
@@ -89,6 +104,7 @@ class GameViewModel: ObservableObject {
         let shelfReady = FirestoreManager.shared.isShelfListenerOpen()
         
         return newReleasesReady && topRatedReady && mostReviewedReady && gameOfTheDayReady && recommendedGamesReady && shelfReady
+//        return false
     }
     
     //MARK: - User Intents

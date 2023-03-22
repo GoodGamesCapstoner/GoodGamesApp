@@ -15,10 +15,18 @@ struct HomeView: View {
     var body: some View {
         VStack {
             ScrollView {
-                Text("GoodGames Home")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding(.bottom)
+                HStack {
+                    Text("GoodGames")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .padding(.bottom)
+                    Image(systemName: "gamecontroller.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 30)
+                        .foregroundColor(.white)
+                        .padding(.bottom)
+                }
                 
                 Text("Welcome, \(userVM.user?.username ?? "USERNAME NOT SET/FOUND")!")
                     .font(.title3)

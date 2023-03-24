@@ -13,7 +13,9 @@ struct Review: Codable, Identifiable {
     let appid: Int
     let creationDate: Date
     let hoursPlayed: Int
+    let inApp: Bool
     let rating: Int
+    let ratingBool: Int
     let text: String
     let userid: String
     let username: String
@@ -28,10 +30,10 @@ struct Review: Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case id
         case appid
-        case creationDate = "creation_date"
-        case hoursPlayed = "hours_played"
-        case rating
-        case text = "review_text"
+        case creationDate = "creationDate"
+        case hoursPlayed = "hoursPlayed"
+        case inApp, rating, ratingBool
+        case text = "review"
         case userid, username
     }
 }

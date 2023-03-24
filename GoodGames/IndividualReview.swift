@@ -42,7 +42,9 @@ struct IndividualRating_Previews: PreviewProvider {
                 appid: 0,
                 creationDate: Date(),
                 hoursPlayed: 17,
+                inApp: true,
                 rating: 4,
+                ratingBool: 0,
                 text: "I dug a tunnel and fell down a hole and died. My friends followed me and also died. 10/10",
                 userid: "0", username: "Blackstone"
             )

@@ -7,7 +7,7 @@ class UserViewModel: ObservableObject {
         case undefined, signedOut, signedIn
     }
     
-    //MARK: - Published Vars -> Auth
+    //MARK: - User Properties
     @Published var user: User?
     @Published var isUserAuthenticated: AuthState
     @Published var email: String = ""
@@ -16,15 +16,20 @@ class UserViewModel: ObservableObject {
     @Published var firstName: String = ""
     @Published var lastName: String = ""
     @Published var image:UIImage?
+    
+    //MARK: - Login/Nav state vars
     @Published var showSheet = false
     @Published var newAccount = false
     @Published var showDeletion = false
-//    @Published var userID: String?  /
+    
+    //MARK: - Warnings & Error States
+    @Published var userMissingFromFirestore: Bool = false
+    @Published var authFailed: Bool = false
+    @Published var authFailedWarning: String?
     
     
     var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
-    public init(isUserAuthenticated: Published<AuthState>
-                = Published<AuthState>.init(wrappedValue: .undefined)) {
+    public init(isUserAuthenticated: Published<AuthState> = Published<AuthState>.init(wrappedValue: .undefined)) {
         self._isUserAuthenticated  = isUserAuthenticated
         
         configureFirebaseStateDidChange()
@@ -32,22 +37,21 @@ class UserViewModel: ObservableObject {
     /// Handles the change of authentication state
     func configureFirebaseStateDidChange() {
         authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener({ (_, user) in
-            guard user != nil else {
+            guard let user else {
                 self.isUserAuthenticated = .signedOut
-                self.user = nil
-                self.image = nil
-                self.email = ""
-                self.password = ""
-                self.username = ""
-                self.firstName = ""
-                self.lastName = ""
+                self.clearUserData()
                 return
             }
+            
             self.isUserAuthenticated = .signedIn
-            FirestoreManager.shared.retrieveFBUser(uid: user!.uid) { (result) in
+            self.userMissingFromFirestore = false //set to false until we know we can't find them
+            
+            FirestoreManager.shared.retrieveFBUser(uid: user.uid) { (result) in
                 switch result {
                 case .failure(let error):
                     print(error.localizedDescription)
+                    self.logOut()
+                    self.userMissingFromFirestore = true //cant find user in DB
                 case .success(let user):
                     self.user = user
                     self.getProfileImage()
@@ -58,11 +62,15 @@ class UserViewModel: ObservableObject {
     }
     
     func login() {
+        self.authFailed = false
+        self.authFailedWarning = nil
         AuthManager().signIn(withEmail: email, password: password) { result in
             switch result {
             case .success:
                 print("Logged in")
             case .failure(let error):
+                self.authFailed = true
+                self.authFailedWarning = error.localizedDescription
                 print(error.localizedDescription)
             }
         }
@@ -104,5 +112,13 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    
+    func clearUserData() {
+        self.user = nil
+        self.image = nil
+        self.email = ""
+        self.password = ""
+        self.username = ""
+        self.firstName = ""
+        self.lastName = ""
+    }
 }

@@ -44,7 +44,7 @@
 		E90E56B7297AF2F400D53A9C /* GoodGamesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */; };
 		E90E56BB297AF2F600D53A9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90E56BA297AF2F600D53A9C /* Assets.xcassets */; };
 		E90E56BE297AF2F600D53A9C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90E56BD297AF2F600D53A9C /* Preview Assets.xcassets */; };
-		E92E09B429BAE05A00D02AD7 /* NumberGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E09B329BAE05A00D02AD7 /* NumberGenerator.swift */; };
+		E92E09B429BAE05A00D02AD7 /* TimeoutGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E09B329BAE05A00D02AD7 /* TimeoutGenerator.swift */; };
 		E92E09B629BAEDFB00D02AD7 /* LaunchGraphic.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E09B529BAEDFB00D02AD7 /* LaunchGraphic.swift */; };
 		E94D72D529B01D860015F41A /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D72D429B01D860015F41A /* TestView.swift */; };
 		E94D72D729B0253A0015F41A /* FunctionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D72D629B0253A0015F41A /* FunctionsManager.swift */; };
@@ -101,7 +101,7 @@
 		E90E56B6297AF2F400D53A9C /* GoodGamesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodGamesApp.swift; sourceTree = "<group>"; };
 		E90E56BA297AF2F600D53A9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E90E56BD297AF2F600D53A9C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		E92E09B329BAE05A00D02AD7 /* NumberGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGenerator.swift; sourceTree = "<group>"; };
+		E92E09B329BAE05A00D02AD7 /* TimeoutGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeoutGenerator.swift; sourceTree = "<group>"; };
 		E92E09B529BAEDFB00D02AD7 /* LaunchGraphic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchGraphic.swift; sourceTree = "<group>"; };
 		E94D72D429B01D860015F41A /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		E94D72D629B0253A0015F41A /* FunctionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsManager.swift; sourceTree = "<group>"; };
@@ -331,7 +331,7 @@
 				CF35551C29BBA2E50099D5FD /* ColorPalette.swift */,
 				DD89C19C29B26A810081DB97 /* Color+HexCode.swift */,
 				E9EC75F829ADC47600D15547 /* IsPreviewKey.swift */,
-				E92E09B329BAE05A00D02AD7 /* NumberGenerator.swift */,
+				E92E09B329BAE05A00D02AD7 /* TimeoutGenerator.swift */,
 				E9EDBF8229C41472003F97E5 /* TabSelection.swift */,
 			);
 			name = Utility;
@@ -469,7 +469,7 @@
 				E975277D298A0D3B00D00EB1 /* MainTabView.swift in Sources */,
 				E9EDBF7929C13503003F97E5 /* AllReviewsView.swift in Sources */,
 				DD1C004D2996C38900479092 /* LoginView.swift in Sources */,
-				E92E09B429BAE05A00D02AD7 /* NumberGenerator.swift in Sources */,
+				E92E09B429BAE05A00D02AD7 /* TimeoutGenerator.swift in Sources */,
 				E9A9D804299F382700AC9459 /* UserCard.swift in Sources */,
 				E9579F7529B6D8CA0056E221 /* LoadingSpinner.swift in Sources */,
 				E975277F298A116C00D00EB1 /* HomeView.swift in Sources */,

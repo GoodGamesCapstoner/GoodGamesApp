@@ -20,6 +20,8 @@ struct Game: Codable, Identifiable, Equatable {
     let publisher: String
     let releaseDate: Date
     let reviewScore: Int
+    let searchList: String
+    let screenshots: String
     let shortDescription, tags: String
     let totalReviews: Int
     
@@ -44,9 +46,6 @@ struct Game: Codable, Identifiable, Equatable {
     }
     var maxRating: CGFloat = 5.0
     
-    var keywordsForLookup: [String] {
-        [self.name.generateStringSequence(), "\(self.name)".generateStringSequence()].flatMap { $0 }
-    }
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -60,6 +59,8 @@ struct Game: Codable, Identifiable, Equatable {
         case publisher
         case releaseDate = "release_date"
         case reviewScore = "review_score"
+        case searchList = "search_list"
+        case screenshots
         case shortDescription = "short_description"
         case tags
         case totalReviews = "total_reviews"
@@ -74,17 +75,5 @@ struct Game: Codable, Identifiable, Equatable {
 private struct CardImage {
     static func url(for game: Game) -> String {
         return "https://steamcdn-a.akamaihd.net/steam/apps/\(game.appid)/library_600x900_2x.jpg"
-    }
-}
-
-extension String {
-    func generateStringSequence() -> [String]{
-        //Eg Minecraft --> ["M", "Mi", "Min", ...]
-        guard self.count > 0 else { return [] }
-        var sequences: [String] = []
-        for i in 1...self.count {
-            sequences.append(String(self.prefix(i)))
-        }
-        return sequences
     }
 }

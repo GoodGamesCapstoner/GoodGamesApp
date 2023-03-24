@@ -40,7 +40,7 @@ struct SearchResult: View {
 
 struct SearchResult_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResult(game: Game(aboutTheGame: "", appid: 1, categories: "", detailedDescription: "", developer: "", dlc: true, genre: "", headerImage: "https://cdn.akamai.steamstatic.com/steam/apps/203160/header.jpg?t=1675712321", languages: "", name: "The Elder Scrolls V: Skyrim", platform: "", priceAdj: "", publisher: "", releaseDate: Date(), reviewScore: 1, shortDescription: "", tags: "", totalReviews: 1))
+        SearchResult(game: Game(aboutTheGame: "", appid: 1, categories: "", detailedDescription: "", developer: "", dlc: true, genre: "", headerImage: "https://cdn.akamai.steamstatic.com/steam/apps/203160/header.jpg?t=1675712321", languages: "", name: "The Elder Scrolls V: Skyrim", platform: "", priceAdj: "", publisher: "", releaseDate: Date(), reviewScore: 1,searchList: "", screenshots: "", shortDescription: "", tags: "", totalReviews: 1))
             .padding()
             .environmentObject(GameViewModel())
             .environment(\.colorScheme, .dark)

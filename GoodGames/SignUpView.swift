@@ -22,11 +22,6 @@ struct SignUpView: View {
                     .fontDesign(.monospaced)
                     .fontWeight(.bold)
                     .offset(x: -30, y: -80)
-//                Text("It's great to have you on our team!")
-//                    .font(.subheadline)
-//                    .fontDesign(.monospaced)
-//                    .fontWeight(.bold)
-//                    .offset(x: -10, y: -70)
                 
                 // HStack holding the first and last name fields each with their own VStack to
                 // match the formatting of the other fields. Notice that the rectangle is slightly
@@ -70,6 +65,7 @@ struct SignUpView: View {
                     .autocorrectionDisabled(true)
                     .textInputAutocapitalization(.never)
                     .tint(.white)
+                    .keyboardType(.emailAddress)
                 Rectangle()
                     .frame(width: 350, height: 1)
                     .foregroundColor(.white)
@@ -79,6 +75,14 @@ struct SignUpView: View {
                     .autocorrectionDisabled(true)
                     .textInputAutocapitalization(.never)
                     .tint(.white)
+                    .onSubmit {
+                        vm.createUser { success in
+                            if success {
+                                dismiss()
+                            }
+                        }
+                    }
+                    .submitLabel(.go)
                 Rectangle()
                     .frame(width: 350, height: 1)
                     .foregroundColor(.white)

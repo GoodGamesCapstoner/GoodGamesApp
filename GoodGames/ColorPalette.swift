@@ -10,7 +10,7 @@ import SwiftUI
 extension Color {
     //accent colors
     static let accentSet = "A1"
-    static let accentDarkIsPrimary = true
+    static let accentDarkIsPrimary = false
     static let primaryAccent = Color("\(accentSet)-\(accentDarkIsPrimary ? "Dark":"Light")")
     static let secondaryAccent = Color("\(accentSet)-\(accentDarkIsPrimary ? "Light":"Dark")")
     

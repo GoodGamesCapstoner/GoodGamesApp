@@ -63,10 +63,8 @@ class FirestoreManager: ObservableObject {
     
     //MARK: - User Management Methods
     func retrieveFBUser(uid: String, completion: @escaping (Result<User, Error>) -> Void) {
-        let reference = Firestore
-            .firestore()
-            .collection("users")
-            .document(uid)
+        let reference = Firestore.firestore().collection("users").document(uid)
+        
         getDocument(for: reference) { result in
             switch result {
             case .success(let document):
@@ -252,7 +250,7 @@ class FirestoreManager: ObservableObject {
     
     func retrieveMostReviewed(limit:Int, completion: @escaping (Result<[Game], Error>) -> Void) {
         let collection = Firestore.firestore().collection("games")
-        let query = collection.order(by: Game.CodingKeys.totalReviews.rawValue, descending: true).limit(to: 20)
+        let query = collection.order(by: Game.CodingKeys.totalReviews.rawValue, descending: true).limit(to: limit)
         retrieveGames(matching: query, completion: completion)
     }
     

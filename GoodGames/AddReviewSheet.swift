@@ -101,7 +101,9 @@ struct AddReviewSheet: View {
                                     appid: game.appid,
                                     creationDate: Date(),
                                     hoursPlayed: hoursPlayed,
+                                    inApp: true,
                                     rating: review.rating,
+                                    ratingBool: 0,
                                     text: review.text,
                                     userid: user.uid,
                                     username: user.username

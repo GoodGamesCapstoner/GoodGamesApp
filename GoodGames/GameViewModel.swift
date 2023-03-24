@@ -224,7 +224,7 @@ class GameViewModel: ObservableObject {
                 let today = Date()
                 let calendar = Calendar.current
                 let dateIndex =  calendar.component(.day, from: today)
-                self.gameOfTheDay = games[4]
+                self.gameOfTheDay = games[dateIndex - 1]
             }
         }
     }

@@ -49,8 +49,7 @@ struct LaunchScreen: View {
                 }
             }
             
-        }
-        else {
+        } else {
             MainTabView()
         }
         

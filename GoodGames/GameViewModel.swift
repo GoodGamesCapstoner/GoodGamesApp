@@ -107,6 +107,23 @@ class GameViewModel: ObservableObject {
 //        return false
     }
     
+    //MARK: - Deconstruction
+    func deconstructViewModel() {
+        self.modelReadyState = .notStarted
+        self.tabSelection = .home
+        self.currentGameAppid = nil
+        self.reviewSavedSuccessfully = false
+        self.gameOfTheDay = nil
+        self.newReleases = []
+        self.topRated = []
+        self.mostReviewed = []
+        self.userShelf = []
+        self.recommendedGames = []
+        self.cachedGames = [:]
+        self.cachedRelatedGames = [:]
+        self.cachedReviews = [:]
+    }
+    
     //MARK: - User Intents
     func selectGame(_ game: Game) {
         cacheGame(game) //stick the game in the cache

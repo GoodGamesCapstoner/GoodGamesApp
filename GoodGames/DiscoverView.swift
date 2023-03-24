@@ -13,9 +13,17 @@ struct DiscoverView: View {
     
     var body: some View {
         VStack {
-            Text("Discovery")
-                .font(.largeTitle)
-                .padding(.top)
+            HStack {
+                Text("Discovery")
+                    .font(.largeTitle)
+                    .padding(.top)
+                NavigationLink {
+                    FilterGamesView()
+                } label: {
+                    Image(systemName: "line.3.horizontal.decrease.circle").foregroundColor(.gray)
+                        .padding(.horizontal, 15)
+                }
+            }
 
             ScrollView {
                 NavigationLink {

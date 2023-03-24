@@ -29,6 +29,7 @@ class GameViewModel: ObservableObject {
     @Published var mostReviewed: [Game] = []
     @Published var userShelf: [Game] = []
     @Published var recommendedGames: [Game] = []
+    @Published var filteredGames: [Game] = []
     
     //MARK: Caches
     @Published var cachedGames: [Int: Game] = [:]
@@ -202,6 +203,15 @@ class GameViewModel: ObservableObject {
         }
     }
     
+    // might need to go in the functions manager since it needs to have a genre passed in
+    func getFilteredGames(matching genre: [String]) {
+        FirestoreManager.shared.filterGamesWith(matching: genre) { (result) in
+            self.handleGameListResult(result: result) { games in
+                self.filteredGames = games
+            }
+        }
+    }
+    
     func getTopRated() {
         FirestoreManager.shared.retrieveTopRated { (result) in
             self.handleGameListResult(result: result) { games in
@@ -236,4 +246,6 @@ class GameViewModel: ObservableObject {
             }
         }
     }
+    
+    
 }

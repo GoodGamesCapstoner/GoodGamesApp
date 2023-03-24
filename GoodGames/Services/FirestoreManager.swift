@@ -256,6 +256,13 @@ class FirestoreManager: ObservableObject {
         retrieveGames(matching: query, completion: completion)
     }
     
+    // Trying to add a filter but don't fully understand how this function fits in
+    func filterGamesWith(matching genre: [String], completion: @escaping (Result<[Game], Error>) -> Void) {
+        let collection = Firestore.firestore().collection("games")
+        let query = collection.whereField(Game.CodingKeys.genre.rawValue, in: genre)
+        retrieveGames(matching: query, completion: completion)
+    }
+    
     //MARK: - Read/Write methods for shelf data
     func addToShelf(for user: User, game: Game, completion: @escaping (Result<Bool, Error>) -> Void) {
         let collection = Firestore.firestore().collection("users").document(user.uid).collection("shelf")

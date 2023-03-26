@@ -11,18 +11,18 @@ struct DiscoverView: View {
     @EnvironmentObject var gameVM: GameViewModel
     @EnvironmentObject var userVM: UserViewModel
     
+    @State var reviewSheetPresented = false
+
+    var appID: Int
+
     var body: some View {
         VStack {
             HStack {
                 Text("Discovery")
                     .font(.largeTitle)
                     .padding(.top)
-                NavigationLink {
-                    FilterGamesView()
-                } label: {
-                    Image(systemName: "line.3.horizontal.decrease.circle").foregroundColor(.gray)
-                        .padding(.horizontal, 15)
-                }
+                filterButton
+                    .padding(.top)
             }
 
             ScrollView {
@@ -66,13 +66,27 @@ struct DiscoverView: View {
         .background(Color.primaryBackground)
         .foregroundColor(.white)
     }
-}
+    
+    var filterButton: some View {
+        Button {
+            reviewSheetPresented.toggle()
+        } label: {
+            Image(systemName: "line.3.horizontal.decrease.circle")
+        }
+        .sheet(isPresented: $reviewSheetPresented) {
+            //nothin
+        } content: {
+            SetFilterSheet(sheetIsPresented: $reviewSheetPresented)
+                .environment(\.colorScheme, .dark)
+        }
+    }
 
+}
 
 
 struct DiscoverView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverView()
+        DiscoverView(appID: 251570)
             .environmentObject(GameViewModel())
             .environmentObject(UserViewModel())
             .environmentObject(GamesLookupViewModel())

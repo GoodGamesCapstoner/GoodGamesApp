@@ -17,11 +17,14 @@ struct FilterGamesView: View {
             GridItem(.fixed(100), spacing: 16)
         ]
     
+    var genre: [String]
+    
     var body: some View {
         VStack {
+            Text("\(genre[0])")
             ScrollView {
                 LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
-                    ForEach(gameVM.newReleases, id: \.id) { game in
+                    ForEach(gameVM.filteredGames, id: \.genre) { game in
                         GameCard(game: game)
                     }
                 }
@@ -36,7 +39,7 @@ struct FilterGamesView: View {
 
 struct FilterGamesView_Previews: PreviewProvider {
     static var previews: some View {
-        FilterGamesView()
+        FilterGamesView(genre: ["Action"])
             .environmentObject(GameViewModel())
             .environmentObject(UserViewModel())
             .environmentObject(GamesLookupViewModel())

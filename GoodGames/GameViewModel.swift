@@ -203,7 +203,6 @@ class GameViewModel: ObservableObject {
         }
     }
     
-    // might need to go in the functions manager since it needs to have a genre passed in
     func getFilteredGames(matching genre: [String]) {
         FirestoreManager.shared.filterGamesWith(matching: genre) { (result) in
             self.handleGameListResult(result: result) { games in

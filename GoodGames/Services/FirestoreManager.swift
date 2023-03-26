@@ -256,7 +256,6 @@ class FirestoreManager: ObservableObject {
         retrieveGames(matching: query, completion: completion)
     }
     
-    // Trying to add a filter but don't fully understand how this function fits in
     func filterGamesWith(matching genre: [String], completion: @escaping (Result<[Game], Error>) -> Void) {
         let collection = Firestore.firestore().collection("games")
         let query = collection.whereField(Game.CodingKeys.genre.rawValue, in: genre)

@@ -24,7 +24,7 @@ struct FilterGamesView: View {
             Text("\(genre[0])")
             ScrollView {
                 LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
-                    ForEach(gameVM.getFilteredGames(matching: genre), id: \.self) { game in
+                    ForEach(gameVM.filteredGames, id: \.id) { game in
                         GameCard(game: game)
                     }
                 }

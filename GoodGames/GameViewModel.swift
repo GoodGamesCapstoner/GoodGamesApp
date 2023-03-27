@@ -204,9 +204,11 @@ class GameViewModel: ObservableObject {
     }
     
     func getFilteredGames(matching genre: [String]) {
+        self.filteredGames = []
         FirestoreManager.shared.filterGamesWith(matching: genre) { (result) in
             self.handleGameListResult(result: result) { games in
                 self.filteredGames = games
+                print("Filtered games retrieved")
             }
         }
     }

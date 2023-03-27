@@ -22,13 +22,17 @@ struct FilterGamesView: View {
     var body: some View {
         VStack {
             Text("\(genre[0])")
-            ScrollView {
-                LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
-                    ForEach(gameVM.filteredGames, id: \.id) { game in
-                        GameCard(game: game)
+            if gameVM.filteredGames.count > 0 {
+                ScrollView {
+                    LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
+                        ForEach(gameVM.filteredGames, id: \.id) { game in
+                            GameCard(game: game)
+                        }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
+            } else {
+                LoadingSpinner()
             }
             Spacer()
         }

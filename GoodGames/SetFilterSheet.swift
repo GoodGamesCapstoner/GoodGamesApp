@@ -32,8 +32,10 @@ struct SetFilterSheet: View {
                                         genre.rawValue,
                                         destination:
                                             FilterGamesView(genre: [genre.rawValue])
-                                        // selection: $selectedGenre
                                     )
+                                    .onTapGesture {
+                                        gameVM.getFilteredGames(matching: [genre.rawValue])
+                                    }
                                     .navigationBarTitle("Genres")
                                 }
                             }

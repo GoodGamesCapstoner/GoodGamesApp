@@ -16,47 +16,39 @@ struct SetFilterSheet: View {
     @State var showTextError = false
     @State var selectedGenre: String = ""
     
-    var animatedOpacity1: Double {
-        showTextError ? 1.0 : 0
+    init(sheetIsPresented: Binding<Bool>) {
+        self._sheetIsPresented = sheetIsPresented
+        UITableView.appearance().backgroundColor = .green // Uses UIColor
     }
     
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
                 VStack {
-                    NavigationStack {
-                        Form {
-                            Section() {
-                                List(GameGenre.allCases, id: \.self) { genre in
-                                    NavigationLink(
-                                        genre.rawValue,
-                                        destination:
-                                            FilterGamesView(genre: [genre.rawValue])
-                                    )
-                                    .onTapGesture {
-                                        gameVM.getFilteredGames(matching: [genre.rawValue])
-                                    }
-                                    .navigationBarTitle("Genres")
-                                }
-                            }
-                        }
+                    List(GameGenre.allCases, id: \.self) { genre in
+                        NavigationLink(
+                            genre.rawValue,
+                            destination:
+                                FilterGamesView(genre: [genre.rawValue])
+                        )
+                        .listRowBackground(Color.secondaryBackground)
                     }
-                    .padding()
+                    .scrollContentBackground(.hidden)
                 }
-                .background(Color.primaryBackground) // neither is this
+                .navigationBarTitle("Genres")
+                .background(Color.primaryBackground)
             }
         }
-        .background(Color.primaryBackground) // this isn't doing anything
 
     }
 }
 
-//
-//struct SetFilterView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SetFilterView(gameVM: .constant(true), userVM: 123, appid: 123)
-//            .environmentObject(GameViewModel())
-//            .environmentObject(UserViewModel())
-//            .environment(\.colorScheme, .dark)
-//    }
-//}
+
+struct SetFilterView_Previews: PreviewProvider {
+    static var previews: some View {
+        SetFilterSheet(sheetIsPresented: .constant(true))
+            .environmentObject(GameViewModel())
+            .environmentObject(UserViewModel())
+            .environment(\.colorScheme, .dark)
+    }
+}

@@ -20,24 +20,34 @@ struct FilterGamesView: View {
     var genre: [String]
     
     var body: some View {
-        VStack {
-            Text("\(genre[0])")
-            if gameVM.filteredGames.count > 0 {
-                ScrollView {
-                    LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
-                        ForEach(gameVM.filteredGames, id: \.id) { game in
-                            GameCard(game: game)
+        GeometryReader { geometry in
+            HStack {
+                Spacer()
+                
+                VStack {
+                    Text("\(genre[0])")
+                    if gameVM.filteredGames.count > 0 {
+                        ScrollView {
+                            LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
+                                ForEach(gameVM.filteredGames, id: \.id) { game in
+                                    GameCard(game: game)
+                                }
+                            }
+                            .padding(.horizontal)
                         }
+                    } else {
+                        LoadingSpinner()
                     }
-                    .padding(.horizontal)
+                    Spacer()
                 }
-            } else {
-                LoadingSpinner()
+                .onAppear {
+                    gameVM.getFilteredGames(matching: genre)
+                }
+                
+                Spacer()
             }
-            Spacer()
         }
         .background(Color.primaryBackground)
-        .foregroundColor(.white)
     }
 }
 

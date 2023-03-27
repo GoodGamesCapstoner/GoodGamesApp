@@ -71,8 +71,13 @@ struct DiscoverView: View {
         Button {
             reviewSheetPresented.toggle()
         } label: {
-            Image(systemName: "line.3.horizontal.decrease.circle")
+            HStack{
+                Text("Filter")
+                Image(systemName: "line.3.horizontal.decrease.circle")
+            }
         }
+        .buttonStyle(.borderedProminent)
+        .tint(Color.primaryAccent)
         .sheet(isPresented: $reviewSheetPresented) {
             //nothin
         } content: {

@@ -11,26 +11,27 @@ struct DiscoverView: View {
     @EnvironmentObject var gameVM: GameViewModel
     @EnvironmentObject var userVM: UserViewModel
     
-    @State var reviewSheetPresented = false
+    @State var filterSheetPresented = false
 
     var appID: Int
 
     var body: some View {
         VStack {
-            HStack {
-                Text("Discovery")
-                    .font(.largeTitle)
-                    .padding(.top)
-                filterButton
-                    .padding(.top)
-            }
+            Text("Discovery")
+                .font(.largeTitle)
+                .padding(.top)
 
             ScrollView {
-                NavigationLink {
-                    SearchView()
-                } label: {
-                    FakeSearchBar()
-                        .padding(.horizontal, 15)
+                
+                HStack {
+                    NavigationLink {
+                        SearchView()
+                    } label: {
+                        FakeSearchBar()
+                            .padding(.leading, 15)
+                    }
+                    filterButton
+                        .padding(.trailing, 15)
                 }
                 
                 VStack(alignment: .leading) {
@@ -69,19 +70,18 @@ struct DiscoverView: View {
     
     var filterButton: some View {
         Button {
-            reviewSheetPresented.toggle()
+            filterSheetPresented.toggle()
         } label: {
             HStack{
-                Text("Filter")
-                Image(systemName: "line.3.horizontal.decrease.circle")
+                Image(systemName: "slider.horizontal.3")
+                    .padding(.vertical, 5)
             }
         }
         .buttonStyle(.borderedProminent)
         .tint(Color.primaryAccent)
-        .sheet(isPresented: $reviewSheetPresented) {
-            //nothin
+        .sheet(isPresented: $filterSheetPresented) {
         } content: {
-            SetFilterSheet(sheetIsPresented: $reviewSheetPresented)
+            SetFilterSheet(sheetIsPresented: $filterSheetPresented)
                 .environment(\.colorScheme, .dark)
         }
     }

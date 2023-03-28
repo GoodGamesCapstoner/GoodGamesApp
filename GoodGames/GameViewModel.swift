@@ -208,7 +208,7 @@ class GameViewModel: ObservableObject {
         FirestoreManager.shared.filterGamesWith(matching: genre) { (result) in
             self.handleGameListResult(result: result) { games in
                 self.filteredGames = games
-                print("Filtered games retrieved")
+                print("Retrived: \(self.filteredGames.count) games for filter: \(genre)")
             }
         }
     }

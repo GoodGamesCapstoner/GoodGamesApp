@@ -98,7 +98,7 @@ struct GameProfileView: View {
                                         )
                                         .navigationBarTitleDisplayMode(.inline)
                                         .toolbar {
-                                            ToolbarItem(placement: .navigationBarLeading) {
+                                            ToolbarItem(placement: .navigationBarTrailing) {
                                                 Button(action: {
                                                     isExpanded = false
                                                 }) {
@@ -121,7 +121,6 @@ struct GameProfileView: View {
                                     .tabViewStyle(PageTabViewStyle())
                                     .navigationBarTitle("Carousel")
                                 }
-                            }
                             }
 
                             //MARK: - Add to shelf button

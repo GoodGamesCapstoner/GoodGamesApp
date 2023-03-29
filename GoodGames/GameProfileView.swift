@@ -15,6 +15,8 @@ struct GameProfileView: View {
     @State var shelfActionLoading = false
     @State var reviewSheetPresented = false
     
+    @State private var isExpanded = false
+    @State private var selectedImageIndex = 0
 
     var appID: Int
 
@@ -69,8 +71,58 @@ struct GameProfileView: View {
                                 }
                                 Divider()
                             }
-
                             
+                            //MARK: - Display expandable screenshots
+                            VStack {
+                                if isExpanded {
+                                    Image(game.screenshots[selectedImageIndex])
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .edgesIgnoringSafeArea(.all)
+                                        .gesture(
+                                            DragGesture()
+                                                .onEnded { value in
+                                                    let horizontalAmount = value.translation.width
+                                                    if horizontalAmount < -50 {
+                                                        self.selectedImageIndex += 1
+                                                        if self.selectedImageIndex >= self.images.count {
+                                                            self.selectedImageIndex = 0
+                                                        }
+                                                    } else if horizontalAmount > 50 {
+                                                        self.selectedImageIndex -= 1
+                                                        if self.selectedImageIndex < 0 {
+                                                            self.selectedImageIndex = self.images.count - 1
+                                                        }
+                                                    }
+                                                }
+                                        )
+                                        .navigationBarTitleDisplayMode(.inline)
+                                        .toolbar {
+                                            ToolbarItem(placement: .navigationBarLeading) {
+                                                Button(action: {
+                                                    isExpanded = false
+                                                }) {
+                                                    Text("Close")
+                                                }
+                                            }
+                                        }
+                                } else {
+                                    TabView {
+                                        ForEach(0..<game.screenshots.count) { index in
+                                            Image(game.screenshots[index])
+                                                .resizable()
+                                                .scaledToFit()
+                                                .onTapGesture {
+                                                    selectedImageIndex = index
+                                                    isExpanded = true
+                                                }
+                                        }
+                                    }
+                                    .tabViewStyle(PageTabViewStyle())
+                                    .navigationBarTitle("Carousel")
+                                }
+                            }
+                            }
 
                             //MARK: - Add to shelf button
                             addRemoveShelfButtons

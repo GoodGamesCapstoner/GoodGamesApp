@@ -15,7 +15,6 @@ struct GameProfileView: View {
     @State var shelfActionLoading = false
     @State var reviewSheetPresented = false
     
-
     var appID: Int
 
     var body: some View {

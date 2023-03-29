@@ -34,13 +34,15 @@ enum SearchType {
 
 struct SearchView: View {
     @EnvironmentObject var gameVM: GameViewModel
+    @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var lookupVM: GamesLookupViewModel
     
     @FocusState private var focus: FocusableField?
     
     @State private var searchType: SearchType = .games
     
-    @State var searchString: String = "" 
+    @State var searchString: String = ""
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -52,25 +54,22 @@ struct SearchView: View {
                     .focused($focus, equals: .search)
                     .padding(.horizontal, 15)
                     .onChange(of: searchString) { input in
-                        if searchType == .games {
-                            print("Searching GAMES for: \(input)")
-                            lookupVM.fetchGames(from: input)
-                        } else {
-                            print("Searching USERS for: \(input)")
-                            //search users
-                        }
+                        performSearch(input)
                     }
                 
                 HStack(spacing: 0) {
                     SearchTab(selectedTab: $searchType, type: .games, width: geometry.size.width/2.0)
                     SearchTab(selectedTab: $searchType, type: .users, width: geometry.size.width/2.0)
                 }
+                .onChange(of: searchType) { _ in
+                    self.searchString = ""
+                }
                 
-                if searchType == .games {
-                    ScrollView {
-                        if lookupVM.queriedGames.count > 0 {
+                ScrollView {
+                    if searchType == .games {
+                        if searchString != "" && lookupVM.queriedGames.count > 0 {
                             ForEach(lookupVM.queriedGames, id: \.id) { game in
-                                SearchResult(game: game)
+                                GameSearchResult(game: game)
                                 
                                 if game != lookupVM.queriedGames.last {
                                     Divider()
@@ -81,11 +80,11 @@ struct SearchView: View {
                                 .font(.title2)
                                 .padding(.top)
                         }
-                    }
-                } else {
-                    ScrollView {
-                        if true == false {
-                            //loop through results here
+                    } else {
+                        if searchString != "" && userVM.queriedUsers.count > 0 {
+                            ForEach(userVM.queriedUsers, id: \.uid) { user in
+                                UserSearchResult(user: user)
+                            }
                         } else {
                             Text("No user results yet.")
                                 .font(.title2)
@@ -98,8 +97,18 @@ struct SearchView: View {
             .onAppear {
                 self.focus = .search
                 
-                lookupVM.fetchGames(from: searchString)
+                performSearch(searchString)
+            }
         }
+    }
+    
+    func performSearch(_ input: String) {
+        if searchType == .games {
+            print("Searching GAMES for: \(input)")
+            lookupVM.fetchGames(from: input)
+        } else {
+            print("Searching USERS for: \(input)")
+            userVM.fetchUsers(matching: input)
         }
     }
 }
@@ -139,6 +148,7 @@ struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         SearchView()
             .environmentObject(GameViewModel())
+            .environmentObject(UserViewModel())
             .environmentObject(GamesLookupViewModel())
             .environment(\.colorScheme, .dark)
     }

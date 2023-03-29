@@ -105,9 +105,6 @@ class FirestoreManager: ObservableObject {
     }
     
     /// Deletes the user account
-    /// - Parameters:
-    ///   - uid: the unique user ID
-    ///   - completion: a completion result of a success or an error
     func deleteUserData(uid: String, completion: @escaping (Result<Bool, Error>) -> Void) {
         let reference = Firestore
             .firestore()
@@ -122,12 +119,33 @@ class FirestoreManager: ObservableObject {
         }
     }
     
+    func retrieveUsers(matching query: Query, completion: @escaping (Result<[User], Error>) -> Void) {
+        getDocuments(matching: query) { result in
+            switch result {
+            case .success(let documents):
+                let users = documents.compactMap { docSnapshot -> User? in
+                    guard let user = try? docSnapshot.data(as: User?.self) else {
+                        print("Failed to convert document snapshot to User object. Missing values may be present in document: \(docSnapshot.documentID)")
+                        return nil
+                    }
+                    return user
+                }
+                completion(.success(users))
+            case .failure(let error):
+                print("Failed to retrieve documents.")
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func searchUsers(input keyword: String, completion: @escaping (Result<[User], Error>) -> Void) {
+        let query = firestore.collection("users").whereField("usernameSearchList", arrayContains: keyword)
+        retrieveUsers(matching: query, completion: completion)
+    }
+    
     //MARK: - GET Methods for Firestore Documents
     
     /// retrieves a document snapshot
-    /// - Parameters:
-    ///   - reference: the document reference
-    ///   - completion: a completion handler providing the resulting data or an error
     func getDocument(for reference: DocumentReference, completion: @escaping (Result<DocumentSnapshot, Error>) -> Void) {
         reference.getDocument { (documentSnapshot, err) in
             if let err = err {
@@ -172,27 +190,6 @@ class FirestoreManager: ObservableObject {
     }
     
     //MARK: - Get Methods for Game Data
-//    func retrieveGame(forID uid: String, completion: @escaping (Result<Game, Error>) -> Void) {
-//        let reference = Firestore.firestore().collection("games").document(uid)
-//
-//        getDocument(for: reference) { result in
-//            switch result {
-//            case .success(let document):
-//                do {
-//                    // Added question mark because of an error, not sure if this is correct or not
-//                    guard let game = try document.data(as: Game?.self) else {
-//                        completion(.failure(FireStoreError.noDocumentSnapshot))
-//                        return
-//                    }
-//                    completion(.success(game))
-//                } catch {
-//                    completion(.failure(FireStoreError.unknownError))
-//                }
-//            case .failure(let error):
-//                completion(.failure(error))
-//            }
-//        }
-//    }
     
     func retrieveGame(by appid: Int, completion:@escaping (Result<Game, Error>) -> Void) {
         let query = firestore.collection("games").whereField(Game.CodingKeys.appid.rawValue, isEqualTo: appid)

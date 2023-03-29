@@ -26,11 +26,6 @@ struct ShelfView: View {
                 }
             }
             .onAppear {
-//                if let user = userVM.user {
-//                    if gameVM.userShelf.isEmpty {
-//                        gameVM.getShelfListener(for: user)
-//                    }
-//                }
             }
         }
         .background(Color.primaryBackground)

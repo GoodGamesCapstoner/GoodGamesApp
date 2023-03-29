@@ -11,8 +11,9 @@ struct LaunchScreen: View {
     @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var gameVM: GameViewModel
     
+    @State var showModelFailedAlert: Bool = false
     var body: some View {
-        if !gameVM.viewModelReady {
+        if gameVM.modelReadyState != .ready {
             ZStack {
                 LaunchGraphic()
                 
@@ -26,6 +27,13 @@ struct LaunchScreen: View {
                     .onAppear {
                         gameVM.initializeAppData(with: user)
                     }
+                    .alert("Failed to connect", isPresented: $showModelFailedAlert) {
+                        Button("Retry", role: .cancel) {
+                            gameVM.initializeAppData(with: user)
+                        }
+                    } message: {
+                        Text("App data failed to load, please try again later")
+                    }
                 } else {
                     VStack(spacing: 30){
                         Spacer()
@@ -33,14 +41,15 @@ struct LaunchScreen: View {
                             .fontDesign(.monospaced)
                             .foregroundColor(.white)
                     }
-                    .onAppear {
-                        
-                    }
+                }
+            }
+            .onChange(of: gameVM.modelReadyState) { newValue in
+                if newValue == .failed {
+                    showModelFailedAlert = true
                 }
             }
             
-        }
-        else {
+        } else {
             MainTabView()
         }
         

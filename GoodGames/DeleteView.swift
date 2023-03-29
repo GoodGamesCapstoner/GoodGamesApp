@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct DeleteView: View {
+    @EnvironmentObject var gameVM: GameViewModel
     @Environment(\.dismiss) var dismiss
     var user: User
     @State private var canDelete = false
@@ -43,6 +44,7 @@ struct DeleteView: View {
                                                 print(error.localizedDescription)
                                             }
                                         }
+                                        gameVM.deconstructViewModel()
                                     case .failure(let error):
                                         print(error.localizedDescription)
                                     }
@@ -76,5 +78,6 @@ struct DeleteView: View {
 struct DeleteView_Previews: PreviewProvider {
     static var previews: some View {
         DeleteView(user: User(uid: "", email: "", username: "", firstName: "", lastName: ""))
+            .environmentObject(GameViewModel())
     }
 }

@@ -63,10 +63,8 @@ class FirestoreManager: ObservableObject {
     
     //MARK: - User Management Methods
     func retrieveFBUser(uid: String, completion: @escaping (Result<User, Error>) -> Void) {
-        let reference = Firestore
-            .firestore()
-            .collection("users")
-            .document(uid)
+        let reference = Firestore.firestore().collection("users").document(uid)
+        
         getDocument(for: reference) { result in
             switch result {
             case .success(let document):

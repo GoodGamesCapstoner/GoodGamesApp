@@ -1,6 +1,10 @@
 import Foundation
 import FirebaseAuth
 
+enum FirebaseAuthError: Error {
+    case invalidEmail
+}
+
 class AuthManager {
     func signIn(completion: @escaping (Result<String, Error>) -> Void ) {
         Auth.auth().signInAnonymously { authResult, error in
@@ -27,12 +31,7 @@ class AuthManager {
         }
     }
     
-    func createUser(withEmail email: String,
-                           password: String,
-                           username: String,
-                           firstName: String,
-                           lastName: String,
-                    completion: @escaping (Result<Bool, Error>) -> Void) {
+    func createUser(withEmail email: String, password: String, username: String, firstName: String, lastName: String, completion: @escaping (Result<Bool, Error>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
             if let err = error {
                 completion(.failure(err))

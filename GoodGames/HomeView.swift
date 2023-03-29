@@ -40,37 +40,28 @@ struct HomeView: View {
                         .font(.title2)
                     Spacer()
                 }
+                
                 ZStack {
-//                        HorizontalCarousel(label: "") {
-//                            ForEach(0..<10) {_ in
-//                                UserCard()
-//                            }
-//                        }.padding(5)
-
-                        RoundedRectangle(cornerRadius: 5)
-                            .foregroundColor(.secondaryBackground)
-                            .opacity(1)
-                        Text("These awesome features will be here soon!")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .multilineTextAlignment(.center)
-                            .padding()
-                    }
-                    
-                    HorizontalCarousel(label: "Recommended Games for You") {
-                        ForEach(gameVM.recommendedGames) { game in
-                            GameCard(game: game)
-                        }
-                    }
+                    RoundedRectangle(cornerRadius: 5)
+                        .foregroundColor(.secondaryBackground)
+                        .opacity(1)
+                    Text("These awesome features will be here soon!")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
+                        .padding()
                 }
                 
-
-                
-                //Spacer()
-
+                HorizontalCarousel(label: "Recommended Games for You") {
+                    ForEach(gameVM.recommendedGames) { game in
+                        GameCard(game: game)
+                    }
+                }
             }
-            .padding()
-            .background(Color.primaryBackground)
+
+        }
+        .padding()
+        .background(Color.primaryBackground)
     }
         
 }

@@ -101,7 +101,7 @@ class GameViewModel: ObservableObject {
         let topRatedReady = !self.topRated.isEmpty
         let mostReviewedReady = !self.mostReviewed.isEmpty
         let gameOfTheDayReady = self.gameOfTheDay != nil
-        let recommendedGamesReady = !self.recommendedGames.isEmpty
+        let recommendedGamesReady = true //!self.recommendedGames.isEmpty
         let shelfReady = FirestoreManager.shared.isShelfListenerOpen()
         
         return newReleasesReady && topRatedReady && mostReviewedReady && gameOfTheDayReady && recommendedGamesReady && shelfReady

@@ -27,6 +27,13 @@ class UserViewModel: ObservableObject {
     @Published var authFailed: Bool = false
     @Published var authFailedWarning: String?
     
+    //MARK: - Other users
+    @Published var cachedUsers: [String: User] = [:]
+    @Published var cachedUserImages: [String: UIImage] = [:]
+    
+    //MARK: - User Search
+    @Published var queriedUsers: [User] = []
+    
     
     var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
     public init(isUserAuthenticated: Published<AuthState> = Published<AuthState>.init(wrappedValue: .undefined)) {
@@ -75,6 +82,7 @@ class UserViewModel: ObservableObject {
             }
         }
     }
+    
     func logOut() {
         AuthManager().logout { result in
             print("Logged Out")
@@ -120,5 +128,66 @@ class UserViewModel: ObservableObject {
         self.username = ""
         self.firstName = ""
         self.lastName = ""
+    }
+    
+    
+    func fetchUsers(matching keyword: String) {
+        if keyword != "" {
+            let loweredInput = keyword.lowercased()
+            FirestoreManager.shared.searchUsers(input: loweredInput) { result in
+                switch result {
+                case .failure(let error):
+                    print("User search failed with error: \(error.localizedDescription)")
+                case .success(let users):
+                    let filteredUsers = users.filter { filterUser in
+                        filterUser.uid != self.user?.uid
+                    }
+                    self.queriedUsers = filteredUsers
+                }
+            }
+        } else {
+            self.queriedUsers = []
+        }
+    }
+    
+    func fetchAndCacheImage(for user: User) {
+        let storageManager = StorageManager()
+        
+        storageManager.getImage(for: "Profiles", named: user.uid) { result in
+            switch result {
+            case .success(let url):
+                URLSession.shared.dataTask(with: url) { data, response, error in
+                    if let imageData = data {
+                        DispatchQueue.main.async {
+                            self.cachedUserImages[user.uid] = UIImage(data: imageData)
+                        }
+                    } else if let error = error {
+                        print(error.localizedDescription)
+                    }
+                }.resume()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func selectUser(_ user: User){
+        cacheUser(user)
+        fetchAndCacheImage(for: user)
+    }
+    
+    func cacheUser(_ user: User) {
+        self.cachedUsers[user.uid] = user
+    }
+    
+    func fetchAndCacheUser(with uid: String) {
+        FirestoreManager.shared.retrieveFBUser(uid: uid) { result in
+            switch result {
+            case .failure(let error):
+                print("Fetching user for cache failed with error: \(error.localizedDescription)")
+            case .success(let user):
+                self.cachedUsers[user.uid] = user
+            }
+        }
     }
 }

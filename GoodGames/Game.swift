@@ -12,16 +12,17 @@ struct Game: Codable, Identifiable, Equatable {
     @DocumentID var id: String? 
     let aboutTheGame: String
     let appid: Int
-    let categories, detailedDescription, developer: String
+    let categories: [String]
+    let detailedDescription, developer: String
     let dlc: Bool
-    let genre: String
+    let genre: [String]
     let headerImage: String
     let languages, name, platform, priceAdj: String
     let publisher: String
     let releaseDate: Date
     let reviewScore: Int
-    let searchList: String
-    let screenshots: String
+    let searchList: [String]
+    let screenshots: [String]
     let shortDescription, tags: String
     let totalReviews: Int
     
@@ -38,7 +39,8 @@ struct Game: Codable, Identifiable, Equatable {
     }
     
     var formattedGenres: String {
-        self.genre.replacingOccurrences(of: " ", with: ", ") //NEEDS WORK: replaces Early Access with Early, Access :/
+        return ""
+//        self.genre.replacingOccurrences(of: " ", with: ", ") //NEEDS WORK: replaces Early Access with Early, Access :/
     }
     
     var calculatedRating: CGFloat {

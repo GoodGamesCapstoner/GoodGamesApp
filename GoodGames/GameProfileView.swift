@@ -85,7 +85,11 @@ struct GameProfileView: View {
                                 if let reviews = gameVM.cachedReviews[appID], reviews.count > 0 {
                                     VStack(alignment: .leading) {
                                         ForEach(reviews.prefix(3)) { review in
-                                            IndividualReview(review: review)
+                                            IndividualReview(review: review, limitSize: true)
+//                                            if (review != reviews[2]) {
+//                                                Divider()
+//                                            }
+                                            
                                         }
                                     }
                                     

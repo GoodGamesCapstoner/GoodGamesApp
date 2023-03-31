@@ -41,6 +41,7 @@ class GameViewModel: ObservableObject {
     @Published var cachedGames: [Int: Game] = [:]
     @Published var cachedRelatedGames: [Int : [Game]] = [:]
     @Published var cachedReviews: [Int: [Review]] = [:]
+    @Published var cachedUserShelves: [String: [Game]] = [:]
     
     private let functionsManager = FunctionsManager()
     private var timeoutGenerator: TimeoutGenerator
@@ -206,6 +207,14 @@ class GameViewModel: ObservableObject {
             }
         }
     }
+    
+    func fetchAndCacheShelf(for user: User) {
+        FirestoreManager.shared.shelfListener(for: user) { (result) in
+            self.handleGameListResult(result: result) { games in
+                self.cachedUserShelves[user.uid] = games
+            }
+        }
+    }
 
     //MARK: - Shelf Listener
     
@@ -278,7 +287,8 @@ class GameViewModel: ObservableObject {
                 let today = Date()
                 let calendar = Calendar.current
                 let dateIndex =  calendar.component(.day, from: today)
-                self.gameOfTheDay = games[dateIndex - 1]
+                let gotdIndex = games.count >= dateIndex ? dateIndex-1 : games.count-1
+                self.gameOfTheDay = games[gotdIndex]
             }
         }
     }

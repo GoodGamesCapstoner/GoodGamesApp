@@ -38,7 +38,7 @@ extension FireStoreError: LocalizedError {
 }
 
 struct ListenerRegistry {
-    var shelf: ListenerRegistration?
+    var shelf: [String: ListenerRegistration?] = [:]
     var reviews: [Int: ListenerRegistration?] = [:]
 }
 
@@ -58,7 +58,7 @@ class FirestoreManager: ObservableObject {
     
     //MARK: - Listener Access
     func isShelfListenerOpen() -> Bool {
-        return listeners.shelf != nil
+        return listeners.shelf.keys.count > 0
     }
     
     //MARK: - User Management Methods
@@ -295,8 +295,8 @@ class FirestoreManager: ObservableObject {
         let db = Firestore.firestore()
         let collection = db.collection("users/\(user.uid)/shelf").order(by: Game.CodingKeys.name.rawValue)
         print("** CREATING LISTENER FOR SHELF **")
-        if listeners.shelf == nil {
-            listeners.shelf = collection.addSnapshotListener({ querySnapshot, error in
+        if listeners.shelf[user.uid] == nil {
+            listeners.shelf[user.uid] = collection.addSnapshotListener({ querySnapshot, error in
                 guard let documents = querySnapshot?.documents else {
                     completion(.failure(FireStoreError.noSnapshotData))
                     return

@@ -260,7 +260,8 @@ class FirestoreManager: ObservableObject {
     
     func filterGamesByCategoryWith(matching category: [String], completion: @escaping (Result<[Game], Error>) -> Void) {
         let collection = Firestore.firestore().collection("games")
-        let query = collection.whereField(Game.CodingKeys.genre.rawValue, in: category)
+//        let query = collection.whereField(Game.CodingKeys.genre.rawValue, in: category)
+        let query = collection.whereField(Game.CodingKeys.categories.rawValue, arrayContainsAny: category)
         retrieveGames(matching: query, completion: completion)
     }
     

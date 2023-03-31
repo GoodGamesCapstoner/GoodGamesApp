@@ -1,13 +1,13 @@
 //
-//  FilterGamesView.swift
+//  FilterGamesByCategory.swift
 //  GoodGames
 //
-//  Created by Adriana Cottle on 3/23/23.
+//  Created by Adriana Cottle on 3/31/23.
 //
 
 import SwiftUI
 
-struct FilterGamesView: View {
+struct FilterGamesByCategory: View {
     @EnvironmentObject var gameVM: GameViewModel
     @EnvironmentObject var userVM: UserViewModel
     
@@ -17,7 +17,7 @@ struct FilterGamesView: View {
             GridItem(.fixed(100), spacing: 16)
         ]
     
-    var genre: [String]
+    var category: [String]
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,11 +25,11 @@ struct FilterGamesView: View {
                 Spacer()
                 
                 VStack {
-                    Text("\(genre[0])")
-                    if gameVM.filteredGames.count > 0 {
+                    Text("\(category[0])")
+                    if gameVM.filteredGamesCategories.count > 0 {
                         ScrollView {
                             LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
-                                ForEach(gameVM.filteredGames, id: \.id) { game in
+                                ForEach(gameVM.filteredGamesCategories, id: \.id) { game in
                                     GameCard(game: game)
                                 }
                             }
@@ -41,7 +41,7 @@ struct FilterGamesView: View {
                     Spacer()
                 }
                 .onAppear {
-                    gameVM.getFilteredGamesByGenresWith(matching: genre)
+                    gameVM.getFilteredGamesByCategoryWith(matching: category)
                 }
                 
                 Spacer()
@@ -51,9 +51,9 @@ struct FilterGamesView: View {
     }
 }
 
-struct FilterGamesView_Previews: PreviewProvider {
+struct FilterGamesByCategory_Previews: PreviewProvider {
     static var previews: some View {
-        FilterGamesView(genre: ["Action"])
+        FilterGamesByCategory(category: ["PvP"])
             .environmentObject(GameViewModel())
             .environmentObject(UserViewModel())
             .environmentObject(GamesLookupViewModel())

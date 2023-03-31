@@ -10,15 +10,6 @@ import SwiftUI
 enum FilterType {
     case genres, categories
     
-//    var tabImageName: String {
-//        switch self {
-//        case .genres:
-//            return "tag.fill"
-//        case .categories:
-//            return "tag.fill"
-//        }
-//    }
-    
     var tabDisplayText: String {
         switch self {
         case .genres:
@@ -58,7 +49,7 @@ struct SetFilterSheet: View {
                             NavigationLink(
                                 genre.rawValue,
                                 destination:
-                                    FilterGamesView(genre: [genre.rawValue])
+                                    FilterGamesByGenreView(genre: [genre.rawValue])
                             )
                             .listRowBackground(Color.secondaryBackground)
                         }
@@ -68,7 +59,7 @@ struct SetFilterSheet: View {
                             NavigationLink(
                                 category.rawValue,
                                 destination:
-                                    FilterGamesView(genre: [category.rawValue])
+                                    FilterGamesByCategory(category: [category.rawValue])
                             )
                             .listRowBackground(Color.secondaryBackground)
                         }
@@ -76,6 +67,14 @@ struct SetFilterSheet: View {
                     }
                 }
                 .background(Color.primaryBackground)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Cancel") {
+                            sheetIsPresented = false
+                        }
+                        .foregroundColor(Color.primaryAccent)
+                    }
+                }
             }
         }
 

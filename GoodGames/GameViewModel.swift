@@ -35,7 +35,8 @@ class GameViewModel: ObservableObject {
     @Published var mostReviewed: [Game] = []
     @Published var userShelf: [Game] = []
     @Published var recommendedGames: [Game] = []
-    @Published var filteredGames: [Game] = []
+    @Published var filteredGamesGenres: [Game] = []
+    @Published var filteredGamesCategories: [Game] = []
     
     //MARK: Caches
     @Published var cachedGames: [Int: Game] = [:]
@@ -246,21 +247,21 @@ class GameViewModel: ObservableObject {
     }
     
     func getFilteredGamesByGenresWith(matching genre: [String]) {
-        self.filteredGames = []
+        self.filteredGamesGenres = []
         FirestoreManager.shared.filterGamesByGenreWith(matching: genre) { (result) in
             self.handleGameListResult(result: result) { games in
-                self.filteredGames = games
-                print("Retrived: \(self.filteredGames.count) games for filter: \(genre)")
+                self.filteredGamesGenres = games
+                print("Retrived: \(self.filteredGamesGenres.count) games for filter: \(genre)")
             }
         }
     }
     
     func getFilteredGamesByCategoryWith(matching category: [String]) {
-        self.filteredGames = []
+        self.filteredGamesCategories = []
         FirestoreManager.shared.filterGamesByCategoryWith(matching: category) { (result) in
             self.handleGameListResult(result: result) { games in
-                self.filteredGames = games
-                print("Retrived: \(self.filteredGames.count) games for filter: \(category)")
+                self.filteredGamesCategories = games
+                print("Retrived: \(self.filteredGamesCategories.count) games for filter: \(category)")
             }
         }
     }

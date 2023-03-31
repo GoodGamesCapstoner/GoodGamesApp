@@ -15,6 +15,8 @@ struct GameProfileView: View {
     @State var shelfActionLoading = false
     @State var reviewSheetPresented = false
     
+    @State private var selectedImageIndex = 0
+
     var appID: Int
 
     var body: some View {
@@ -68,8 +70,45 @@ struct GameProfileView: View {
                                 }
                                 Divider()
                             }
-
                             
+                            //MARK: - Display expandable screenshots
+                            VStack {
+                                AsyncImage(url: URL(string: game.screenshots[selectedImageIndex])) { image in
+                                    image.resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .edgesIgnoringSafeArea(.all)
+                                        .gesture(
+                                            DragGesture()
+                                                .onEnded { value in
+                                                    let horizontalAmount = value.translation.width
+                                                    if horizontalAmount < -50 {
+                                                        self.selectedImageIndex += 1
+                                                        if self.selectedImageIndex >= game.screenshots.count {
+                                                                self.selectedImageIndex = 0
+                                                        }
+                                                    } else if horizontalAmount > 50 {
+                                                        self.selectedImageIndex -= 1
+                                                        if self.selectedImageIndex < 0 {
+                                                            self.selectedImageIndex = game.screenshots.count - 1
+                                                        }
+                                                    }
+                                                }
+                                        )
+                                        .navigationBarTitleDisplayMode(.inline)
+                                } placeholder: {
+                                    ProgressView()
+                                }
+
+                                TabView(selection: $selectedImageIndex) {
+                                    ForEach(0..<game.screenshots.count, id: \.self) { index in
+                                        Text("")
+                                    }
+                                }
+                                .tabViewStyle(PageTabViewStyle())
+                                .frame(height: 20)
+                                .padding(.top, 10)
+                            }
+
 
                             //MARK: - Add to shelf button
                             addRemoveShelfButtons

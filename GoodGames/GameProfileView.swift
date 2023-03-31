@@ -15,7 +15,6 @@ struct GameProfileView: View {
     @State var shelfActionLoading = false
     @State var reviewSheetPresented = false
     
-    @State private var isExpanded = false
     @State private var selectedImageIndex = 0
 
     var appID: Int
@@ -99,15 +98,16 @@ struct GameProfileView: View {
                                 } placeholder: {
                                     ProgressView()
                                 }
-                                TabView {
-                                    ForEach(0..<game.screenshots.count) { index in
-                                        ProgressView()
+
+                                TabView(selection: $selectedImageIndex) {
+                                    ForEach(0..<game.screenshots.count, id: \.self) { index in
+                                        Text("")
                                     }
                                 }
-
+                                .tabViewStyle(PageTabViewStyle())
+                                .frame(height: 20)
+                                .padding(.top, 10)
                             }
-                            .tabViewStyle(PageTabViewStyle())
-                            .navigationBarTitle("Carousel")
 
 
                             //MARK: - Add to shelf button

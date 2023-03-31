@@ -236,12 +236,22 @@ class GameViewModel: ObservableObject {
         }
     }
     
-    func getFilteredGames(matching genre: [String]) {
+    func getFilteredGamesByGenresWith(matching genre: [String]) {
         self.filteredGames = []
-        FirestoreManager.shared.filterGamesWith(matching: genre) { (result) in
+        FirestoreManager.shared.filterGamesByGenreWith(matching: genre) { (result) in
             self.handleGameListResult(result: result) { games in
                 self.filteredGames = games
                 print("Retrived: \(self.filteredGames.count) games for filter: \(genre)")
+            }
+        }
+    }
+    
+    func getFilteredGamesByCategoryWith(matching category: [String]) {
+        self.filteredGames = []
+        FirestoreManager.shared.filterGamesByCategoryWith(matching: category) { (result) in
+            self.handleGameListResult(result: result) { games in
+                self.filteredGames = games
+                print("Retrived: \(self.filteredGames.count) games for filter: \(category)")
             }
         }
     }

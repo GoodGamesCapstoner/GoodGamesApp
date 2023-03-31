@@ -41,7 +41,7 @@ struct FilterGamesView: View {
                     Spacer()
                 }
                 .onAppear {
-                    gameVM.getFilteredGames(matching: genre)
+                    gameVM.getFilteredGamesByGenresWith(matching: genre)
                 }
                 
                 Spacer()

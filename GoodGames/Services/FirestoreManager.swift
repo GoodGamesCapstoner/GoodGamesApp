@@ -251,9 +251,16 @@ class FirestoreManager: ObservableObject {
         retrieveGames(matching: query, completion: completion)
     }
     
-    func filterGamesWith(matching genre: [String], completion: @escaping (Result<[Game], Error>) -> Void) {
+    func filterGamesByGenreWith(matching genre: [String], completion: @escaping (Result<[Game], Error>) -> Void) {
         let collection = Firestore.firestore().collection("games")
-        let query = collection.whereField(Game.CodingKeys.genre.rawValue, in: genre)
+//        let query = collection.whereField(Game.CodingKeys.genre.rawValue, in: genre)
+        let query = collection.whereField(Game.CodingKeys.genre.rawValue, arrayContainsAny: genre)
+        retrieveGames(matching: query, completion: completion)
+    }
+    
+    func filterGamesByCategoryWith(matching category: [String], completion: @escaping (Result<[Game], Error>) -> Void) {
+        let collection = Firestore.firestore().collection("games")
+        let query = collection.whereField(Game.CodingKeys.genre.rawValue, in: category)
         retrieveGames(matching: query, completion: completion)
     }
     

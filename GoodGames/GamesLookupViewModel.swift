@@ -21,9 +21,9 @@ class GamesLookupViewModel: ObservableObject {
     
     func fetchGames(from keyword: String) {
         if keyword != "" && keyword.count > 2 {
+            let loweredInput = keyword.lowercased()
             let query = db.collection("games")
-                .whereField(Game.CodingKeys.name.rawValue, isGreaterThanOrEqualTo: keyword)
-                .whereField(Game.CodingKeys.name.rawValue, isLessThanOrEqualTo: keyword + "\u{f7ff}")
+                .whereField(Game.CodingKeys.searchList.rawValue, arrayContains: loweredInput)
             
             FirestoreManager.shared.retrieveGames(matching: query) { result in
                 switch result {
@@ -36,12 +36,5 @@ class GamesLookupViewModel: ObservableObject {
         } else {
             queriedGames = []
         }
-//        db.collection("games").whereField("keywordsForLookup", arrayContains: keyword).getDocuments { querySnapshot, error in
-//            guard let documents = querySnapshot?.documents, error == nil else { return }
-//            self.queriedGames = documents.compactMap {
-//                QueryDocumentSnapshot in
-//                try? QueryDocumentSnapshot.data(as: Game.self)
-//            }
-//        }
     }
 }

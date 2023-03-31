@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct Review: Codable, Identifiable {
+struct Review: Codable, Identifiable, Equatable {
     @DocumentID var id: String?
     let appid: Int
     let creationDate: Date
@@ -27,6 +27,17 @@ struct Review: Codable, Identifiable {
         return dateFormatter.string(from: self.creationDate)
     }
     
+    var recommended: Bool {
+        return ratingBool == 1
+    }
+    
+    var recommendedText: String {
+        return recommended ? "Recommended" : "Not Recommended"
+    }
+    var recommendedImage: String {
+        return recommended ? "hand.thumbsup.fill" : "hand.thumbsdown.fill"
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id
         case appid
@@ -35,5 +46,10 @@ struct Review: Codable, Identifiable {
         case inApp, rating, ratingBool
         case text = "review"
         case userid, username
+    }
+    
+    //Conform to Equatable
+    public static func ==(lhs: Review, rhs: Review) -> Bool {
+        return lhs.id == rhs.id
     }
 }

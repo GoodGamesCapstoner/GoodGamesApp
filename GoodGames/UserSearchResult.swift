@@ -40,6 +40,7 @@ struct UserSearchResult: View {
         }
         .simultaneousGesture(TapGesture().onEnded({
             userVM.selectUser(user)
+            gameVM.fetchAndCacheShelf(for: user)
         }))
     }
 }

@@ -17,7 +17,7 @@ struct AllReviewsView: View {
                 if let game = gameVM.cachedGames[appid], let reviews = gameVM.cachedReviews[appid] {
                     VStack(alignment: .leading) {
                         ForEach(reviews) { review in
-                            IndividualReview(review: review)
+                            IndividualReview(review: review, limitSize: false)
                         }
                     }
                     .navigationTitle(Text("\(reviews.count) \(reviews.count <= 1 ? "review": "reviews") for \(game.name)"))

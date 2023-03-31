@@ -72,11 +72,16 @@ struct OtherUserProfileView: View {
                         
                         //MARK: - Shelf and Recommended Games
                         VStack(alignment: .leading) {
-//                            HorizontalCarousel(label: "Shelf" ) {
-//                                ForEach(gameVM.userShelf) { game in
-//                                    GameCard(game: game)
-//                                }
-//                            }
+                            if let shelfGames = gameVM.cachedUserShelves[userID] {
+                                HorizontalCarousel(label: "\(user.username)'s Shelf" ) {
+                                    ForEach(shelfGames) { game in
+                                        GameCard(game: game)
+                                    }
+                                }
+                            } else {
+                                Text("User has no games in their shelf.")
+                                    .font(.title3)
+                            }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         Spacer()

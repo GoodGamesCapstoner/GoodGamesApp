@@ -74,9 +74,8 @@ struct GameProfileView: View {
                             
                             //MARK: - Display expandable screenshots
                             VStack {
-                                if isExpanded {
-                                    Image(game.screenshots[selectedImageIndex])
-                                        .resizable()
+                                AsyncImage(url: URL(string: game.screenshots[selectedImageIndex])) { image in
+                                    image.resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .edgesIgnoringSafeArea(.all)
                                         .gesture(
@@ -85,43 +84,31 @@ struct GameProfileView: View {
                                                     let horizontalAmount = value.translation.width
                                                     if horizontalAmount < -50 {
                                                         self.selectedImageIndex += 1
-                                                        if self.selectedImageIndex >= self.images.count {
-                                                            self.selectedImageIndex = 0
+                                                        if self.selectedImageIndex >= game.screenshots.count {
+                                                                self.selectedImageIndex = 0
                                                         }
                                                     } else if horizontalAmount > 50 {
                                                         self.selectedImageIndex -= 1
                                                         if self.selectedImageIndex < 0 {
-                                                            self.selectedImageIndex = self.images.count - 1
+                                                            self.selectedImageIndex = game.screenshots.count - 1
                                                         }
                                                     }
                                                 }
                                         )
                                         .navigationBarTitleDisplayMode(.inline)
-                                        .toolbar {
-                                            ToolbarItem(placement: .navigationBarTrailing) {
-                                                Button(action: {
-                                                    isExpanded = false
-                                                }) {
-                                                    Text("Close")
-                                                }
-                                            }
-                                        }
-                                } else {
-                                    TabView {
-                                        ForEach(0..<game.screenshots.count) { index in
-                                            Image(game.screenshots[index])
-                                                .resizable()
-                                                .scaledToFit()
-                                                .onTapGesture {
-                                                    selectedImageIndex = index
-                                                    isExpanded = true
-                                                }
-                                        }
-                                    }
-                                    .tabViewStyle(PageTabViewStyle())
-                                    .navigationBarTitle("Carousel")
+                                } placeholder: {
+                                    ProgressView()
                                 }
+                                TabView {
+                                    ForEach(0..<game.screenshots.count) { index in
+                                        ProgressView()
+                                    }
+                                }
+
                             }
+                            .tabViewStyle(PageTabViewStyle())
+                            .navigationBarTitle("Carousel")
+
 
                             //MARK: - Add to shelf button
                             addRemoveShelfButtons

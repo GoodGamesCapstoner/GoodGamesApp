@@ -39,7 +39,8 @@ extension FireStoreError: LocalizedError {
 
 struct ListenerRegistry {
     var shelf: [String: ListenerRegistration?] = [:]
-    var reviews: [Int: ListenerRegistration?] = [:]
+    var gameReviews: [Int: ListenerRegistration?] = [:]
+    var userReviews: [String: ListenerRegistration?] = [:]
 }
 
 class FirestoreManager: ObservableObject {
@@ -341,9 +342,9 @@ class FirestoreManager: ObservableObject {
     func subscribeToReviews(for appid: Int, completion: @escaping (Result<[Review], Error>) -> Void) {
         let query = firestore.collection("reviews").whereField(Review.CodingKeys.appid.rawValue, isEqualTo: appid).order(by: Review.CodingKeys.creationDate.rawValue, descending: true)
         
-        if listeners.reviews[appid] == nil {
+        if listeners.gameReviews[appid] == nil {
             print("** CREATING LISTENER FOR REVIEWS FOR \(appid) **")
-            listeners.reviews[appid] = query.addSnapshotListener({ querySnapshot, error in
+            listeners.gameReviews[appid] = query.addSnapshotListener({ querySnapshot, error in
                 if let error = error {
                     print(" * Review Listener error: \(error.localizedDescription) * ")
                 }
@@ -390,6 +391,56 @@ class FirestoreManager: ObservableObject {
         }
         catch {
             print("Error writing document: \(error)")
+        }
+    }
+    
+    func fetchUserReviews(for user: User, completion: @escaping (Result<[Review], Error>) -> Void) {
+        let query = firestore.collection("reviews").whereField(Review.CodingKeys.userid.rawValue, isEqualTo: user.uid)
+        
+        getDocuments(matching: query) { result in
+            switch result {
+            case .success(let documents):
+                let reviews = documents.compactMap({ docSnapshot -> Review? in
+                    guard let game = try? docSnapshot.data(as: Review?.self) else {
+                        print("Failed to convert document snapshot to Review object. Missing values may be present in document: \(docSnapshot.documentID)")
+                        return nil
+                    }
+                    return game
+                })
+                completion(.success(reviews))
+            case .failure(let error):
+                print("Failed to retrieve documents.")
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func subscribeToUserReviews(for user: User, completion: @escaping (Result<[Review], Error>) -> Void) {
+        let query = firestore.collection("reviews").whereField(Review.CodingKeys.userid.rawValue, isEqualTo: user.uid)
+        
+        if listeners.userReviews[user.uid] == nil {
+            print("** CREATING LISTENER FOR REVIEWS FOR \(user.uid) **")
+            listeners.userReviews[user.uid] = query.addSnapshotListener({ querySnapshot, error in
+                if let error = error {
+                    print(" * Review Listener error: \(error.localizedDescription) * ")
+                }
+                
+                guard let documents = querySnapshot?.documents else {
+                    completion(.failure(FireStoreError.noSnapshotData))
+                    return
+                }
+                
+                let reviews = documents.compactMap({ docSnapshot -> Review? in
+                    guard let game = try? docSnapshot.data(as: Review?.self) else {
+                        print("Failed to convert document snapshot to Review. Missing values may be present in document: \(docSnapshot.documentID)")
+                        return nil
+                    }
+                    return game
+                })
+                
+                completion(.success(reviews))
+                print("** LISTENER INVOKED - REVIEWS UPDATED **")
+            })
         }
     }
 }

@@ -11,6 +11,7 @@ import FirebaseFirestoreSwift
 struct Review: Codable, Identifiable, Equatable {
     @DocumentID var id: String?
     let appid: Int
+    let appName: String?
     let creationDate: Date
     let hoursPlayed: Int
     let inApp: Bool
@@ -41,6 +42,7 @@ struct Review: Codable, Identifiable, Equatable {
     enum CodingKeys: String, CodingKey {
         case id
         case appid
+        case appName = "app_name"
         case creationDate = "creationDate"
         case hoursPlayed = "hoursPlayed"
         case inApp, rating, ratingBool

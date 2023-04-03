@@ -39,8 +39,7 @@ struct Game: Codable, Identifiable, Equatable {
     }
     
     var formattedGenres: String {
-        return ""
-//        self.genre.replacingOccurrences(of: " ", with: ", ") //NEEDS WORK: replaces Early Access with Early, Access :/
+        return genre.count > 0 ? String(genre.joined(separator: ", ")) : "No genres found"
     }
     
     var calculatedRating: CGFloat {

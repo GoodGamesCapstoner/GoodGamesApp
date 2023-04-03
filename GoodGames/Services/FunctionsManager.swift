@@ -34,7 +34,12 @@ class FunctionsManager {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
-        let session = URLSession.shared
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.timeoutIntervalForRequest = 240.0
+        sessionConfig.timeoutIntervalForResource = 300.0
+        let session = URLSession(configuration: sessionConfig)
+        
+//        let session = URLSession.shared
         
         let dataTask = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
@@ -130,7 +135,7 @@ class FunctionsManager {
         }
         
         static func recommenderForUser(_ userID: String) -> String {
-            let relPath = "/gg-recommender-user-item-rating?userid=76561198344275776"
+            let relPath = "/gg-recommender-user-item-rating?userid=\(userID)"
             //original: 76561198149460992
             return baseURL + relPath
         }

@@ -36,8 +36,7 @@ struct AddReviewSheet: View {
                     VStack(alignment: .leading){
                         Text("Please describe what you liked or disliked about this game.")
                         ZStack {
-                            TextField("Your thoughts...", text: $review.text, axis: .vertical)
-                                .textFieldStyle(.roundedBorder)
+                            CustomFormTextField(placeholder: "Your thoughts...", textBinding: $review.text, keyboardType: .default)
                                 .onChange(of: review.text, perform: { newValue in
                                     withAnimation {
                                         showTextError = false
@@ -61,9 +60,7 @@ struct AddReviewSheet: View {
                         
                         Text("How many hours have you played this game? (Approx)")
                         ZStack {
-                            TextField("Hours", text: $review.hoursPlayed)
-                                .keyboardType(.numberPad)
-                                .textFieldStyle(.roundedBorder)
+                            CustomFormTextField(placeholder: "Hours played...", textBinding: $review.hoursPlayed, keyboardType: .numberPad)
                                 .onChange(of: review.hoursPlayed, perform: { newValue in
                                     withAnimation {
                                         showHoursError = false
@@ -99,11 +96,12 @@ struct AddReviewSheet: View {
                             if let hoursPlayed = review.hoursPlayedInt, let game = gameVM.cachedGames[appid], let user = userVM.user {
                                 let review = Review(
                                     appid: game.appid,
+                                    appName: game.name,
                                     creationDate: Date(),
                                     hoursPlayed: hoursPlayed,
                                     inApp: true,
                                     rating: review.rating,
-                                    ratingBool: 0,
+                                    ratingBool: review.rating >= 3 ? 1 : 0,
                                     text: review.text,
                                     userid: user.uid,
                                     username: user.username
@@ -149,11 +147,32 @@ struct AddReviewSheet: View {
     }
 }
 
-//struct AddReviewSheet_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddReviewSheet(sheetIsPresented: .constant(true))
-//            .environmentObject(GameViewModel())
-//            .environmentObject(UserViewModel())
-//            .environment(\.colorScheme, .dark)
-//    }
-//}
+struct CustomFormTextField: View {
+    var placeholder: String
+    @Binding var textBinding: String
+    var keyboardType: UIKeyboardType
+    
+    var body: some View {
+        TextField(placeholder, text: $textBinding)
+            .keyboardType(keyboardType)
+            .textFieldStyle(.plain)
+            .tint(Color.primaryAccent)
+            .padding(5)
+            .background(background)
+            
+    }
+    
+    var background: some View {
+        RoundedRectangle(cornerRadius: 5)
+            .foregroundColor(Color.secondaryBackground)
+    }
+}
+
+struct AddReviewSheet_Previews: PreviewProvider {
+    static var previews: some View {
+        AddReviewSheet(sheetIsPresented: .constant(true), appid: 1)
+            .environmentObject(GameViewModel())
+            .environmentObject(UserViewModel())
+            .environment(\.colorScheme, .dark)
+    }
+}

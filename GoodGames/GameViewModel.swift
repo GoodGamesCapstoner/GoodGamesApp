@@ -7,11 +7,17 @@
 
 import Foundation
 
+enum ReadyState {
+    case notStarted, preparing, ready, failed
+}
+
 class GameViewModel: ObservableObject {
     //MARK: - Infrastructure Properties
-    @Published var viewModelReady: Bool = false {
+    @Published var modelReadyState: ReadyState = .notStarted {
         didSet {
-            print("** View model is ready **")
+            if modelReadyState == .ready {
+                print("** View model is ready **")
+            }
         }
     }
     @Published var tabSelection: TabSelection = .home
@@ -29,14 +35,18 @@ class GameViewModel: ObservableObject {
     @Published var mostReviewed: [Game] = []
     @Published var userShelf: [Game] = []
     @Published var recommendedGames: [Game] = []
+    @Published var filteredGamesGenres: [Game] = []
+    @Published var filteredGamesCategories: [Game] = []
     
     //MARK: Caches
     @Published var cachedGames: [Int: Game] = [:]
     @Published var cachedRelatedGames: [Int : [Game]] = [:]
     @Published var cachedReviews: [Int: [Review]] = [:]
+    @Published var cachedUserShelves: [String: [Game]] = [:]
+    @Published var cachedUserReviews: [String: [Review]] = [:]
     
     private let functionsManager = FunctionsManager()
-    private var timeoutGenerator: NumberGenerator
+    private var timeoutGenerator: TimeoutGenerator
     
     //MARK: - Computed Properties
     
@@ -50,11 +60,12 @@ class GameViewModel: ObservableObject {
     
     //MARK: - Initializer
     init() {
-        timeoutGenerator = NumberGenerator(maximum: 20.0, withIncrement: 5.0)
+        timeoutGenerator = TimeoutGenerator(timeout: 5.0, repeat: 6)
     }
     
     //MARK: - Initialization Helpers
     func initializeAppData(with user: User) {
+        self.modelReadyState = .preparing
         // start data fetch methods
         self.getNewReleases()
         self.getTopRated()
@@ -62,18 +73,26 @@ class GameViewModel: ObservableObject {
         self.getGameOfTheDay()
         self.getRecommendedGames(for: user)
         self.getShelfListener(for: user)
-        
+        self.fetchAndCacheUserReviews(for: user)
         // start timeout loop to check for data readiness
+        timeoutGenerator.reset()
         checkForReadyStateTimeout()
     }
     
     func checkForReadyStateTimeout() {
-        let timeout = 5.0
+        let timeout = timeoutGenerator.next()
+        
+        guard let timeout else {
+            self.modelReadyState = .failed
+            print("View model initialzation has failed. Exiting timeout loop.")
+            return
+        }
+        
         print("Checking ready state in \(timeout) seconds...")
         DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
             let dataReady = self.checkForReadyState()
             if dataReady {
-                self.viewModelReady = true
+                self.modelReadyState = .ready
             } else {
                 self.checkForReadyStateTimeout()
             }
@@ -85,10 +104,28 @@ class GameViewModel: ObservableObject {
         let topRatedReady = !self.topRated.isEmpty
         let mostReviewedReady = !self.mostReviewed.isEmpty
         let gameOfTheDayReady = self.gameOfTheDay != nil
-        let recommendedGamesReady = !self.recommendedGames.isEmpty
+        let recommendedGamesReady = true //!self.recommendedGames.isEmpty
         let shelfReady = FirestoreManager.shared.isShelfListenerOpen()
         
         return newReleasesReady && topRatedReady && mostReviewedReady && gameOfTheDayReady && recommendedGamesReady && shelfReady
+//        return false
+    }
+    
+    //MARK: - Deconstruction
+    func deconstructViewModel() {
+        self.modelReadyState = .notStarted
+        self.tabSelection = .home
+        self.currentGameAppid = nil
+        self.reviewSavedSuccessfully = false
+        self.gameOfTheDay = nil
+        self.newReleases = []
+        self.topRated = []
+        self.mostReviewed = []
+        self.userShelf = []
+        self.recommendedGames = []
+        self.cachedGames = [:]
+        self.cachedRelatedGames = [:]
+        self.cachedReviews = [:]
     }
     
     //MARK: - User Intents
@@ -137,6 +174,11 @@ class GameViewModel: ObservableObject {
             }
         }
     }
+    
+    func selectUser(_ user: User) {
+        fetchAndCacheShelf(for: user)
+        fetchAndCacheUserReviews(for: user)
+    }
 
     //MARK: - Cache Methods
     func cacheGame(_ game: Game) {
@@ -172,6 +214,25 @@ class GameViewModel: ObservableObject {
             }
         }
     }
+    
+    func fetchAndCacheShelf(for user: User) {
+        FirestoreManager.shared.shelfListener(for: user) { (result) in
+            self.handleGameListResult(result: result) { games in
+                self.cachedUserShelves[user.uid] = games
+            }
+        }
+    }
+    
+    func fetchAndCacheUserReviews(for user: User) {
+        FirestoreManager.shared.subscribeToUserReviews(for: user) { result in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let reviews):
+                self.cachedUserReviews[user.uid] = reviews
+            }
+        }
+    }
 
     //MARK: - Shelf Listener
     
@@ -202,6 +263,26 @@ class GameViewModel: ObservableObject {
         }
     }
     
+    func getFilteredGamesByGenresWith(matching genre: [String]) {
+        self.filteredGamesGenres = []
+        FirestoreManager.shared.filterGamesByGenreWith(matching: genre) { (result) in
+            self.handleGameListResult(result: result) { games in
+                self.filteredGamesGenres = games
+                print("Retrived: \(self.filteredGamesGenres.count) games for filter: \(genre)")
+            }
+        }
+    }
+    
+    func getFilteredGamesByCategoryWith(matching category: [String]) {
+        self.filteredGamesCategories = []
+        FirestoreManager.shared.filterGamesByCategoryWith(matching: category) { (result) in
+            self.handleGameListResult(result: result) { games in
+                self.filteredGamesCategories = games
+                print("Retrived: \(self.filteredGamesCategories.count) games for filter: \(category)")
+            }
+        }
+    }
+    
     func getTopRated() {
         FirestoreManager.shared.retrieveTopRated { (result) in
             self.handleGameListResult(result: result) { games in
@@ -224,8 +305,8 @@ class GameViewModel: ObservableObject {
                 let today = Date()
                 let calendar = Calendar.current
                 let dateIndex =  calendar.component(.day, from: today)
-//                self.gameOfTheDay = games[dateIndex-1]
-                self.gameOfTheDay = games[14]
+                let gotdIndex = games.count >= dateIndex ? dateIndex-1 : games.count-1
+                self.gameOfTheDay = games[gotdIndex]
             }
         }
     }
@@ -237,4 +318,6 @@ class GameViewModel: ObservableObject {
             }
         }
     }
+    
+    
 }

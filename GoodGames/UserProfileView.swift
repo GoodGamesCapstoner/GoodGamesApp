@@ -15,7 +15,6 @@ struct UserProfileView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                
                 VStack {
                     //MARK: - PFP, Followers, Following, and Shelf Ribbon
                     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
@@ -111,6 +110,18 @@ struct UserProfileView: View {
                         HorizontalCarousel(label: "My Shelf" ) {
                             ForEach(gameVM.userShelf) { game in
                                 GameCard(game: game)
+                            }
+                        }
+                        
+                        if let user = userVM.user, let reviews = gameVM.cachedUserReviews[user.uid] {
+                            Text("My Reviews")
+                                .font(.title2)
+                                .multilineTextAlignment(.leading)
+                                .padding(.top, 10)
+                            ScrollView {
+                                ForEach(reviews) { review in
+                                    IndividualReview(review: review, limitSize: true, displayGameName: true)
+                                }
                             }
                         }
                     }

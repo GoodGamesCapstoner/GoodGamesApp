@@ -11,6 +11,7 @@ import FirebaseAuth
 
 struct SettingsView: View {
     @EnvironmentObject var userVM: UserViewModel
+    @EnvironmentObject var gameVM: GameViewModel
     
     var body: some View {
         NavigationView {
@@ -27,6 +28,7 @@ struct SettingsView: View {
                     if userVM.isUserAuthenticated == .signedIn {
                         Button {
                             userVM.logOut()
+                            gameVM.deconstructViewModel()
                         } label: {
                             Text("Log out")
                         }
@@ -53,6 +55,7 @@ struct SettingsView: View {
         static var previews: some View {
             SettingsView()
                 .environmentObject(UserViewModel())
+                .environmentObject(GameViewModel())
         }
     }
 }

@@ -56,6 +56,7 @@ struct GoodGamesApp: App {
                 LoginView()
                     .environmentObject(userVM)
                     .environment(\.colorScheme, .dark)
+
             }
             else {
                 LaunchScreen()
@@ -64,6 +65,7 @@ struct GoodGamesApp: App {
                     .environmentObject(lookupVM)
                     .environment(\.colorScheme, .dark)
             }
+            
         }
     }
 }

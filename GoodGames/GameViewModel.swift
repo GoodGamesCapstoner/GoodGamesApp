@@ -41,6 +41,7 @@ class GameViewModel: ObservableObject {
     @Published var cachedRelatedGames: [Int : [Game]] = [:]
     @Published var cachedReviews: [Int: [Review]] = [:]
     @Published var cachedUserShelves: [String: [Game]] = [:]
+    @Published var cachedUserReviews: [String: [Review]] = [:]
     
     private let functionsManager = FunctionsManager()
     private var timeoutGenerator: TimeoutGenerator
@@ -70,7 +71,7 @@ class GameViewModel: ObservableObject {
         self.getGameOfTheDay()
         self.getRecommendedGames(for: user)
         self.getShelfListener(for: user)
-        
+        self.fetchAndCacheUserReviews(for: user)
         // start timeout loop to check for data readiness
         timeoutGenerator.reset()
         checkForReadyStateTimeout()
@@ -211,6 +212,17 @@ class GameViewModel: ObservableObject {
         FirestoreManager.shared.shelfListener(for: user) { (result) in
             self.handleGameListResult(result: result) { games in
                 self.cachedUserShelves[user.uid] = games
+            }
+        }
+    }
+    
+    func fetchAndCacheUserReviews(for user: User) {
+        FirestoreManager.shared.subscribeToUserReviews(for: user) { result in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let reviews):
+                self.cachedUserReviews[user.uid] = reviews
             }
         }
     }

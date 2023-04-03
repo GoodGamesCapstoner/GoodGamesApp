@@ -99,11 +99,12 @@ struct AddReviewSheet: View {
                             if let hoursPlayed = review.hoursPlayedInt, let game = gameVM.cachedGames[appid], let user = userVM.user {
                                 let review = Review(
                                     appid: game.appid,
+                                    appName: game.name,
                                     creationDate: Date(),
                                     hoursPlayed: hoursPlayed,
                                     inApp: true,
                                     rating: review.rating,
-                                    ratingBool: 0,
+                                    ratingBool: review.rating >= 3 ? 1 : 0,
                                     text: review.text,
                                     userid: user.uid,
                                     username: user.username

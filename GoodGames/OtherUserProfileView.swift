@@ -82,6 +82,18 @@ struct OtherUserProfileView: View {
                                 Text("User has no games in their shelf.")
                                     .font(.title3)
                             }
+                            
+                            if let reviews = gameVM.cachedUserReviews[user.uid] {
+                                Text("\(user.username)'s Reviews")
+                                    .font(.title2)
+                                    .multilineTextAlignment(.leading)
+                                    .padding(.top, 10)
+                                ScrollView {
+                                    ForEach(reviews) { review in
+                                        IndividualReview(review: review, limitSize: true, displayGameName: true)
+                                    }
+                                }
+                            }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         Spacer()

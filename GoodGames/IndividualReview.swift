@@ -10,9 +10,14 @@ import SwiftUI
 struct IndividualReview: View {
     var review: Review
     var limitSize: Bool
+    var displayGameName: Bool = false
     
     var maxHeight: CGFloat {
         return limitSize ? 75.0 : .infinity
+    }
+    
+    var thumbRotationY: CGFloat {
+        return review.ratingBool == 0 ? 0 : 1
     }
     
     var body: some View {
@@ -20,6 +25,13 @@ struct IndividualReview: View {
             RoundedRectangle(cornerRadius: 5)
                 .foregroundColor(.secondaryBackground)
             VStack(alignment: .leading) {
+                if displayGameName {
+                    if let gameName = review.appName {
+                        Text(gameName)
+                            .font(.title3)
+                            .padding(.bottom, 5)
+                    }
+                }
                 HStack {
                     Text("@\(review.username) said...").padding(.trailing, 5)
                     Spacer()
@@ -28,7 +40,7 @@ struct IndividualReview: View {
                     } else {
                         HStack {
                             Image(systemName: review.recommendedImage)
-                                .rotation3DEffect(Angle(degrees: 180), axis: (x: 0, y: 1, z: 0))
+                                .rotation3DEffect(Angle(degrees: 180), axis: (x: 0, y: thumbRotationY, z: 0))
                             Text(review.recommendedText)
                         }
                         .fixedSize(horizontal: true, vertical: false)
@@ -63,17 +75,18 @@ struct IndividualReview: View {
 struct IndividualRating_Previews: PreviewProvider {
     static let review = Review(
         appid: 0,
+        appName: "Deep Rock Galactic",
         creationDate: Date(),
         hoursPlayed: 17,
         inApp: false,
         rating: 4,
-        ratingBool: 1,
+        ratingBool: 0,
         text: "I dug a tunnel and fell down a hole and died. My friends followed me and also died. I dug a tunnel and fell down a hole and died. My friends followed me and also died. I dug a tunnel and fell down a hole and died. My friends followed me and also died. I dug a tunnel and fell down a hole and died. My friends followed me and also died. I dug a tunnel and fell down a hole and died. My friends followed me and also died. 10/10",
         userid: "0", username: "rocketboy1244"
     )
     
     static var previews: some View {
-        IndividualReview( review: review, limitSize: false)
+        IndividualReview( review: review, limitSize: false, displayGameName: true)
         .foregroundColor(.white)
             .padding(.horizontal)
     }

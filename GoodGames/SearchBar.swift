@@ -19,7 +19,7 @@ struct SearchBar: View {
                     .multilineTextAlignment(.leading)
             }
             .padding(7)
-            .background(Color(.systemGray6))
+            .background(Color.secondaryBackground)
             .cornerRadius(10)
     }
 }

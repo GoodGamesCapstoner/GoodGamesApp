@@ -172,6 +172,11 @@ class GameViewModel: ObservableObject {
             }
         }
     }
+    
+    func selectUser(_ user: User) {
+        fetchAndCacheShelf(for: user)
+        fetchAndCacheUserReviews(for: user)
+    }
 
     //MARK: - Cache Methods
     func cacheGame(_ game: Game) {

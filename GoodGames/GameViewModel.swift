@@ -126,6 +126,9 @@ class GameViewModel: ObservableObject {
         self.cachedGames = [:]
         self.cachedRelatedGames = [:]
         self.cachedReviews = [:]
+        
+        //firestore listeners
+        FirestoreManager.shared.clearListenerRegistry()
     }
     
     //MARK: - User Intents

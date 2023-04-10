@@ -15,7 +15,7 @@ enum GameGenre: String, CaseIterable {
     case audio = "Audio"
     case casual = "Casual"
     case designIllustration = "Design/Illustration"
-    case earlyAccess = "Early-Access"
+//    case earlyAccess = "Early-Access"
     case education = "Education"
     case editing = "Editing"
     case freeToPlay = "Free-to-Play"

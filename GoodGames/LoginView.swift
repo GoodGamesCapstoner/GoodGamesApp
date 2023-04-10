@@ -95,6 +95,9 @@ struct LoginView: View {
             .onAppear {
                 self.showLoginFailedAlert = userVM.userMissingFromFirestore
             }
+            .onTapGesture {
+                self.hideKeyboard()
+            }
             .ignoresSafeArea()
         }
     }

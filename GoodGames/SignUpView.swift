@@ -2,6 +2,10 @@ import SwiftUI
 
 struct SignUpView: View {
     @Environment(\.dismiss) var dismiss
+    
+    @State private var showSignUpFailedAlert = false
+    @State private var signUpFailedAlertMessage: String?
+    
     @State private var vm = signUpViewModel()
     var body: some View {
         ZStack {
@@ -76,11 +80,7 @@ struct SignUpView: View {
                     .textInputAutocapitalization(.never)
                     .tint(.white)
                     .onSubmit {
-                        vm.createUser { success in
-                            if success {
-                                dismiss()
-                            }
-                        }
+                        createAccount()
                     }
                     .submitLabel(.go)
                 Rectangle()
@@ -93,11 +93,7 @@ struct SignUpView: View {
                 Group {
                     // Creates a user when pressed if successful
                     Button {
-                        vm.createUser { success in
-                            if success {
-                                dismiss()
-                            }
-                        }
+                        createAccount()
                     } label: {
                         Text("Create Account")
                             .bold()
@@ -125,6 +121,28 @@ struct SignUpView: View {
             .frame(width: 350)
         }
         .ignoresSafeArea()
+        .onTapGesture {
+            self.hideKeyboard()
+        }
+        .alert("Account Not Created", isPresented: $showSignUpFailedAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            if let warning = signUpFailedAlertMessage {
+                Text(warning)
+            }
+        }
+    }
+    
+    func createAccount() {
+        vm.createUser { result in
+            switch result {
+            case .success(_):
+                dismiss()
+            case .failure(let error):
+                self.showSignUpFailedAlert.toggle()
+                self.signUpFailedAlertMessage = error.localizedDescription
+            }
+        }
     }
 }
 

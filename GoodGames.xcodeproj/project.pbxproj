@@ -54,6 +54,7 @@
 		E9384C8D29D271C10066C44D /* String+Searchified.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9384C8C29D271C10066C44D /* String+Searchified.swift */; };
 		E9384C8F29D3E41B0066C44D /* OtherUserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9384C8E29D3E41B0066C44D /* OtherUserProfileView.swift */; };
 		E9384C9129D3E9450066C44D /* UserSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9384C9029D3E9450066C44D /* UserSearchResult.swift */; };
+		E9384C9329E078020066C44D /* View+HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9384C9229E078020066C44D /* View+HideKeyboard.swift */; };
 		E94D72D529B01D860015F41A /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D72D429B01D860015F41A /* TestView.swift */; };
 		E94D72D729B0253A0015F41A /* FunctionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D72D629B0253A0015F41A /* FunctionsManager.swift */; };
 		E94D72D929B2D2AE0015F41A /* PlaceholderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D72D829B2D2AE0015F41A /* PlaceholderCard.swift */; };
@@ -120,6 +121,7 @@
 		E9384C8C29D271C10066C44D /* String+Searchified.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Searchified.swift"; sourceTree = "<group>"; };
 		E9384C8E29D3E41B0066C44D /* OtherUserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserProfileView.swift; sourceTree = "<group>"; };
 		E9384C9029D3E9450066C44D /* UserSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchResult.swift; sourceTree = "<group>"; };
+		E9384C9229E078020066C44D /* View+HideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+HideKeyboard.swift"; sourceTree = "<group>"; };
 		E94D72D429B01D860015F41A /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		E94D72D629B0253A0015F41A /* FunctionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsManager.swift; sourceTree = "<group>"; };
 		E94D72D829B2D2AE0015F41A /* PlaceholderCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderCard.swift; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 				CF885B7429CFB94600EAF9DA /* GenreList.swift */,
 				CF885B7629D3E82A00EAF9DA /* CategoriesList.swift */,
 				E9384C8C29D271C10066C44D /* String+Searchified.swift */,
+				E9384C9229E078020066C44D /* View+HideKeyboard.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -508,6 +511,7 @@
 				E9EC75FB29ADCDB000D15547 /* CGFloat+ToInt.swift in Sources */,
 				E9038E3D29A6B56200CB0381 /* GameCard.swift in Sources */,
 				E9579F7929B82E790056E221 /* LaunchScreen.swift in Sources */,
+				E9384C9329E078020066C44D /* View+HideKeyboard.swift in Sources */,
 				E9384C9129D3E9450066C44D /* UserSearchResult.swift in Sources */,
 				E94D72D729B0253A0015F41A /* FunctionsManager.swift in Sources */,
 				E9EDBF7D29C2E228003F97E5 /* SearchBar.swift in Sources */,

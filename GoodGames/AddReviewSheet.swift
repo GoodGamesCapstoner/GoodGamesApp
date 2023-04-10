@@ -143,6 +143,9 @@ struct AddReviewSheet: View {
                 Spacer()
             }
             .background(Color.primaryBackground)
+            .onTapGesture {
+                self.hideKeyboard()
+            }
         }
     }
 }

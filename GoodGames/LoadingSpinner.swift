@@ -23,10 +23,13 @@ struct LoadingSpinner: View {
                 .stroke(Color.primaryAccent, lineWidth: 5)
                 .frame(width: 100, height: 100)
                 .rotationEffect(Angle(degrees: 270))
-                .animation(Animation.easeInOut(duration: 1.5).repeatForever(autoreverses: false), value: isLoading)
                 .onAppear() {
-                    self.isLoading = true
-            }
+                    DispatchQueue.main.async {
+                        withAnimation(Animation.easeInOut(duration: 1.5).repeatForever(autoreverses: false)) {
+                            self.isLoading = true
+                        }
+                    }
+                }
         }
     }
 }

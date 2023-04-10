@@ -52,9 +52,20 @@ struct HomeView: View {
                         .padding()
                 }
                 
-                HorizontalCarousel(label: "Recommended Games for You") {
-                    ForEach(gameVM.recommendedGames) { game in
-                        GameCard(game: game)
+                if gameVM.recommendedGames.count > 0{
+                    HorizontalCarousel(label: "Recommended Games for You") {
+                        ForEach(gameVM.recommendedGames) { game in
+                            GameCard(game: game)
+                        }
+                    }
+                } else {
+                    VStack {
+                        HStack {
+                            Text("Recommended Games for You")
+                                .font(.title2)
+                            Spacer()
+                        }
+                        LoadingSpinner()
                     }
                 }
             }

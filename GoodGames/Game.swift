@@ -39,7 +39,18 @@ struct Game: Codable, Identifiable, Equatable {
     }
     
     var formattedGenres: String {
-        return genre.count > 0 ? String(genre.joined(separator: ", ")) : "No genres found"
+        var genres = genre
+        let eIndex = genres.firstIndex(of: "Early")
+        if let eIndex {
+            genres.remove(at: eIndex)
+            let aIndex = genres.firstIndex(of: "Access")
+            if let aIndex {
+                genres.remove(at: aIndex)
+            }
+            genres.append("Early-Access")
+            genres.sort()
+        }
+        return genres.count > 0 ? String(genres.joined(separator: ", ")) : "No genres found"
     }
     
     var calculatedRating: CGFloat {

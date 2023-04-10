@@ -443,4 +443,9 @@ class FirestoreManager: ObservableObject {
             })
         }
     }
+    
+    //MARK: - Trash Removal
+    func clearListenerRegistry() {
+        self.listeners = ListenerRegistry()
+    }
 }

@@ -13,8 +13,6 @@ struct DiscoverView: View {
     
     @State var filterSheetPresented = false
 
-    var appID: Int
-
     var body: some View {
         VStack {
             Text("Discovery")
@@ -35,9 +33,20 @@ struct DiscoverView: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    HorizontalCarousel(label: "Recommended Games for You") {
-                        ForEach(gameVM.recommendedGames, id: \.id) { game in
-                            GameCard(game: game)
+                    if gameVM.recommendedGames.count > 0{
+                        HorizontalCarousel(label: "Recommended Games for You") {
+                            ForEach(gameVM.recommendedGames) { game in
+                                GameCard(game: game)
+                            }
+                        }
+                    } else {
+                        VStack {
+                            HStack {
+                                Text("Recommended Games for You")
+                                    .font(.title2)
+                                Spacer()
+                            }
+                            LoadingSpinner()
                         }
                     }
                     
@@ -91,7 +100,7 @@ struct DiscoverView: View {
 
 struct DiscoverView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverView(appID: 251570)
+        DiscoverView()
             .environmentObject(GameViewModel())
             .environmentObject(UserViewModel())
             .environmentObject(GamesLookupViewModel())

@@ -169,7 +169,17 @@ struct GameProfileView: View {
                                             GameCard(game: game)
                                         }
                                     }
+                                } else {
+                                    VStack {
+                                        HStack {
+                                            Text("Similar Games to \(game.name)")
+                                                .font(.title2)
+                                            Spacer()
+                                        }
+                                        LoadingSpinner()
+                                    }
                                 }
+                                
                             }
                         }.padding(.horizontal)
                         Spacer()
@@ -183,7 +193,7 @@ struct GameProfileView: View {
             if isPreview{
                 gameVM.fetchAndCacheGame(with: appID)
                 gameVM.fetchAndCacheReviews(for: appID)
-                gameVM.fetchAndCacheRelatedGames(for: appID)
+//                gameVM.fetchAndCacheRelatedGames(for: appID)
             }
             gameVM.currentGameAppid = appID
         }

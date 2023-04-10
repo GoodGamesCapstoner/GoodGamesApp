@@ -28,7 +28,7 @@ struct MainTabView: View {
                 }.tag(TabSelection.home)
                 
                 NavigationStack {
-                    DiscoverView(appID: 251570)
+                    DiscoverView()
                 }
                 .tabItem {
                     Image(systemName: "magnifyingglass")

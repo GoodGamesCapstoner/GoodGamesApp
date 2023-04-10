@@ -90,9 +90,13 @@ struct LoginView: View {
                 } message: {
                     Text("We were unable to locate your account details. Please try again later or create a new account.")
                 }
+                
             }
             .onAppear {
                 self.showLoginFailedAlert = userVM.userMissingFromFirestore
+            }
+            .onTapGesture {
+                self.hideKeyboard()
             }
             .ignoresSafeArea()
         }
